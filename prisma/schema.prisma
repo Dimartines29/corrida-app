@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ========================================
+// MODELS
+// ========================================
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  role      Role      @default(USER)
+  inscricao Inscricao?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Categoria {
+  id         String      @id @default(cuid())
+  nome       String      // "5km", "10km", "21km"
+  descricao  String
+  distancia  Float
+  inscricoes Inscricao[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Lote {
+  id         String      @id @default(cuid())
+  nome       String      // "1º Lote", "2º Lote"
+  preco      Float
+  dataInicio DateTime
+  dataFim    DateTime
+  ativo      Boolean     @default(true)
+  inscricoes Inscricao[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Inscricao {
+  id          String          @id @default(cuid())
+  codigo      String          @unique // Código único da inscrição
+  userId      String          @unique
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoriaId String
+  categoria   Categoria       @relation(fields: [categoriaId], references: [id])
+  loteId      String
+  lote        Lote            @relation(fields: [loteId], references: [id])
+  
+  // Dados pessoais
+  nomeCompleto String
+  cpf          String         @unique
+  rg           String
+  dataNascimento DateTime
+  telefone     String
+  endereco     String
+  cidade       String
+  estado       String
+  cep          String
+  
+  // Kit
+  tamanhoCamisa String        // P, M, G, GG
+  
+  // Saúde
+  possuiPlanoSaude    Boolean
+  contatoEmergencia   String
+  telefoneEmergencia  String
+  declaracaoSaude     Boolean
+  
+  // Pagamento
+  valorPago  Float
+  status     StatusInscricao @default(PENDENTE)
+  pagamento  Pagamento?
+  
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+}
+
+model Pagamento {
+  id              String          @id @default(cuid())
+  inscricaoId     String          @unique
+  inscricao       Inscricao       @relation(fields: [inscricaoId], references: [id], onDelete: Cascade)
+  transacaoId     String          @unique // ID da transação Stripe/MP
+  valor           Float
+  status          StatusPagamento @default(PENDENTE)
+  metodoPagamento String          // "card", "pix", "manual"
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model ConfiguracaoSite {
+  id                String   @id @default(cuid())
+  nomeEvento        String
+  dataEvento        DateTime
+  localEvento       String
+  descricao         String   @db.Text
+  regulamento       String   @db.Text
+  inscricoesAbertas Boolean  @default(true)
+  updatedAt         DateTime @updatedAt
+}
+
+// ========================================
+// ENUMS
+// ========================================
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum StatusInscricao {
+  PENDENTE
+  PAGO
+  CANCELADO
+}
+
+enum StatusPagamento {
+  PENDENTE
+  APROVADO
+  RECUSADO
+  REEMBOLSADO
+}
