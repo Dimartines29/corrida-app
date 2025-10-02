@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth/auth-options"
+import Link from "next/link"
 
 export default async function AdminLayout({
   children,
@@ -23,12 +24,12 @@ export default async function AdminLayout({
           <p className="text-muted-foreground mb-6">
             Você não tem permissão para acessar esta área.
           </p>
-          <a
+          <Link
             href="/"
             className="text-primary underline hover:no-underline"
           >
             Voltar para o início
-          </a>
+          </Link>
         </div>
       </div>
     )
