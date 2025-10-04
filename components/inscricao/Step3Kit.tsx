@@ -1,15 +1,9 @@
+// Step3Kit.tsx
 import { UseFormReturn } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-} from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check } from "lucide-react";
+import { Check, Shirt, Ruler, AlertCircle } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 interface Step3Props {
@@ -54,12 +48,14 @@ export function Step3Kit({ form }: Step3Props) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Kit do Participante</h3>
-        <p className="text-sm text-gray-600">
-          Selecione o tamanho da sua camisa. Você receberá sua camisa oficial
-          da corrida no dia da retirada do kit.
-        </p>
+      <div className="bg-gradient-to-r from-[#FFE66D] to-[#00B8D4] p-6 rounded-xl">
+        <div className="flex items-center gap-3">
+          <Shirt className="w-8 h-8 text-[#E53935]" />
+          <div>
+            <h3 className="text-xl font-black text-[#E53935]">Kit do Participante</h3>
+            <p className="text-sm text-gray-700">Selecione o tamanho da sua camisa oficial</p>
+          </div>
+        </div>
       </div>
 
       <FormField
@@ -67,8 +63,11 @@ export function Step3Kit({ form }: Step3Props) {
         name="tamanhoCamisa"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Tamanho da Camisa *</FormLabel>
-            <FormDescription>
+            <FormLabel className="text-[#E53935] font-bold text-lg flex items-center gap-2">
+              <Ruler className="w-5 h-5" />
+              Tamanho da Camisa *
+            </FormLabel>
+            <FormDescription className="text-gray-600 mb-4">
               Escolha o tamanho que melhor se ajusta a você
             </FormDescription>
             <FormControl>
@@ -80,38 +79,34 @@ export function Step3Kit({ form }: Step3Props) {
                     <Card
                       key={tamanho.value}
                       className={`
-                        cursor-pointer transition-all hover:shadow-md
+                        cursor-pointer transition-all hover:shadow-xl transform hover:scale-105
                         ${
                           isSelected
-                            ? "border-blue-500 border-2 bg-blue-50"
-                            : "border-gray-200 hover:border-blue-300"
+                            ? "border-[#00B8D4] border-4 bg-gradient-to-br from-[#00B8D4] to-[#00a0c0] shadow-lg"
+                            : "border-gray-200 hover:border-[#FFE66D] bg-white"
                         }
                       `}
                       onClick={() => field.onChange(tamanho.value)}
                     >
                       <CardContent className="p-4 text-center">
-                        {/* Check icon se selecionado */}
                         {isSelected && (
                           <div className="flex justify-end mb-2">
-                            <div className="bg-blue-500 rounded-full p-1">
-                              <Check className="w-3 h-3 text-white" />
+                            <div className="bg-white rounded-full p-1 shadow-md">
+                              <Check className="w-4 h-4 text-[#00B8D4]" />
                             </div>
                           </div>
                         )}
 
-                        {/* Label grande do tamanho */}
-                        <div className="text-3xl font-bold text-gray-800 mb-1">
+                        <div className={`text-4xl font-black mb-1 ${isSelected ? 'text-white' : 'text-[#E53935]'}`}>
                           {tamanho.label}
                         </div>
 
-                        {/* Nome do tamanho */}
-                        <div className="text-xs font-medium text-gray-600 mb-2">
+                        <div className={`text-xs font-semibold mb-2 ${isSelected ? 'text-white' : 'text-gray-600'}`}>
                           {tamanho.nome}
                         </div>
 
-                        {/* Badge se selecionado */}
                         {isSelected && (
-                          <Badge variant="secondary" className="text-xs">
+                          <Badge variant="secondary" className="text-xs bg-white text-[#00B8D4] font-bold">
                             Selecionado
                           </Badge>
                         )}
@@ -126,37 +121,34 @@ export function Step3Kit({ form }: Step3Props) {
         )}
       />
 
-      {/* Card com informações do tamanho selecionado */}
       {tamanhoSelecionado && (
-        <Card className="bg-blue-50 border-blue-200">
+        <Card className="bg-gradient-to-r from-[#FFE66D] to-[#00B8D4] border-none shadow-lg">
           <CardContent className="pt-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 mb-2">
-                <Badge variant="secondary" className="text-lg px-3 py-1">
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 mb-3">
+                <Badge variant="secondary" className="text-2xl px-4 py-2 bg-white text-[#E53935] font-black">
                   {tamanhoSelecionado}
                 </Badge>
-                <span className="font-semibold text-gray-800">
-                  {
-                    tamanhos.find((t) => t.value === tamanhoSelecionado)
-                      ?.nome
-                  }
+                <span className="font-black text-xl text-[#E53935]">
+                  {tamanhos.find((t) => t.value === tamanhoSelecionado)?.nome}
                 </span>
               </div>
-              <div className="text-sm text-gray-700">
-                <p className="font-medium mb-1">📏 Medidas aproximadas:</p>
-                <p>
-                  {
-                    tamanhos.find((t) => t.value === tamanhoSelecionado)
-                      ?.medidas
-                  }
+              <div className="bg-white p-4 rounded-lg">
+                <p className="font-bold mb-2 text-[#E53935] flex items-center gap-2">
+                  <Ruler className="w-4 h-4" />
+                  Medidas aproximadas:
+                </p>
+                <p className="text-gray-700 font-semibold">
+                  {tamanhos.find((t) => t.value === tamanhoSelecionado)?.medidas}
                 </p>
               </div>
-              <div className="text-xs text-gray-600 mt-3 p-3 bg-white rounded border border-blue-200">
-                <p className="font-medium mb-1">💡 Dica:</p>
-                <p>
-                  Se você estiver em dúvida entre dois tamanhos, recomendamos
-                  escolher o tamanho maior para maior conforto durante a
-                  corrida.
+              <div className="bg-white p-4 rounded-lg border-2 border-[#00B8D4]">
+                <p className="font-bold mb-2 text-[#00B8D4] flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4" />
+                  Dica:
+                </p>
+                <p className="text-gray-700 text-sm">
+                  Se você estiver em dúvida entre dois tamanhos, recomendamos escolher o tamanho maior para maior conforto durante a corrida.
                 </p>
               </div>
             </div>
@@ -164,18 +156,28 @@ export function Step3Kit({ form }: Step3Props) {
         </Card>
       )}
 
-      {/* Informações adicionais */}
-      <Card className="bg-gray-50 border-gray-200">
+      <Card className="bg-white border-2 border-gray-200">
         <CardContent className="pt-6">
-          <h4 className="font-semibold text-gray-800 mb-2">
-            ℹ️ Informações Importantes
+          <h4 className="font-black text-[#E53935] mb-3 text-lg flex items-center gap-2">
+            <Shirt className="w-5 h-5" />
+            Informações Importantes
           </h4>
-          <ul className="text-sm text-gray-600 space-y-1">
-            <li>• A camisa é de tecido tecnológico dry-fit</li>
-            <li>• Não será possível trocar o tamanho após a inscrição</li>
-            <li>• Escolha com atenção baseando-se nas medidas</li>
-            <li>
-              • Em caso de dúvida, entre em contato com a organização
+          <ul className="space-y-2 text-gray-700">
+            <li className="flex items-start gap-2">
+              <span className="text-[#00B8D4] font-bold">•</span>
+              <span>A camisa é de tecido tecnológico dry-fit</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#00B8D4] font-bold">•</span>
+              <span>Não será possível trocar o tamanho após a inscrição</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#00B8D4] font-bold">•</span>
+              <span>Escolha com atenção baseando-se nas medidas</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#00B8D4] font-bold">•</span>
+              <span>Em caso de dúvida, entre em contato com a organização</span>
             </li>
           </ul>
         </CardContent>
