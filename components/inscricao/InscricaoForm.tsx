@@ -12,14 +12,7 @@ import { Step2CategoriaLote } from "./Step2CategoriaLote";
 import { Step3Kit } from "./Step3Kit";
 import { Step4FichaMedica } from "./Step4FichaMedica";
 import { Step5Revisao } from "./Step5Revisao";
-import {
-  inscricaoCompletaSchema,
-  step1Schema,
-  step2Schema,
-  step3Schema,
-  step4Schema,
-  type InscricaoCompleta,
-} from "@/lib/validations/inscricao";
+import { inscricaoCompletaSchema, step1Schema, step2Schema, step3Schema, step4Schema, type InscricaoCompleta } from "@/lib/validations/inscricao";
 
 export function InscricaoForm() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -99,7 +92,7 @@ export function InscricaoForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/inscricao", {
+      const inscricaoResponse = await fetch("/api/inscricao", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -107,26 +100,53 @@ export function InscricaoForm() {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
+      const inscricaoResult = await inscricaoResponse.json();
 
-      if (!response.ok) {
-        alert(result.error || "Erro ao criar inscrição");
+      if (!inscricaoResponse.ok) {
+        alert(inscricaoResult.error || "Erro ao criar inscrição");
         return;
       }
 
-      alert(
-        `✅ Inscrição criada com sucesso!\n\nCódigo: ${result.inscricao.codigo}\n\nVocê será redirecionado para o pagamento...`
-      );
+      const pagamentoResponse = await fetch('/api/pagamento/criar-preferencia', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          inscricaoId: inscricaoResult.inscricao.id
+        })
+      });
 
-      // TODO: Redirecionar para página de checkout/pagamento
-      console.log("Dados da inscrição:", result.inscricao);
+      const pagamentoResult = await pagamentoResponse.json();
 
+      if (!pagamentoResponse.ok) {
+        alert(`Inscrição criada, mas erro ao gerar pagamento: ${pagamentoResult.error}`);
+        window.location.href = `/dashboard`;
+        return;
+      }
 
-      window.location.href = `/checkout/${result.inscricao.id}`;
+      const checkoutUrl = pagamentoResult.sandboxInitPoint;
+
+      if (checkoutUrl) {
+        alert(
+          `✅ Inscrição criada com sucesso!\n\n` +
+          `Código: ${inscricaoResult.inscricao.codigo}\n` +
+          `Categoria: ${inscricaoResult.inscricao.categoria}\n` +
+          `Valor: R$ ${inscricaoResult.inscricao.valor.toFixed(2)}\n\n` +
+          `Você será redirecionado para o pagamento...`
+        );
+
+        window.location.href = checkoutUrl;
+      } else {
+        alert("Erro: Link de pagamento não foi gerado");
+        window.location.href = `/dashboard`;
+      }
 
     } catch (error) {
-      console.error("Erro ao enviar inscrição:", error);
-      alert("Erro ao processar inscrição. Verifique sua conexão e tente novamente.");
+      alert(
+        "Erro ao processar inscrição. " +
+        "Verifique sua conexão e tente novamente."
+      );
     } finally {
       setIsSubmitting(false);
     }
