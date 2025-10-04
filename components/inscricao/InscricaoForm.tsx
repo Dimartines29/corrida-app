@@ -9,7 +9,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { Step1DadosPessoais } from "./Step1DadosPessoais";
 import { Step2CategoriaLote } from "./Step2CategoriaLote";
-import { inscricaoCompletaSchema, step1Schema, step2Schema, step3Schema, step4Schema, type InscricaoCompleta } from "@/lib/validations/inscricao";
+import { Step3Kit } from "./Step3Kit";
+import { Step4FichaMedica } from "./Step4FichaMedica";
+import { Step5Revisao } from "./Step5Revisao";
+import {
+  inscricaoCompletaSchema,
+  step1Schema,
+  step2Schema,
+  step3Schema,
+  step4Schema,
+  type InscricaoCompleta,
+} from "@/lib/validations/inscricao";
 
 export function InscricaoForm() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -45,7 +55,12 @@ export function InscricaoForm() {
     step4Schema,
   ];
 
-  const handleNext = async () => {
+  const handleNext = async (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     if (currentStep === 5) return;
 
     const currentSchema = stepSchemas[currentStep - 1];
@@ -54,8 +69,8 @@ export function InscricaoForm() {
 
     if (result.success) {
       setCurrentStep(currentStep + 1);
-    } else {
 
+    } else {
       result.error.issues.forEach((issue) => {
         form.setError(issue.path[0] as any, {
           type: "manual",
@@ -65,13 +80,22 @@ export function InscricaoForm() {
     }
   };
 
-  const handleBack = () => {
+  const handleBack = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
   };
 
   const onSubmit = async (data: InscricaoCompleta) => {
+    if (currentStep !== 5) {
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -83,17 +107,26 @@ export function InscricaoForm() {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error("Erro ao criar inscrição");
-      }
-
       const result = await response.json();
 
-      console.log("Inscrição criada:", result);
+      if (!response.ok) {
+        alert(result.error || "Erro ao criar inscrição");
+        return;
+      }
+
+      alert(
+        `✅ Inscrição criada com sucesso!\n\nCódigo: ${result.inscricao.codigo}\n\nVocê será redirecionado para o pagamento...`
+      );
+
+      // TODO: Redirecionar para página de checkout/pagamento
+      console.log("Dados da inscrição:", result.inscricao);
+
+
+      window.location.href = `/checkout/${result.inscricao.id}`;
 
     } catch (error) {
-      console.error("Erro:", error);
-      alert("Erro ao processar inscrição. Tente novamente.");
+      console.error("Erro ao enviar inscrição:", error);
+      alert("Erro ao processar inscrição. Verifique sua conexão e tente novamente.");
     } finally {
       setIsSubmitting(false);
     }
@@ -112,26 +145,37 @@ export function InscricaoForm() {
           <ProgressIndicator currentStep={currentStep} totalSteps={5} />
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && currentStep !== 5) {
+                  e.preventDefault();
+                }
+              }}
+            >
 
               {currentStep === 1 && <Step1DadosPessoais form={form} />}
               {currentStep === 2 && <Step2CategoriaLote form={form} />}
-              {currentStep === 3 && <div>Step 3 - Em breve</div>}
-              {currentStep === 4 && <div>Step 4 - Em breve</div>}
-              {currentStep === 5 && <div>Step 5 - Em breve</div>}
+              {currentStep === 3 && <Step3Kit form={form} />}
+              {currentStep === 4 && <Step4FichaMedica form={form} />}
+              {currentStep === 5 && <Step5Revisao form={form} />}
 
               <div className="flex justify-between pt-6">
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={handleBack}
+                  onClick={(e) => handleBack(e)}
                   disabled={currentStep === 1}
                 >
                   Voltar
                 </Button>
 
                 {currentStep < 5 ? (
-                  <Button type="button" onClick={handleNext}>
+                  <Button
+                    type="button"
+                    onClick={(e) => handleNext(e)}
+                  >
                     Próximo
                   </Button>
                 ) : (
