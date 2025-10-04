@@ -1,17 +1,11 @@
+// Step4FichaMedica.tsx
 import { UseFormReturn } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-} from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, Heart, Phone, Shield } from "lucide-react";
+import { AlertCircle, Heart, Phone, Shield, UserPlus } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 interface Step4Props {
@@ -23,148 +17,155 @@ export function Step4FichaMedica({ form }: Step4Props) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-semibold mb-2">
-          Ficha Médica e Declaração de Saúde
-        </h3>
-        <p className="text-sm text-gray-600">
-          Estas informações são importantes para sua segurança durante o evento.
-        </p>
+      <div className="bg-gradient-to-r from-[#E53935] to-[#c62828] p-6 rounded-xl">
+        <div className="flex items-center gap-3">
+          <Heart className="w-8 h-8 text-white" />
+          <div>
+            <h3 className="text-xl font-black text-white">Ficha Médica e Declaração de Saúde</h3>
+            <p className="text-sm text-white/90">Informações importantes para sua segurança</p>
+          </div>
+        </div>
       </div>
 
-      {/* Aviso importante */}
-      <Alert className="bg-yellow-50 border-yellow-300">
-        <AlertCircle className="h-4 w-4 text-yellow-600" />
-        <AlertDescription className="text-sm text-yellow-800">
-          Em caso de emergência, entraremos em contato com a pessoa indicada
-          abaixo. Certifique-se de informar dados corretos.
+      <Alert className="bg-yellow-50 border-2 border-yellow-400">
+        <AlertCircle className="h-5 w-5 text-yellow-600" />
+        <AlertDescription className="text-sm text-yellow-800 font-semibold">
+          Em caso de emergência, entraremos em contato com a pessoa indicada abaixo. Certifique-se de informar dados corretos.
         </AlertDescription>
       </Alert>
 
-      {/* Possui Plano de Saúde */}
-      <FormField
-        control={form.control}
-        name="possuiPlanoSaude"
-        render={({ field }) => (
-          <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 bg-gray-50">
-            <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
-            </FormControl>
-            <div className="space-y-1 leading-none">
-              <FormLabel className="flex items-center gap-2">
-                <Heart className="w-4 h-4 text-red-500" />
-                Possuo plano de saúde
-              </FormLabel>
-              <FormDescription>
-                Esta informação ajuda a organização em caso de emergência
-              </FormDescription>
-            </div>
-          </FormItem>
-        )}
-      />
+      {/* Plano de Saúde */}
+      <div className="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-[#00B8D4] transition-all">
+        <FormField
+          control={form.control}
+          name="possuiPlanoSaude"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  className="w-5 h-5 border-2"
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel className="flex items-center gap-2 text-[#E53935] font-bold text-base">
+                  <Heart className="w-5 h-5" />
+                  Possuo plano de saúde
+                </FormLabel>
+                <FormDescription className="text-gray-600">
+                  Esta informação ajuda a organização em caso de emergência
+                </FormDescription>
+              </div>
+            </FormItem>
+          )}
+        />
+      </div>
 
-      {/* Card de Contato de Emergência */}
-      <Card className="border-blue-200">
-        <CardContent className="pt-6 space-y-4">
+      {/* Contato de Emergência */}
+      <Card className="border-2 border-[#00B8D4] bg-gradient-to-br from-white to-[#00B8D4]/5">
+        <CardContent className="pt-6 space-y-5">
           <div className="flex items-center gap-2 mb-4">
-            <Phone className="w-5 h-5 text-blue-500" />
-            <h4 className="font-semibold text-gray-800">
-              Contato de Emergência
-            </h4>
+            <Phone className="w-6 h-6 text-[#00B8D4]" />
+            <h4 className="font-black text-[#00B8D4] text-lg">Contato de Emergência</h4>
           </div>
 
-          {/* Nome do Contato */}
-          <FormField
-            control={form.control}
-            name="contatoEmergencia"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome Completo *</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Nome da pessoa para contato"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Informe um familiar ou amigo próximo
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-[#00B8D4] transition-all">
+            <FormField
+              control={form.control}
+              name="contatoEmergencia"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[#E53935] font-bold flex items-center gap-2">
+                    <UserPlus className="w-4 h-4" />
+                    Nome Completo *
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Nome da pessoa para contato"
+                      {...field}
+                      className="border-2 focus:border-[#00B8D4] transition-all"
+                    />
+                  </FormControl>
+                  <FormDescription className="text-gray-600">
+                    Informe um familiar ou amigo próximo
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-          {/* Telefone do Contato */}
-          <FormField
-            control={form.control}
-            name="telefoneEmergencia"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefone *</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="(11) 98765-4321"
-                    maxLength={15}
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Número com DDD para contato em emergências
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-[#00B8D4] transition-all">
+            <FormField
+              control={form.control}
+              name="telefoneEmergencia"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[#E53935] font-bold flex items-center gap-2">
+                    <Phone className="w-4 h-4" />
+                    Telefone *
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="(11) 98765-4321"
+                      maxLength={15}
+                      {...field}
+                      className="border-2 focus:border-[#00B8D4] transition-all"
+                    />
+                  </FormControl>
+                  <FormDescription className="text-gray-600">
+                    Número com DDD para contato em emergências
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </CardContent>
       </Card>
 
-      {/* Declaração de Saúde - OBRIGATÓRIO */}
+      {/* Declaração de Saúde */}
       <Card
-        className={`border-2 ${
+        className={`border-4 transition-all ${
           declaracaoAceita
-            ? "border-green-300 bg-green-50"
-            : "border-red-300 bg-red-50"
+            ? "border-green-400 bg-gradient-to-br from-green-50 to-green-100"
+            : "border-red-400 bg-gradient-to-br from-red-50 to-red-100"
         }`}
       >
         <CardContent className="pt-6">
-          <div className="flex items-start gap-3 mb-4">
+          <div className="flex items-start gap-3">
             <Shield
-              className={`w-6 h-6 flex-shrink-0 ${
+              className={`w-8 h-8 flex-shrink-0 ${
                 declaracaoAceita ? "text-green-600" : "text-red-600"
               }`}
             />
-            <div>
-              <h4 className="font-semibold text-gray-800 mb-2">
+            <div className="flex-1">
+              <h4 className="font-black text-gray-800 mb-3 text-lg">
                 Declaração de Saúde e Responsabilidade
               </h4>
-              <div className="text-sm text-gray-700 space-y-2 mb-4">
-                <p>
-                  Ao participar deste evento, declaro que:
-                </p>
-                <ul className="list-disc list-inside space-y-1 ml-2">
-                  <li>
-                    Estou em boas condições de saúde física e mental para
-                    participar da corrida
+              <div className="text-sm text-gray-700 space-y-2 mb-5 bg-white p-4 rounded-lg">
+                <p className="font-semibold">Ao participar deste evento, declaro que:</p>
+                <ul className="list-none space-y-2 ml-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#00B8D4] font-bold">✓</span>
+                    <span>Estou em boas condições de saúde física e mental para participar da corrida</span>
                   </li>
-                  <li>
-                    Não possuo nenhuma condição médica que me impeça de
-                    praticar atividades físicas intensas
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#00B8D4] font-bold">✓</span>
+                    <span>Não possuo nenhuma condição médica que me impeça de praticar atividades físicas intensas</span>
                   </li>
-                  <li>
-                    Consultei um médico recentemente e fui considerado(a) apto(a)
-                    para corridas
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#00B8D4] font-bold">✓</span>
+                    <span>Consultei um médico recentemente e fui considerado(a) apto(a) para corridas</span>
                   </li>
-                  <li>
-                    Assumo total responsabilidade por minha participação no
-                    evento
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#00B8D4] font-bold">✓</span>
+                    <span>Assumo total responsabilidade por minha participação no evento</span>
                   </li>
-                  <li>
-                    Isento a organização de qualquer responsabilidade sobre
-                    problemas de saúde que possam ocorrer durante ou após o
-                    evento
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#00B8D4] font-bold">✓</span>
+                    <span>Isento a organização de qualquer responsabilidade sobre problemas de saúde que possam ocorrer durante ou após o evento</span>
                   </li>
                 </ul>
               </div>
@@ -173,15 +174,16 @@ export function Step4FichaMedica({ form }: Step4Props) {
                 control={form.control}
                 name="declaracaoSaude"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 bg-white p-4 rounded-lg border-2 border-gray-200">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
                         onCheckedChange={field.onChange}
+                        className="w-5 h-5 border-2"
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel className="font-semibold">
+                      <FormLabel className="font-black text-[#E53935] text-base cursor-pointer">
                         Li e aceito a declaração acima *
                       </FormLabel>
                       <FormMessage />
@@ -193,24 +195,20 @@ export function Step4FichaMedica({ form }: Step4Props) {
           </div>
 
           {!declaracaoAceita && (
-            <Alert className="mt-4 bg-white border-red-300">
-              <AlertCircle className="h-4 w-4 text-red-600" />
-              <AlertDescription className="text-sm text-red-800">
-                Você precisa aceitar a declaração de saúde para prosseguir com
-                a inscrição.
+            <Alert className="mt-4 bg-white border-2 border-red-400">
+              <AlertCircle className="h-5 w-5 text-red-600" />
+              <AlertDescription className="text-sm text-red-800 font-semibold">
+                Você precisa aceitar a declaração de saúde para prosseguir com a inscrição.
               </AlertDescription>
             </Alert>
           )}
         </CardContent>
       </Card>
 
-      {/* Informação adicional */}
-      <Card className="bg-blue-50 border-blue-200">
+      <Card className="bg-gradient-to-r from-[#FFE66D] to-[#00B8D4] border-none">
         <CardContent className="pt-6">
-          <p className="text-sm text-blue-900">
-            <strong>💡 Recomendação:</strong> Antes de qualquer evento
-            esportivo, é importante passar por uma avaliação médica. Consulte
-            seu médico e realize exames cardiológicos se necessário.
+          <p className="text-sm text-gray-800 font-semibold">
+            <strong className="text-[#E53935]">Recomendação:</strong> Antes de qualquer evento esportivo, é importante passar por uma avaliação médica. Consulte seu médico e realize exames cardiológicos se necessário.
           </p>
         </CardContent>
       </Card>

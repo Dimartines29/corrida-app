@@ -1,3 +1,4 @@
+// InscricaoForm.tsx
 "use client";
 
 import { useState } from "react";
@@ -5,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { Step1DadosPessoais } from "./Step1DadosPessoais";
 import { Step2CategoriaLote } from "./Step2CategoriaLote";
@@ -62,7 +62,6 @@ export function InscricaoForm() {
 
     if (result.success) {
       setCurrentStep(currentStep + 1);
-
     } else {
       result.error.issues.forEach((issue) => {
         form.setError(issue.path[0] as any, {
@@ -153,61 +152,84 @@ export function InscricaoForm() {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-4xl">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">
-            Inscrição para Corrida
-          </CardTitle>
-        </CardHeader>
+    <div className="min-h-screen bg-[#FFE66D] py-12 px-4">
+      <div className="container mx-auto max-w-4xl">
+        <div className="shadow-2xl rounded-2xl overflow-hidden bg-white">
+          <div className="bg-[#E53935] text-white py-8 relative">
+            {/* Logo à esquerda */}
+            <img 
+              src="/logo-chris.png"
+              alt="Todo Mundo Corre com o Chris"
+              className="h-16 w-auto absolute left-6 top-1/2 -translate-y-1/2"
+            />
 
-        <CardContent>
-          <ProgressIndicator currentStep={currentStep} totalSteps={5} />
+            {/* Título centralizado */}
+            <h2 className="text-xl md:text-2xl font-black text-white text-center">
+              FORMULÁRIO DE INSCRIÇÃO
+            </h2>
+          </div>
 
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6"
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && currentStep !== 5) {
-                  e.preventDefault();
-                }
-              }}
-            >
+          <div className="p-6 md:p-8 bg-white">
+            <ProgressIndicator currentStep={currentStep} totalSteps={5} />
 
-              {currentStep === 1 && <Step1DadosPessoais form={form} />}
-              {currentStep === 2 && <Step2CategoriaLote form={form} />}
-              {currentStep === 3 && <Step3Kit form={form} />}
-              {currentStep === 4 && <Step4FichaMedica form={form} />}
-              {currentStep === 5 && <Step5Revisao form={form} />}
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && currentStep !== 5) {
+                    e.preventDefault();
+                  }
+                }}
+              >
 
-              <div className="flex justify-between pt-6">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={(e) => handleBack(e)}
-                  disabled={currentStep === 1}
-                >
-                  Voltar
-                </Button>
+                {currentStep === 1 && <Step1DadosPessoais form={form} />}
+                {currentStep === 2 && <Step2CategoriaLote form={form} />}
+                {currentStep === 3 && <Step3Kit form={form} />}
+                {currentStep === 4 && <Step4FichaMedica form={form} />}
+                {currentStep === 5 && <Step5Revisao form={form} />}
 
-                {currentStep < 5 ? (
+                <div className="flex justify-between pt-6 gap-4">
                   <Button
                     type="button"
-                    onClick={(e) => handleNext(e)}
+                    variant="outline"
+                    onClick={(e) => handleBack(e)}
+                    disabled={currentStep === 1}
+                    className="border-2 border-gray-300 hover:border-[#00B8D4] hover:bg-[#00B8D4] hover:text-white transition-all px-8"
                   >
-                    Próximo
+                    Voltar
                   </Button>
-                ) : (
-                  <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Processando..." : "Confirmar Inscrição"}
-                  </Button>
-                )}
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+
+                  {currentStep < 5 ? (
+                    <Button
+                      type="button"
+                      onClick={(e) => handleNext(e)}
+                      className="bg-[#E53935] hover:bg-[#c62828] text-white font-bold px-8 transition-all transform hover:scale-105"
+                    >
+                      Próximo
+                    </Button>
+                  ) : (
+                    <Button 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="bg-[#00B8D4] hover:bg-[#00a0c0] text-white font-bold px-8 transition-all transform hover:scale-105"
+                    >
+                      {isSubmitting ? "Processando..." : "Confirmar Inscrição"}
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </Form>
+          </div>
+        </div>
+
+        {/* Footer Info */}
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-700">
+            Dúvidas? Entre em contato: <strong className="text-[#E53935]">contato@corridachris.com.br</strong>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
