@@ -1,13 +1,22 @@
 // Step3Kit.tsx
+import { useState, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Shirt, Ruler, AlertCircle } from "lucide-react";
+import { Check, Flag, Shirt, Ruler, AlertCircle } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 interface Step3Props {
   form: UseFormReturn<InscricaoCompleta>;
+}
+
+interface Kit {
+  id: string;
+  nome: string;
+  preco: number;
+  itens: string;
 }
 
 const tamanhos = [
@@ -44,7 +53,42 @@ const tamanhos = [
 ];
 
 export function Step3Kit({ form }: Step3Props) {
+  const [kits, setKits] = useState<Kit[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const kitsRes = await fetch("/api/kits");
+        const kitsData = await kitsRes.json();
+        setKits(kitsData);
+
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const kitIdSelecionado = form.watch("kitId");
+
+  const kitSelecionado = kits.find(
+    (kit) => kit.id === kitIdSelecionado
+  );
+
   const tamanhoSelecionado = form.watch("tamanhoCamisa");
+
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#00B8D4] border-t-transparent"></div>
+        <p className="text-gray-600 mt-4 font-semibold">Carregando kits disponíveis...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -57,6 +101,56 @@ export function Step3Kit({ form }: Step3Props) {
           </div>
         </div>
       </div>
+
+      <div className="bg-white p-6 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
+        <FormField
+          control={form.control}
+          name="kitId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-[#E53935] font-bold text-lg flex items-center gap-2">
+                <Flag className="w-5 h-5" />
+                Escolha seu Kit *
+              </FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="border-2 border-[#00B8D4] h-12 text-base">
+                    <SelectValue placeholder="Selecione o kit" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {kits.map((kit) => (
+                    <SelectItem key={kit.id} value={kit.id} className="text-base">
+                      {kit.nome}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription className="text-gray-600">
+                Escolha o kit que deseja para a corrida
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      {kitSelecionado && (
+        <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-lg">
+          <CardContent className="pt-6">
+            <div className="space-y-3 text-white">
+              <div className="flex items-center gap-3">
+                <Badge variant="secondary" className="bg-white text-[#00B8D4] font-bold px-3 py-1">
+                  {kitSelecionado.nome}
+                </Badge>
+                <span className="text-lg font-bold">
+                  {kitSelecionado.itens}
+                </span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <FormField
         control={form.control}

@@ -142,6 +142,7 @@ export async function POST(request: NextRequest) {
           userId: user.id,
           categoriaId: data.categoriaId,
           loteId: data.loteId,
+          kitId: data.kitId,
           nomeCompleto: data.nomeCompleto,
           cpf: data.cpf,
           rg: data.rg,

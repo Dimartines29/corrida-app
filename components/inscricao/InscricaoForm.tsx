@@ -157,7 +157,7 @@ export function InscricaoForm() {
         <div className="shadow-2xl rounded-2xl overflow-hidden bg-white">
           <div className="bg-[#E53935] text-white py-8 relative">
             {/* Logo à esquerda */}
-            <img 
+            <img
               src="/logo-chris.png"
               alt="Todo Mundo Corre com o Chris"
               className="h-16 w-auto absolute left-6 top-1/2 -translate-y-1/2"
@@ -209,8 +209,8 @@ export function InscricaoForm() {
                       Próximo
                     </Button>
                   ) : (
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       disabled={isSubmitting}
                       className="bg-[#00B8D4] hover:bg-[#00a0c0] text-white font-bold px-8 transition-all transform hover:scale-105"
                     >

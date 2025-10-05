@@ -5,17 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import {
-  User,
-  MapPin,
-  Flag,
-  Shirt,
-  Heart,
-  CheckCircle2,
-  AlertCircle,
-  DollarSign,
-} from "lucide-react";
+import { User, MapPin, Flag, Shirt, Heart, CheckCircle2, AlertCircle, DollarSign } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
+import { Inter } from "next/font/google";
 
 interface Step5Props {
   form: UseFormReturn<InscricaoCompleta>;
@@ -34,8 +26,16 @@ interface Lote {
   preco: number;
 }
 
+interface Kit {
+  id: string;
+  nome: string;
+  itens: string;
+  preco: number;
+}
+
 export function Step5Revisao({ form }: Step5Props) {
   const [categoria, setCategoria] = useState<Categoria | null>(null);
+  const [kit, setkit] = useState<Kit | null>(null);
   const [lote, setLote] = useState<Lote | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -57,6 +57,14 @@ export function Step5Revisao({ form }: Step5Props) {
           (l: Lote) => l.id === formData.loteId
         );
         setLote(loteSelecionado);
+
+        const kitsRes = await fetch("/api/kits");
+        const kits = await kitsRes.json();
+        const kitSelecionado = kits.find(
+          (k: Kit) => k.id === formData.kitId
+        );
+        setkit(kitSelecionado);
+
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       } finally {
@@ -177,6 +185,20 @@ export function Step5Revisao({ form }: Step5Props) {
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
+          {kit && (
+            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] rounded-lg">
+              <div>
+                <Badge variant="secondary" className="mb-2 bg-white text-[#00B8D4] font-bold">
+                  {kit.nome}
+                </Badge>
+                <p className="text-sm text-white">{kit.nome}</p>
+                <p className="text-xs text-white/90 mt-1 font-semibold">
+                  Itens: {kit.itens}
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] rounded-lg">
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
               <span className="text-3xl font-black text-[#00B8D4]">
