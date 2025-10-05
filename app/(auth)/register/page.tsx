@@ -38,8 +38,8 @@ export default function RegisterPage() {
         return
       }
 
-      // Redirecionar para login após sucesso
-      router.push('/login?registered=true')
+      // Redirecionar para inscrição na corrida após sucesso
+      router.push('/inscricao')
     } catch (error) {
       setError('Erro ao criar conta')
       setIsLoading(false)

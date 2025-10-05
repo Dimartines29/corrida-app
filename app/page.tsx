@@ -1,15 +1,75 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react'
+import Link from 'next/link';
 
 export default function Home() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  });
+  const { data: session, status } = useSession()
+  const [timeLeft, setTimeLeft] = useState({days: 0, hours: 0, minutes: 0, seconds: 0});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isAdmin = session?.user?.role === 'ADMIN'
+  const user = session?.user
+
+  const renderHeaderButton = () => {
+    if (isAdmin) {
+      return (
+        <Link href="/admin" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+          Painel Admin
+        </Link>
+      );
+    }
+
+    if (user) {
+      return (
+        <Link href="/corrida" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+          Minha Área
+        </Link>
+      );
+    }
+
+    return (
+      <button
+        onClick={() => scrollToSection('inscricoes')}
+        className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors"
+      >
+        INSCREVA-SE
+      </button>
+    );
+  };
+
+  const renderMobileButton = () => {
+    if (isAdmin) {
+      return (
+        <Link
+          href="/admin"
+          className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded"
+        >
+          Painel Admin
+        </Link>
+      );
+    }
+
+    if (user) {
+      return (
+        <Link
+          href="/corrida"
+          className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition text-center block"
+        >
+          Minha área
+        </Link>
+      );
+    }
+
+    return (
+      <button
+        onClick={() => scrollToSection('inscricoes')}
+        className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition"
+      >
+        INSCREVA-SE
+      </button>
+    );
+  };
 
   useEffect(() => {
     const targetDate = new Date('2026-01-25T08:00:00').getTime();
@@ -59,7 +119,7 @@ export default function Home() {
             </div>
 
             <div className="hidden lg:block">
-              <button onClick={() => scrollToSection('inscricoes')} className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors">INSCREVA-SE</button>
+              {renderHeaderButton()}
             </div>
 
             <div className="lg:hidden">
@@ -73,7 +133,7 @@ export default function Home() {
               <button onClick={() => scrollToSection('inscricoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Inscrições</button>
               <button onClick={() => scrollToSection('informacoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Informações</button>
               <button onClick={() => scrollToSection('percurso')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Percurso</button>
-              <button onClick={() => scrollToSection('inscricoes')}className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition">INSCREVA-SE</button>
+              {renderMobileButton()}
             </div>
           )}
         </nav>
