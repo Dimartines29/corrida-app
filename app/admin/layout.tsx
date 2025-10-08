@@ -1,7 +1,11 @@
+// app/admin/layout.tsx
+
 import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth/auth-options"
 import Link from "next/link"
+import { AppSidebar } from "@/components/app-sidebar"
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 
 export default async function AdminLayout({
   children,
@@ -35,5 +39,19 @@ export default async function AdminLayout({
     )
   }
 
-  return <>{children}</>
+  const userData = {
+    name: session.user.name || "Usuário",
+    email: session.user.email || "",
+  }
+
+  return (
+    <SidebarProvider>
+      <AppSidebar userData={userData} />
+      <SidebarInset>
+        <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          {children}
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
+  )
 }

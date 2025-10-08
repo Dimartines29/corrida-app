@@ -1,73 +1,47 @@
 "use client"
 
 import * as React from "react"
-import { IconDashboard, IconDatabase, IconFileWord, IconInnerShadowTop, IconReport, IconSettings } from "@tabler/icons-react"
+import { IconInnerShadowTop, IconSettings, IconUser, IconUserEdit, IconBookmarkEdit } from "@tabler/icons-react"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
-import { UserRoundCheck, ClipboardCheck, Medal, FileUser } from "lucide-react"
+
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  userData: {
+    name: string
+    email: string
+  }
+}
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
-      title: "Dashboard",
-      url: "admin/",
-      icon: IconDashboard,
-    },
-    {
-      title: "Inscritos",
-      url: "admin/inscricoes",
-      icon: IconDashboard,
+      title: "Inscrições",
+      url: "/admin",
+      icon: IconUser,
     },
     {
       title: "Inscrição Manual",
-      url: "admin/inscricao-manual",
-      icon: IconDashboard,
+      url: "/admin/inscricao-manual",
+      icon: IconUserEdit,
     },
     {
       title: "Lotes e Categorias",
-      url: "admin/lotes-categorias",
-      icon: IconDashboard,
-    },
-    {
-      title: "Relatórios",
-      url: "admin/relatorios",
-      icon: IconDashboard,
+      url: "/admin/lotes-categorias",
+      icon: IconBookmarkEdit,
     },
   ],
   navSecondary: [
     {
       title: "Configurações",
-      url: "#",
+      url: "/admin/configuracoes",
       icon: IconSettings,
     }
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
+  ]
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ userData, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -77,9 +51,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <a href="/admin">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Corrida</span>
+                <span className="text-base font-semibold">Corrida - The Chris</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -90,7 +64,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userData} />
       </SidebarFooter>
     </Sidebar>
   )
