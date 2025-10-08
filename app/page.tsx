@@ -14,25 +14,34 @@ export default function Home() {
   const renderHeaderButton = () => {
     if (isAdmin) {
       return (
-        <Link href="/admin" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
-          Painel Admin
-        </Link>
+        <div>
+          <Link href="/admin" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+            Painel Admin
+          </Link>
+
+          <Link className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg pl-4" href="/api/auth/signout">
+            Sair
+          </Link>
+        </div>
       );
     }
 
     if (user) {
       return (
-        <Link href="/corrida" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
-          Minha Área
-        </Link>
+        <div>
+          <Link href="/minha-area" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+            Minha Área
+          </Link>
+
+          <Link className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg pl-4" href="/api/auth/signout">
+            Sair
+          </Link>
+        </div>
       );
     }
 
     return (
-      <button
-        onClick={() => scrollToSection('inscricoes')}
-        className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors"
-      >
+      <button onClick={() => scrollToSection('inscricoes')} className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors">
         INSCREVA-SE
       </button>
     );
@@ -41,31 +50,35 @@ export default function Home() {
   const renderMobileButton = () => {
     if (isAdmin) {
       return (
-        <Link
-          href="/admin"
-          className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded"
-        >
-          Painel Admin
-        </Link>
+        <div>
+          <Link href="/admin" className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
+            Painel Admin
+          </Link>
+
+          <Link className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg pl-4" href="/api/auth/signout">
+            Sair
+          </Link>
+        </div>
       );
     }
 
     if (user) {
       return (
-        <Link
-          href="/corrida"
-          className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition text-center block"
-        >
-          Minha área
-        </Link>
+        <div>
+          <Link href="/minha-area" className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition text-center block">
+            Minha área
+          </Link>
+
+          <Link className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg pl-4" href="/api/auth/signout">
+            Sair
+          </Link>
+        </div>
+
       );
     }
 
     return (
-      <button
-        onClick={() => scrollToSection('inscricoes')}
-        className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition"
-      >
+      <button onClick={() => scrollToSection('inscricoes')} className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition">
         INSCREVA-SE
       </button>
     );
