@@ -1,3 +1,4 @@
+import { enviarEmailInscricaoPendente } from "@/lib/email/send-email";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { inscricaoCompletaSchema } from "@/lib/validations/inscricao";
@@ -180,7 +181,34 @@ export async function POST(request: NextRequest) {
       return novaInscricao;
     });
 
-    // 10. Retorna sucesso com dados da inscrição
+    // 10. Buscar configurações do evento
+    const configuracao = await prisma.configuracaoSite.findFirst();
+
+    // 11. Enviar email de inscrição pendente
+    try {
+      await enviarEmailInscricaoPendente({
+        para: user.email,
+        nomeCompleto: inscricao.nomeCompleto,
+        codigo: inscricao.codigo,
+        categoria: inscricao.categoria.nome,
+        valorPago: inscricao.valorPago,
+        dataEvento: configuracao?.dataEvento
+          ? new Date(configuracao.dataEvento).toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric'
+            })
+          : 'A definir',
+        localEvento: configuracao?.localEvento || 'A definir',
+        tamanhoCamisa: inscricao.tamanhoCamisa,
+      });
+
+    } catch (emailError) {
+
+      console.error('⚠️ Erro ao enviar email (inscrição foi criada normalmente):', emailError);
+    }
+
+    // 12. Retorna sucesso com dados da inscrição
     return NextResponse.json(
       {
         success: true,
