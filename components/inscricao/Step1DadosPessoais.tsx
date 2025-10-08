@@ -15,6 +15,7 @@ export function Step1DadosPessoais({ form }: Step1Props) {
       <div className="bg-gradient-to-r bg-[#FFE66D] p-6 rounded-xl">
         <div className="flex items-center gap-3">
           <User className="w-8 h-8 text-[#E53935]" />
+
           <div>
             <h3 className="text-xl font-black text-[#E53935]">Dados Pessoais</h3>
             <p className="text-sm text-gray-700">Preencha suas informações pessoais</p>
@@ -24,23 +25,17 @@ export function Step1DadosPessoais({ form }: Step1Props) {
 
       {/* Nome Completo */}
       <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-        <FormField
-          control={form.control}
-          name="nomeCompleto"
-          render={({ field }) => (
+        <FormField control={form.control} name="nomeCompleto" render={({ field }) => (
             <FormItem>
               <FormLabel className="text-[#E53935] font-bold flex items-center gap-2">
-                <User className="w-4 h-4" />
-                Nome Completo *
+                <User className="w-4 h-4" /> Nome Completo *
               </FormLabel>
+
               <FormControl>
-                <Input 
-                  placeholder="João da Silva" 
-                  {...field}
-                  className="border-2 focus:border-[#00B8D4] transition-all"
-                />
+                <Input placeholder="João da Silva" {...field} className="border-2 focus:border-[#00B8D4] transition-all"/>
               </FormControl>
-              <FormMessage />
+
+              <FormMessage/>
             </FormItem>
           )}
         />
@@ -49,23 +44,16 @@ export function Step1DadosPessoais({ form }: Step1Props) {
       {/* CPF e RG */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-          <FormField
-            control={form.control}
-            name="cpf"
-            render={({ field }) => (
+          <FormField control={form.control} name="cpf" render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[#E53935] font-bold flex items-center gap-2">
-                  <FileText className="w-4 h-4" />
-                  CPF *
+                  <FileText className="w-4 h-4" /> CPF *
                 </FormLabel>
+
                 <FormControl>
-                  <Input
-                    placeholder="000.000.000-00"
-                    maxLength={14}
-                    {...field}
-                    className="border-2 focus:border-[#00B8D4] transition-all"
-                  />
+                  <Input placeholder="000.000.000-00" maxLength={14} {...field} className="border-2 focus:border-[#00B8D4] transition-all"/>
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -73,22 +61,16 @@ export function Step1DadosPessoais({ form }: Step1Props) {
         </div>
 
         <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-          <FormField
-            control={form.control}
-            name="rg"
-            render={({ field }) => (
+          <FormField control={form.control} name="rg" render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[#E53935] font-bold flex items-center gap-2">
-                  <FileText className="w-4 h-4" />
-                  RG *
+                  <FileText className="w-4 h-4" /> RG *
                 </FormLabel>
+
                 <FormControl>
-                  <Input 
-                    placeholder="00.000.000-0" 
-                    {...field}
-                    className="border-2 focus:border-[#00B8D4] transition-all"
-                  />
+                  <Input placeholder="00.000.000-0" {...field} className="border-2 focus:border-[#00B8D4] transition-all"/>
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -99,22 +81,16 @@ export function Step1DadosPessoais({ form }: Step1Props) {
       {/* Data de Nascimento e Telefone */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-          <FormField
-            control={form.control}
-            name="dataNascimento"
-            render={({ field }) => (
+          <FormField control={form.control} name="dataNascimento" render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[#E53935] font-bold flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  Data de Nascimento *
+                  <Calendar className="w-4 h-4" /> Data de Nascimento *
                 </FormLabel>
+
                 <FormControl>
-                  <Input
-                    type="date"
-                    {...field}
-                    className="border-2 focus:border-[#00B8D4] transition-all"
-                  />
+                  <Input type="date" {...field} className="border-2 focus:border-[#00B8D4] transition-all"/>
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -122,23 +98,16 @@ export function Step1DadosPessoais({ form }: Step1Props) {
         </div>
 
         <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-          <FormField
-            control={form.control}
-            name="telefone"
-            render={({ field }) => (
+          <FormField control={form.control} name="telefone" render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[#E53935] font-bold flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  Telefone *
+                  <Phone className="w-4 h-4" /> Telefone *
                 </FormLabel>
+
                 <FormControl>
-                  <Input
-                    placeholder="(31) 98765-4321"
-                    maxLength={15}
-                    {...field}
-                    className="border-2 focus:border-[#00B8D4] transition-all"
-                  />
+                  <Input placeholder="(31) 98765-4321" maxLength={15} {...field} className="border-2 focus:border-[#00B8D4] transition-all"/>
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -155,22 +124,16 @@ export function Step1DadosPessoais({ form }: Step1Props) {
 
         <div className="space-y-4">
           <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-            <FormField
-              control={form.control}
-              name="endereco"
-              render={({ field }) => (
+            <FormField control={form.control} name="endereco" render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#E53935] font-bold flex items-center gap-2">
-                    <Home className="w-4 h-4" />
-                    Endereço Completo *
+                    <Home className="w-4 h-4" /> Endereço Completo *
                   </FormLabel>
+
                   <FormControl>
-                    <Input
-                      placeholder="Rua, número, bairro"
-                      {...field}
-                      className="border-2 focus:border-[#00B8D4] transition-all"
-                    />
+                    <Input placeholder="Rua, número, bairro" {...field} className="border-2 focus:border-[#00B8D4] transition-all"/>
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -179,19 +142,14 @@ export function Step1DadosPessoais({ form }: Step1Props) {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-              <FormField
-                control={form.control}
-                name="cidade"
-                render={({ field }) => (
+              <FormField control={form.control} name="cidade" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-[#E53935] font-bold">Cidade *</FormLabel>
+
                     <FormControl>
-                      <Input 
-                        placeholder="Betim" 
-                        {...field}
-                        className="border-2 focus:border-[#00B8D4] transition-all"
-                      />
+                      <Input placeholder="Betim" {...field} className="border-2 focus:border-[#00B8D4] transition-all"/>
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -199,21 +157,14 @@ export function Step1DadosPessoais({ form }: Step1Props) {
             </div>
 
             <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-              <FormField
-                control={form.control}
-                name="estado"
-                render={({ field }) => (
+              <FormField control={form.control} name="estado" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-[#E53935] font-bold">Estado *</FormLabel>
+
                     <FormControl>
-                      <Input
-                        placeholder="MG"
-                        maxLength={2}
-                        {...field}
-                        onChange={(e) => field.onChange(e.target.value.toUpperCase())}
-                        className="border-2 focus:border-[#00B8D4] transition-all"
-                      />
+                      <Input placeholder="MG" maxLength={2} {...field} onChange={(e) => field.onChange(e.target.value.toUpperCase())} className="border-2 focus:border-[#00B8D4] transition-all"/>
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -221,20 +172,14 @@ export function Step1DadosPessoais({ form }: Step1Props) {
             </div>
 
             <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-              <FormField
-                control={form.control}
-                name="cep"
-                render={({ field }) => (
+              <FormField control={form.control} name="cep" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-[#E53935] font-bold">CEP *</FormLabel>
+
                     <FormControl>
-                      <Input
-                        placeholder="00000-000"
-                        maxLength={9}
-                        {...field}
-                        className="border-2 focus:border-[#00B8D4] transition-all"
-                      />
+                      <Input placeholder="00000-000" maxLength={9} {...field} className="border-2 focus:border-[#00B8D4] transition-all"/>
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}

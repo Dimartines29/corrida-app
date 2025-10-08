@@ -190,21 +190,21 @@ export function InscricaoForm() {
                 {currentStep === 5 && <Step5Revisao form={form} />}
 
                 <div className="flex justify-between pt-6 gap-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={(e) => handleBack(e)}
-                    disabled={currentStep === 1}
-                    className="border-2 border-gray-300 hover:border-[#00B8D4] hover:bg-[#00B8D4] hover:text-white transition-all px-8"
-                  >
-                    Voltar
-                  </Button>
+                  {currentStep > 1 && (
+                    <Button
+                      type="button"
+                      onClick={(e) => handleBack(e)}
+                      className="bg-[#E53935] hover:bg-[#c62828] text-white font-bold px-8 transition-all transform hover:scale-105"
+                    >
+                      Voltar
+                    </Button>
+                  )}
 
                   {currentStep < 5 ? (
                     <Button
                       type="button"
                       onClick={(e) => handleNext(e)}
-                      className="bg-[#E53935] hover:bg-[#c62828] text-white font-bold px-8 transition-all transform hover:scale-105"
+                      className="bg-[#E53935] hover:bg-[#c62828] text-white font-bold px-8 transition-all transform hover:scale-105 ml-auto"
                     >
                       Próximo
                     </Button>
@@ -212,7 +212,7 @@ export function InscricaoForm() {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-[#00B8D4] hover:bg-[#00a0c0] text-white font-bold px-8 transition-all transform hover:scale-105"
+                      className="bg-[#00B8D4] hover:bg-[#00a0c0] text-white font-bold px-8 transition-all transform hover:scale-105 ml-auto"
                     >
                       {isSubmitting ? "Processando..." : "Confirmar Inscrição"}
                     </Button>
