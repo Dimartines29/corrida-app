@@ -17,25 +17,29 @@ export function Step4FichaMedica({ form }: Step4Props) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-[#E53935] to-[#c62828] p-6 rounded-xl">
+      <div className="bg-gradient-to-r bg-[#FFE66D] p-6 rounded-xl">
         <div className="flex items-center gap-3">
-          <Heart className="w-8 h-8 text-white" />
+          <Heart className="w-10 h-10 text-[#E53935]" />
           <div>
-            <h3 className="text-xl font-black text-white">Ficha Médica e Declaração de Saúde</h3>
-            <p className="text-sm text-white/90">Informações importantes para sua segurança</p>
+            <h3 className="text-xl font-black text-[#E53935]">Ficha Médica e Declaração de Saúde</h3>
+            <p className="text-sm text-black/90">Informações importantes para sua segurança</p>
           </div>
         </div>
       </div>
 
       <Alert className="bg-yellow-50 border-2 border-yellow-400">
-        <AlertCircle className="h-5 w-5 text-yellow-600" />
-        <AlertDescription className="text-sm text-yellow-800 font-semibold">
-          Em caso de emergência, entraremos em contato com a pessoa indicada abaixo. Certifique-se de informar dados corretos.
+        <AlertCircle className="h-6 w-6 text-yellow-600" />
+        <AlertDescription className="text-base text-yellow-800 font-semibold">
+          ⚠️   Em caso de emergência, entraremos em contato com a pessoa indicada abaixo. Certifique-se de informar dados corretos.
         </AlertDescription>
       </Alert>
 
       {/* Plano de Saúde */}
-      <div className="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-[#00B8D4] transition-all">
+      <div className={`p-6 rounded-xl border-2 transition-all ${
+        form.watch("possuiPlanoSaude") 
+          ? "bg-gradient-to-br from-[#00B8D4] to-[#00a0c0] border-[#00B8D4]" 
+          : "bg-white border-gray-200 hover:border-[#00B8D4]"
+      }`}>
         <FormField
           control={form.control}
           name="possuiPlanoSaude"
@@ -45,15 +49,21 @@ export function Step4FichaMedica({ form }: Step4Props) {
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
-                  className="w-5 h-5 border-2"
+                  className={`w-5 h-5 border-2 ${
+                    field.value 
+                      ? "bg-white border-white data-[state=checked]:bg-white data-[state=checked]:text-[#00B8D4]" 
+                      : ""
+                  }`}
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel className="flex items-center gap-2 text-[#E53935] font-bold text-base">
+                <FormLabel className={`flex items-center gap-2 font-bold text-base ${
+                  field.value ? "text-white" : "text-[#E53935]"
+                }`}>
                   <Heart className="w-5 h-5" />
                   Possuo plano de saúde
                 </FormLabel>
-                <FormDescription className="text-gray-600">
+                <FormDescription className={field.value ? "text-white/90" : "text-gray-600"}>
                   Esta informação ajuda a organização em caso de emergência
                 </FormDescription>
               </div>
@@ -205,8 +215,8 @@ export function Step4FichaMedica({ form }: Step4Props) {
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-to-r from-[#FFE66D] to-[#00B8D4] border-none">
-        <CardContent className="pt-6">
+      <Card className="bg-gradient-to-r bg-[#FFE66D] border-none">
+        <CardContent className="pt-0">
           <p className="text-sm text-gray-800 font-semibold">
             <strong className="text-[#E53935]">Recomendação:</strong> Antes de qualquer evento esportivo, é importante passar por uma avaliação médica. Consulte seu médico e realize exames cardiológicos se necessário.
           </p>

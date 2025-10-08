@@ -65,6 +65,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
     return (
       <div className="text-center py-12">
         <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#00B8D4] border-t-transparent"></div>
+
         <p className="text-gray-600 mt-4 font-semibold">Carregando categorias e lotes...</p>
       </div>
     );
@@ -72,12 +73,15 @@ export function Step2CategoriaLote({ form }: Step2Props) {
 
   return (
     <div className="space-y-6">
+
       {/* Header - Mesmo padrão do Step1 */}
       <div className="bg-[#FFE66D] p-6 rounded-xl">
         <div className="flex items-center gap-3">
           <Flag className="w-8 h-8 text-[#E53935]" />
+
           <div>
             <h3 className="text-xl font-black text-[#E53935]">Categoria e Lote</h3>
+
             <p className="text-sm text-gray-700">Escolha sua distância e lote de inscrição</p>
           </div>
         </div>
@@ -85,32 +89,26 @@ export function Step2CategoriaLote({ form }: Step2Props) {
 
       {/* Categoria */}
       <div className="bg-white p-6 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-        <FormField
-          control={form.control}
-          name="categoriaId"
-          render={({ field }) => (
+        <FormField control={form.control} name="categoriaId" render={({ field }) => (
             <FormItem>
               <FormLabel className="text-[#E53935] font-bold text-lg flex items-center gap-2">
-                <Flag className="w-5 h-5" />
-                Categoria da Corrida *
+                <Flag className="w-5 h-5" /> Categoria da Corrida
               </FormLabel>
+
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="border-2 border-[#00B8D4] h-12 text-base">
+                  <SelectTrigger className="border-2 border-[#00B8D4] h-12 text-base text-black">
                     <SelectValue placeholder="Selecione a categoria" />
                   </SelectTrigger>
                 </FormControl>
+
                 <SelectContent>
-                  {categorias.map((categoria) => (
-                    <SelectItem key={categoria.id} value={categoria.id} className="text-base">
-                      {categoria.nome} - {categoria.distancia}km
-                    </SelectItem>
-                  ))}
+                  {categorias.map((categoria) => (<SelectItem key={categoria.id} value={categoria.id} className="text-base"> {categoria.nome} - {categoria.distancia}km </SelectItem>))}
                 </SelectContent>
               </Select>
-              <FormDescription className="text-gray-600">
-                Escolha a distância que você deseja correr
-              </FormDescription>
+
+              <FormDescription className="text-gray-600"> Escolha a distância que você deseja correr</FormDescription>
+
               <FormMessage />
             </FormItem>
           )}
@@ -118,59 +116,42 @@ export function Step2CategoriaLote({ form }: Step2Props) {
       </div>
 
       {categoriaSelecionada && (
-        <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-lg">
-          <CardContent className="pt-6">
-            <div className="space-y-3 text-white">
-              <div className="flex items-center gap-3">
-                <Badge variant="secondary" className="bg-white text-[#00B8D4] font-bold px-3 py-1">
-                  {categoriaSelecionada.nome}
-                </Badge>
-                <span className="text-lg font-bold">
-                  {categoriaSelecionada.distancia}km
-                </span>
+        <div className="fixed top-24 right-6 z-40 w-80">
+          <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-2xl">
+            <CardContent className="pt-8 pb-8 px-6">
+              <div className="space-y-4 text-white">
+                <p className="text-sm text-white/80 mb-2">Distância do percurso:</p>
+                <p className="text-5xl font-black">{categoriaSelecionada.distancia} KM</p>
+
+                {categoriaSelecionada.descricao && (<div className="pt-4 border-t border-white/30"><p className="text-base text-white/90 leading-relaxed">{categoriaSelecionada.descricao}</p></div>)}
               </div>
-              <p className="text-white/90">
-                {categoriaSelecionada.descricao}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       )}
 
       {/* Lote */}
       <div className="bg-white p-6 rounded-xl border-2 border-gray-300 hover:border-[#E53935] transition-all">
-        <FormField
-          control={form.control}
-          name="loteId"
-          render={({ field }) => (
+        <FormField control={form.control} name="loteId" render={({ field }) => (
             <FormItem>
               <FormLabel className="text-[#E53935] font-bold text-lg flex items-center gap-2">
-                <DollarSign className="w-5 h-5" />
-                Lote de Inscrição *
+                <DollarSign className="w-5 h-5" /> Lote de Inscrição *
               </FormLabel>
+
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="border-2 border-[#E53935] h-12 text-base">
+                  <SelectTrigger className="border-2 border-[#E53935] h-12 text-base text-black">
                     <SelectValue placeholder="Selecione o lote" />
                   </SelectTrigger>
                 </FormControl>
+
                 <SelectContent>
-                  {lotes.length === 0 ? (
-                    <SelectItem value="none" disabled>
-                      Nenhum lote disponível no momento
-                    </SelectItem>
-                  ) : (
-                    lotes.map((lote) => (
-                      <SelectItem key={lote.id} value={lote.id} className="text-base">
-                        {lote.nome} - R$ {lote.preco.toFixed(2)}
-                      </SelectItem>
-                    ))
-                  )}
+                  {lotes.length === 0 ? (<SelectItem value="none" disabled> Nenhum lote disponível no momento</SelectItem>) : (lotes.map((lote) => (<SelectItem key={lote.id} value={lote.id} className="text-base">{lote.nome} - R$ {lote.preco.toFixed(2)}</SelectItem>)))}
                 </SelectContent>
               </Select>
-              <FormDescription className="text-gray-600">
-                O preço varia de acordo com o lote escolhido
-              </FormDescription>
+
+              <FormDescription className="text-gray-600">O preço varia de acordo com o lote escolhido</FormDescription>
+
               <FormMessage />
             </FormItem>
           )}
@@ -178,34 +159,34 @@ export function Step2CategoriaLote({ form }: Step2Props) {
       </div>
 
       {loteSelecionado && (
-        <Card className="bg-gradient-to-r from-[#E53935] to-[#c62828] border-none shadow-lg">
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between text-white">
-              <div>
-                <Badge variant="secondary" className="bg-white text-[#E53935] font-bold px-3 py-1 mb-2">
-                  {loteSelecionado.nome}
-                </Badge>
-                <p className="text-sm text-white/90 flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  Válido até {new Date(loteSelecionado.dataFim).toLocaleDateString("pt-BR")}
-                </p>
+        <div className="fixed top-[400px] right-6 z-40 w-80">
+          <Card className="bg-gradient-to-r from-[#E53935] to-[#c62828] border-none shadow-2xl">
+            <CardContent className="pt-8 pb-8 px-6">
+              <div className="space-y-4 text-white">
+                <div className="flex items-start justify-between">
+                  <Badge variant="secondary" className="bg-white text-[#E53935] font-bold px-4 py-2 text-base">{loteSelecionado.nome}</Badge>
+                </div>
+
+                <div className="flex items-center gap-2 text-white/90">
+                  <Calendar className="w-5 h-5" />
+
+                  <p className="text-base">Válido até {new Date(loteSelecionado.dataFim).toLocaleDateString("pt-BR")}</p>
+                </div>
+
+                <div className="pt-4 border-t border-white/30">
+                  <p className="text-sm text-white/80 mb-2">Valor da inscrição:</p>
+                  <p className="text-5xl font-black">R$ {loteSelecionado.preco.toFixed(2)}</p>
+                </div>
               </div>
-              <div className="text-right">
-                <p className="text-4xl font-black">
-                  R$ {loteSelecionado.preco.toFixed(2)}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       )}
 
       {lotes.length === 0 && (
         <Card className="bg-yellow-50 border-2 border-yellow-300">
           <CardContent className="pt-6">
-            <p className="text-sm text-yellow-800 font-semibold">
-              ⚠️ Não há lotes disponíveis no momento. Entre em contato com a organização do evento.
-            </p>
+            <p className="text-sm text-yellow-800 font-semibold">⚠️ Não há lotes disponíveis no momento. Entre em contato com a organização do evento.</p>
           </CardContent>
         </Card>
       )}

@@ -1,13 +1,23 @@
 // Step5Revisao.tsx
 import { useState, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { User, MapPin, Flag, Shirt, Heart, CheckCircle2, AlertCircle, DollarSign } from "lucide-react";
+import { 
+  User, 
+  MapPin, 
+  Flag, 
+  Shirt, 
+  Heart, 
+  CheckCircle2, 
+  AlertCircle, 
+  Calendar,
+  Phone,
+  CreditCard,
+  Package
+} from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
-import { Inter } from "next/font/google";
 
 interface Step5Props {
   form: UseFormReturn<InscricaoCompleta>;
@@ -24,6 +34,7 @@ interface Lote {
   id: string;
   nome: string;
   preco: number;
+  dataFim: string;
 }
 
 interface Kit {
@@ -35,7 +46,7 @@ interface Kit {
 
 export function Step5Revisao({ form }: Step5Props) {
   const [categoria, setCategoria] = useState<Categoria | null>(null);
-  const [kit, setkit] = useState<Kit | null>(null);
+  const [kit, setKit] = useState<Kit | null>(null);
   const [lote, setLote] = useState<Lote | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -46,24 +57,24 @@ export function Step5Revisao({ form }: Step5Props) {
       try {
         const categoriasRes = await fetch("/api/categorias");
         const categorias = await categoriasRes.json();
-        const catSelecionada = categorias.find(
-          (c: Categoria) => c.id === formData.categoriaId
-        );
+        const catSelecionada = Array.isArray(categorias) 
+          ? categorias.find((c: Categoria) => c.id === formData.categoriaId)
+          : undefined;
         setCategoria(catSelecionada);
 
         const lotesRes = await fetch("/api/lotes");
         const lotes = await lotesRes.json();
-        const loteSelecionado = lotes.find(
-          (l: Lote) => l.id === formData.loteId
-        );
+        const loteSelecionado = Array.isArray(lotes)
+          ? lotes.find((l: Lote) => l.id === formData.loteId)
+          : undefined;
         setLote(loteSelecionado);
 
         const kitsRes = await fetch("/api/kits");
         const kits = await kitsRes.json();
-        const kitSelecionado = kits.find(
-          (k: Kit) => k.id === formData.kitId
-        );
-        setkit(kitSelecionado);
+        const kitSelecionado = Array.isArray(kits)
+          ? kits.find((k: Kit) => k.id === formData.kitId)
+          : undefined;
+        setKit(kitSelecionado);
 
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
@@ -73,7 +84,7 @@ export function Step5Revisao({ form }: Step5Props) {
     };
 
     fetchData();
-  }, [formData.categoriaId, formData.loteId]);
+  }, [formData.categoriaId, formData.loteId, formData.kitId]);
 
   if (loading) {
     return (
@@ -86,170 +97,179 @@ export function Step5Revisao({ form }: Step5Props) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-[#00B8D4] to-[#E53935] p-6 rounded-xl">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] p-6 rounded-xl shadow-lg">
         <div className="flex items-center gap-3">
           <CheckCircle2 className="w-8 h-8 text-white" />
           <div>
-            <h3 className="text-xl font-black text-white">Revisão Final</h3>
+            <h3 className="text-xl font-black text-white">Revisão Final da Inscrição</h3>
             <p className="text-sm text-white/90">
-              Confira todos os dados antes de confirmar
+              Confira todos os dados antes de confirmar o pagamento
             </p>
           </div>
         </div>
       </div>
 
-      <Alert className="bg-[#FFE66D] border-2 border-[#00B8D4]">
-        <CheckCircle2 className="h-5 w-5 text-[#00B8D4]" />
-        <AlertDescription className="text-sm text-gray-800 font-semibold">
-          Ao confirmar, você será redirecionado para o pagamento. Certifique-se de que todos os dados estão corretos.
+      {/* Alerta Principal */}
+      <Alert className="bg-[#FFE66D] border-2 border-[#E53935]">
+        <AlertCircle className="h-6 w-6 text-[#E53935]" />
+        <AlertDescription className="text-base text-gray-800 font-semibold">
+          ⚠️ Após confirmar, você será redirecionado para o pagamento. Certifique-se de que todos os dados estão corretos, pois não será possível alterá-los posteriormente.
         </AlertDescription>
       </Alert>
 
       {/* Dados Pessoais */}
-      <Card className="border-2 border-[#00B8D4] shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0]">
-          <CardTitle className="flex items-center gap-2 text-white font-black">
-            <User className="w-6 h-6" />
-            Dados Pessoais
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4 pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InfoItem label="Nome" value={formData.nomeCompleto} />
-            <InfoItem label="CPF" value={formData.cpf} />
-            <InfoItem label="RG" value={formData.rg} />
-            <InfoItem
-              label="Data de Nascimento"
-              value={new Date(formData.dataNascimento).toLocaleDateString("pt-BR")}
-            />
-            <InfoItem label="Telefone" value={formData.telefone} />
-          </div>
-          <Separator />
-          <div className="flex items-start gap-2 text-sm bg-gray-50 p-4 rounded-lg">
-            <MapPin className="w-5 h-5 text-[#E53935] mt-1" />
-            <div>
-              <p className="font-bold text-[#E53935] mb-1">Endereço</p>
-              <p className="text-gray-700">
-                {formData.endereco}, {formData.cidade} - {formData.estado}, CEP: {formData.cep}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Categoria e Lote */}
-      <Card className="border-2 border-[#E53935] shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-[#E53935] to-[#c62828]">
-          <CardTitle className="flex items-center gap-2 text-white font-black">
-            <Flag className="w-6 h-6" />
-            Categoria e Lote
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4 pt-6">
-          {categoria && (
-            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] rounded-lg">
-              <div>
-                <Badge variant="secondary" className="mb-2 bg-white text-[#00B8D4] font-bold">
-                  {categoria.nome}
-                </Badge>
-                <p className="text-sm text-white">{categoria.descricao}</p>
-                <p className="text-xs text-white/90 mt-1 font-semibold">
-                  Distância: {categoria.distancia}km
-                </p>
-              </div>
-            </div>
-          )}
-
-          {lote && (
-            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[#FFE66D] to-[#ffe033] rounded-lg">
-              <div>
-                <p className="font-black text-[#E53935] text-lg">{lote.nome}</p>
-                <p className="text-xs text-gray-700 font-semibold">Inscrição válida</p>
-              </div>
-              <div className="text-right">
-                <p className="text-3xl font-black text-[#E53935]">
-                  R$ {lote.preco.toFixed(2)}
-                </p>
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Kit */}
-      <Card className="border-2 border-[#FFE66D] shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-[#FFE66D] to-[#ffe033]">
-          <CardTitle className="flex items-center gap-2 text-[#E53935] font-black">
-            <Shirt className="w-6 h-6" />
-            Kit do Participante
-          </CardTitle>
-        </CardHeader>
+      <Card className="bg-white border-2 border-gray-200 shadow-lg">
         <CardContent className="pt-6">
-          {kit && (
-            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] rounded-lg">
-              <div>
-                <Badge variant="secondary" className="mb-2 bg-white text-[#00B8D4] font-bold">
-                  {kit.nome}
-                </Badge>
-                <p className="text-sm text-white">{kit.nome}</p>
-                <p className="text-xs text-white/90 mt-1 font-semibold">
-                  Itens: {kit.itens}
-                </p>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-[#00B8D4] p-3 rounded-lg">
+              <User className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-xl font-black text-[#00B8D4]">Dados Pessoais</h3>
+          </div>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InfoBox 
+                label="Nome Completo" 
+                value={formData.nomeCompleto}
+                icon={<User className="w-4 h-4 text-[#00B8D4]" />}
+              />
+              <InfoBox 
+                label="CPF" 
+                value={formData.cpf}
+                icon={<User className="w-4 h-4 text-[#00B8D4]" />}
+              />
+              <InfoBox 
+                label="RG" 
+                value={formData.rg}
+                icon={<User className="w-4 h-4 text-[#00B8D4]" />}
+              />
+              <InfoBox 
+                label="Data de Nascimento" 
+                value={new Date(formData.dataNascimento).toLocaleDateString("pt-BR")}
+                icon={<Calendar className="w-4 h-4 text-[#00B8D4]" />}
+              />
+              <InfoBox 
+                label="Telefone" 
+                value={formData.telefone}
+                icon={<Phone className="w-4 h-4 text-[#00B8D4]" />}
+              />
+            </div>
+
+            <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffe033] p-4 rounded-lg">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-[#E53935] mt-1" />
+                <div>
+                  <p className="font-bold text-[#E53935] mb-2">Endereço Completo</p>
+                  <p className="text-gray-800 font-semibold">
+                    {formData.endereco}
+                  </p>
+                  <p className="text-gray-800 font-semibold">
+                    {formData.cidade} - {formData.estado}
+                  </p>
+                  <p className="text-gray-800 font-semibold">
+                    CEP: {formData.cep}
+                  </p>
+                </div>
               </div>
             </div>
-          )}
+          </div>
+        </CardContent>
+      </Card>
 
-          <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] rounded-lg">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-3xl font-black text-[#00B8D4]">
-                {formData.tamanhoCamisa}
-              </span>
+      {/* Tamanho da Camisa */}
+      <Card className="bg-white border-2 border-gray-200 shadow-lg">
+        <CardContent className="pt-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-[#E53935] p-3 rounded-lg">
+              <Shirt className="w-6 h-6 text-white" />
             </div>
-            <div>
-              <p className="font-black text-white text-lg">
-                Camisa tamanho {formData.tamanhoCamisa}
-              </p>
-              <p className="text-sm text-white/90 font-semibold">
-                Tecido dry-fit de alta performance
-              </p>
+            <h3 className="text-xl font-black text-[#E53935]">Camisa do Participante</h3>
+          </div>
+
+          <div className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] p-6 rounded-lg">
+            <div className="flex items-center gap-6">
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-4xl font-black text-[#00B8D4]">
+                  {formData.tamanhoCamisa}
+                </span>
+              </div>
+              <div className="text-white">
+                <p className="text-2xl font-black mb-1">
+                  Tamanho {formData.tamanhoCamisa}
+                </p>
+                <p className="text-sm text-white/90 font-semibold">
+                  Camisa oficial em tecido dry-fit de alta performance
+                </p>
+              </div>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Ficha Médica */}
-      <Card className="border-2 border-red-300 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-red-500 to-red-600">
-          <CardTitle className="flex items-center gap-2 text-white font-black">
-            <Heart className="w-6 h-6" />
-            Ficha Médica
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4 pt-6">
-          <InfoItem
-            label="Possui Plano de Saúde"
-            value={formData.possuiPlanoSaude ? "Sim" : "Não"}
-          />
-          <Separator />
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <p className="text-sm font-bold text-[#E53935] mb-3">
-              Contato de Emergência
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InfoItem label="Nome" value={formData.contatoEmergencia} />
-              <InfoItem label="Telefone" value={formData.telefoneEmergencia} />
+      <Card className="bg-white border-2 border-gray-200 shadow-lg">
+        <CardContent className="pt-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-red-500 p-3 rounded-lg">
+              <Heart className="w-6 h-6 text-white" />
             </div>
+            <h3 className="text-xl font-black text-red-500">Informações Médicas</h3>
           </div>
-          <Separator />
-          <div className="flex items-start gap-2 p-4 bg-green-50 rounded-lg border-2 border-green-300">
-            <CheckCircle2 className="w-6 h-6 text-green-600 mt-0.5" />
-            <div className="text-sm">
-              <p className="font-black text-green-800">
-                Declaração de Saúde Aceita
+
+          <div className="space-y-4">
+            <div className={`p-4 rounded-lg border-2 ${
+              formData.possuiPlanoSaude 
+                ? "bg-green-50 border-green-400" 
+                : "bg-gray-50 border-gray-300"
+            }`}>
+              <div className="flex items-center gap-3">
+                {formData.possuiPlanoSaude ? (
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                ) : (
+                  <AlertCircle className="w-6 h-6 text-gray-500" />
+                )}
+                <div>
+                  <p className="font-bold text-gray-800">Plano de Saúde</p>
+                  <p className="text-sm text-gray-600 font-semibold">
+                    {formData.possuiPlanoSaude ? "Possui plano de saúde" : "Não possui plano de saúde"}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-red-50 p-4 rounded-lg border-2 border-red-300">
+              <p className="font-bold text-red-600 mb-3 flex items-center gap-2">
+                <Phone className="w-5 h-5" />
+                Contato de Emergência
               </p>
-              <p className="text-green-700 text-xs mt-1 font-semibold">
-                Você declarou estar apto(a) para participar da corrida
-              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InfoBox 
+                  label="Nome" 
+                  value={formData.contatoEmergencia}
+                  icon={<User className="w-4 h-4 text-red-500" />}
+                />
+                <InfoBox 
+                  label="Telefone" 
+                  value={formData.telefoneEmergencia}
+                  icon={<Phone className="w-4 h-4 text-red-500" />}
+                />
+              </div>
+            </div>
+
+            <div className="bg-green-50 p-4 rounded-lg border-2 border-green-400">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-6 h-6 text-green-600 mt-0.5" />
+                <div>
+                  <p className="font-black text-green-800 text-base">
+                    Declaração de Saúde Confirmada
+                  </p>
+                  <p className="text-green-700 text-sm mt-1 font-semibold">
+                    Você declarou estar em boas condições de saúde e apto(a) para participar da corrida
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </CardContent>
@@ -257,48 +277,72 @@ export function Step5Revisao({ form }: Step5Props) {
 
       {/* Resumo do Pagamento */}
       {lote && (
-        <Card className="border-4 border-[#00B8D4] bg-gradient-to-br from-[#00B8D4] to-[#00a0c0] shadow-2xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-white font-black text-xl">
-              <DollarSign className="w-7 h-7" />
-              Resumo do Pagamento
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex justify-between items-center text-white">
-              <span className="font-semibold">Inscrição ({lote.nome})</span>
-              <span className="font-bold text-lg">
-                R$ {lote.preco.toFixed(2)}
-              </span>
+        <Card className="bg-gradient-to-br from-[#00B8D4] to-[#00a0c0] border-none shadow-2xl">
+          <CardContent className="pt-8 pb-8 px-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-white p-3 rounded-lg">
+                <CreditCard className="w-6 h-6 text-[#00B8D4]" />
+              </div>
+              <h3 className="text-2xl font-black text-white">Resumo do Pagamento</h3>
             </div>
-            <Separator className="bg-white/30" />
-            <div className="flex justify-between items-center text-2xl bg-white p-4 rounded-lg">
-              <span className="font-black text-[#00B8D4]">Total</span>
-              <span className="font-black text-[#E53935]">
-                R$ {lote.preco.toFixed(2)}
-              </span>
+
+            <div className="space-y-4">
+              <div className="bg-white/20 p-4 rounded-lg backdrop-blur">
+                <div className="flex justify-between items-center text-white mb-2">
+                  <span className="font-semibold">Inscrição - {lote.nome}</span>
+                  <span className="font-bold text-xl">
+                    R$ {lote.preco.toFixed(2)}
+                  </span>
+                </div>
+                <p className="text-white/80 text-sm font-semibold">
+                  Inclui todos os itens do kit selecionado
+                </p>
+              </div>
+
+              <div className="bg-white p-6 rounded-lg shadow-lg">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm text-gray-600 font-semibold mb-1">VALOR TOTAL</p>
+                    <p className="text-4xl font-black text-[#E53935]">
+                      R$ {lote.preco.toFixed(2)}
+                    </p>
+                  </div>
+                  <Package className="w-12 h-12 text-[#00B8D4]" />
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
       )}
 
-      {/* Aviso final */}
-      <Alert className="bg-red-50 border-2 border-red-400">
-        <AlertCircle className="h-5 w-5 text-red-600" />
-        <AlertDescription className="text-sm text-red-800 font-semibold">
-          <strong>Importante:</strong> Após a confirmação, não será possível alterar os dados da inscrição. Revise com atenção antes de prosseguir.
+      {/* Aviso Final */}
+      <Alert className="bg-red-50 border-2 border-red-500">
+        <AlertCircle className="h-6 w-6 text-red-600" />
+        <AlertDescription className="text-base text-red-800 font-semibold">
+          <strong className="text-red-900">⚠️ ATENÇÃO:</strong> Após a confirmação da inscrição, não será possível realizar alterações nos dados informados. Revise tudo cuidadosamente antes de prosseguir para o pagamento.
         </AlertDescription>
       </Alert>
     </div>
   );
 }
 
-// Componente auxiliar para exibir informações
-function InfoItem({ label, value }: { label: string; value: string }) {
+// Componente auxiliar para InfoBox
+function InfoBox({ 
+  label, 
+  value, 
+  icon 
+}: { 
+  label: string; 
+  value: string;
+  icon: React.ReactNode;
+}) {
   return (
-    <div className="bg-white p-3 rounded-lg border border-gray-200">
-      <p className="text-xs text-gray-500 mb-1 font-semibold">{label}</p>
-      <p className="text-sm font-bold text-gray-800">{value}</p>
+    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-[#00B8D4] transition-all">
+      <div className="flex items-center gap-2 mb-2">
+        {icon}
+        <p className="text-xs text-gray-600 font-bold uppercase">{label}</p>
+      </div>
+      <p className="text-base font-bold text-gray-800">{value}</p>
     </div>
   );
 }

@@ -8,7 +8,7 @@ async function main() {
   await prisma.categoria.create({
     data: {
       nome: '3km',
-      descricao: 'Caminhada de 3 quilômetros - Ideal para iniciantes',
+      descricao: 'Corrida ideal para iniciantes',
       distancia: 3.0,
     },
   })
