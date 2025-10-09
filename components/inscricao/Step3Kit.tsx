@@ -62,17 +62,11 @@ export function Step3Kit({ form }: Step3Props) {
         const kitsRes = await fetch("/api/kits");
         const kitsData = await kitsRes.json();
 
-        console.log("Dados recebidos da API:", kitsData);
-
         if (Array.isArray(kitsData)) {
           setKits(kitsData);
-
         } else if (kitsData?.kits && Array.isArray(kitsData.kits)) {
           setKits(kitsData.kits);
-
         } else {
-          console.error("Formato de dados inválido:", kitsData);
-
           setKits([
             {
               id: "1",
@@ -97,7 +91,6 @@ export function Step3Kit({ form }: Step3Props) {
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
         setKits([]);
-
       } finally {
         setLoading(false);
       }
@@ -107,7 +100,6 @@ export function Step3Kit({ form }: Step3Props) {
   }, []);
 
   const kitIdSelecionado = form.watch("kitId");
-
   const kitSelecionado = Array.isArray(kits)
     ? kits.find((kit) => kit.id === kitIdSelecionado)
     : undefined;
@@ -116,99 +108,118 @@ export function Step3Kit({ form }: Step3Props) {
 
   if (loading) {
     return (
-      <div className="text-center py-12">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#00B8D4] border-t-transparent"></div>
-
-        <p className="text-gray-600 mt-4 font-semibold">Carregando kits disponíveis...</p>
+      <div className="text-center py-8 sm:py-12">
+        <div className="inline-block animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-4 border-[#00B8D4] border-t-transparent"></div>
+        <p className="text-gray-600 mt-3 sm:mt-4 font-semibold text-sm sm:text-base">Carregando kits disponíveis...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="bg-gradient-to-r bg-[#FFE66D] p-6 rounded-xl">
-        <div className="flex items-center gap-3">
-          <Shirt className="w-8 h-8 text-[#E53935]" />
-
+    <div className="space-y-4 sm:space-y-6">
+      <div className="bg-gradient-to-r bg-[#FFE66D] p-4 sm:p-6 rounded-xl">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Shirt className="w-6 h-6 sm:w-8 sm:h-8 text-[#E53935]" />
           <div>
-            <h3 className="text-xl font-black text-[#E53935]">Kit do Participante</h3>
-
-            <p className="text-sm text-gray-700">Selecione o tamanho da sua camisa oficial</p>
+            <h3 className="text-lg sm:text-xl font-black text-[#E53935]">Kit do Participante</h3>
+            <p className="text-xs sm:text-sm text-gray-700">Selecione o tamanho da sua camisa oficial</p>
           </div>
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
+      <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
         <FormField control={form.control} name="kitId" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#E53935] font-bold text-lg flex items-center gap-2">
-                <Flag className="w-5 h-5" /> Escolha seu Kit *
+              <FormLabel className="text-[#E53935] font-bold text-base sm:text-lg flex items-center gap-2">
+                <Flag className="w-4 h-4 sm:w-5 sm:h-5" /> Escolha seu Kit *
               </FormLabel>
 
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="border-2 border-[#00B8D4] h-12 text-base ">
+                  <SelectTrigger className="border-2 border-[#00B8D4] h-10 sm:h-12 text-sm sm:text-base">
                     <SelectValue placeholder="Selecione o kit" />
                   </SelectTrigger>
                 </FormControl>
 
                 <SelectContent>
-                  {/* ✅ Validação antes do map */}
-                  {Array.isArray(kits) && kits.length > 0 ? (kits.map((kit) => (<SelectItem key={kit.id} value={kit.id} className="text-base">{kit.nome}</SelectItem>))) : (<SelectItem value="none" disabled>Nenhum kit disponível</SelectItem>)}
+                  {Array.isArray(kits) && kits.length > 0 ? (kits.map((kit) => (<SelectItem key={kit.id} value={kit.id} className="text-sm sm:text-base">{kit.nome}</SelectItem>))) : (<SelectItem value="none" disabled>Nenhum kit disponível</SelectItem>)}
                 </SelectContent>
               </Select>
 
-              <FormDescription className="text-gray-600">Escolha o kit que deseja para a corrida</FormDescription>
-
+              <FormDescription className="text-gray-600 text-xs sm:text-sm">Escolha o kit que deseja para a corrida</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
       </div>
 
+      {/* Card do Kit - Desktop e Mobile */}
       {kitSelecionado && (
-        <div className="fixed top-[280px] right-6 z-40 w-80">
-          <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-2xl">
-            <CardContent className="pt-8 pb-8 px-6">
-              <div className="space-y-4 text-white">
-                <div className="flex items-start justify-between">
-                  <Badge variant="secondary" className="bg-white text-[#00B8D4] font-bold px-4 py-2 text-base">
-                    {kitSelecionado.nome}
-                  </Badge>
-                </div>
+        <>
+          {/* Versão Desktop - Flutuante */}
+          <div className="hidden xl:block fixed top-[280px] right-6 z-40 w-80">
+            <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-2xl">
+              <CardContent className="pt-6 sm:pt-8 pb-6 sm:pb-8 px-4 sm:px-6">
+                <div className="space-y-3 sm:space-y-4 text-white">
+                  <div className="flex items-start justify-between">
+                    <Badge variant="secondary" className="bg-white text-[#00B8D4] font-bold px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base">
+                      {kitSelecionado.nome}
+                    </Badge>
+                  </div>
 
-                <div className="pt-4 border-t border-white/30">
-                  <p className="text-sm text-white/80 mb-2">Itens inclusos:</p>
-                  <p className="text-xl font-bold text-white leading-relaxed">{kitSelecionado.itens}</p>
+                  <div className="pt-3 sm:pt-4 border-t border-white/30">
+                    <p className="text-xs sm:text-sm text-white/80 mb-2">Itens inclusos:</p>
+                    <p className="text-lg sm:text-xl font-bold text-white leading-relaxed">{kitSelecionado.itens}</p>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Versão Mobile/Tablet - Inline */}
+          <div className="xl:hidden">
+            <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-lg">
+              <CardContent className="pt-6 pb-6 px-4">
+                <div className="space-y-3 text-white">
+                  <div className="flex items-start justify-between">
+                    <Badge variant="secondary" className="bg-white text-[#00B8D4] font-bold px-3 py-1.5 text-sm">
+                      {kitSelecionado.nome}
+                    </Badge>
+                  </div>
+
+                  <div className="pt-3 border-t border-white/30">
+                    <p className="text-xs text-white/80 mb-2">Itens inclusos:</p>
+                    <p className="text-base sm:text-lg font-bold text-white leading-relaxed">{kitSelecionado.itens}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </>
       )}
 
       <FormField control={form.control} name="tamanhoCamisa" render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-[#E53935] font-bold text-lg flex items-center gap-2">
-              <Ruler className="w-5 h-5" />Tamanho da Camisa *
+            <FormLabel className="text-[#E53935] font-bold text-base sm:text-lg flex items-center gap-2">
+              <Ruler className="w-4 h-4 sm:w-5 sm:h-5" />Tamanho da Camisa *
             </FormLabel>
 
-            <FormDescription className="text-gray-600 mb-4">Escolha o tamanho que melhor se ajusta a você</FormDescription>
+            <FormDescription className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">Escolha o tamanho que melhor se ajusta a você</FormDescription>
 
             <FormControl>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 mt-2">
+              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 gap-2 mt-2">
                 {tamanhos.map((tamanho) => {
                   const isSelected = field.value === tamanho.value;
 
                   return (
                     <Card key={tamanho.value} className={`cursor-pointer transition-all hover:shadow-xl transform hover:scale-105 ${isSelected? "border-[#00B8D4] border-4 bg-gradient-to-br from-[#00B8D4] to-[#00a0c0] shadow-lg": "border-gray-200 hover:border-[#FFE66D] bg-white"}`}onClick={() => field.onChange(tamanho.value)}>
-                      <CardContent className="p-2 text-center h-[90px] flex flex-col items-center justify-center relative">
+                      <CardContent className="p-2 sm:p-3 text-center h-[70px] sm:h-[90px] flex flex-col items-center justify-center relative">
 
-                        {isSelected && (<div className="absolute top-1 right-1"><div className="bg-white rounded-full p-0.5 shadow-md"><Check className="w-3 h-3 text-[#00B8D4]" /></div></div>)}
+                        {isSelected && (<div className="absolute top-0.5 sm:top-1 right-0.5 sm:right-1"><div className="bg-white rounded-full p-0.5 shadow-md"><Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#00B8D4]" /></div></div>)}
 
-                        <div className={`text-3xl font-black mb-0.5 ${isSelected ? 'text-white' : 'text-[#E53935]'}`}>{tamanho.label}</div>
+                        <div className={`text-2xl sm:text-3xl font-black mb-0.5 ${isSelected ? 'text-white' : 'text-[#E53935]'}`}>{tamanho.label}</div>
 
-                        <div className={`text-xs font-semibold ${isSelected ? 'text-white' : 'text-gray-600'}`}>{tamanho.nome}</div>
+                        <div className={`text-[10px] sm:text-xs font-semibold ${isSelected ? 'text-white' : 'text-gray-600'}`}>{tamanho.nome}</div>
                       </CardContent>
                     </Card>
                   );
@@ -223,24 +234,24 @@ export function Step3Kit({ form }: Step3Props) {
 
       {tamanhoSelecionado && (
         <Card className="bg-gradient-to-r bg-[#FFE66D] border-none shadow-lg">
-          <CardContent className="pt-6">
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 mb-3">
-                <Badge variant="secondary" className="text-2xl px-4 py-2 bg-white text-[#E53935] font-black">
+          <CardContent className="pt-4 sm:pt-6">
+            <div className="space-y-2 sm:space-y-3">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                <Badge variant="secondary" className="text-xl sm:text-2xl px-3 sm:px-4 py-1.5 sm:py-2 bg-white text-[#E53935] font-black">
                   {tamanhoSelecionado}
                 </Badge>
 
-                <span className="font-black text-xl text-[#E53935]">{tamanhos.find((t) => t.value === tamanhoSelecionado)?.nome}</span>
+                <span className="font-black text-lg sm:text-xl text-[#E53935]">{tamanhos.find((t) => t.value === tamanhoSelecionado)?.nome}</span>
               </div>
 
-              <div className="bg-white p-4 rounded-lg">
-                <p className="font-bold mb-2 text-[#E53935] flex items-center gap-2"> <Ruler className="w-4 h-4" />Medidas aproximadas:</p>
-                <p className="text-gray-700 font-semibold">{tamanhos.find((t) => t.value === tamanhoSelecionado)?.medidas}</p>
+              <div className="bg-white p-3 sm:p-4 rounded-lg">
+                <p className="font-bold mb-1 sm:mb-2 text-[#E53935] flex items-center gap-2 text-sm sm:text-base"> <Ruler className="w-3 h-3 sm:w-4 sm:h-4" />Medidas aproximadas:</p>
+                <p className="text-gray-700 font-semibold text-xs sm:text-base">{tamanhos.find((t) => t.value === tamanhoSelecionado)?.medidas}</p>
               </div>
 
-              <div className="bg-white p-4 rounded-lg border-2 border-[#00B8D4]">
-                <p className="font-bold mb-2 text-[#00B8D4] flex items-center gap-2"><AlertCircle className="w-4 h-4" />Dica:</p>
-                <p className="text-gray-700 text-sm">Se você estiver em dúvida entre dois tamanhos, recomendamos escolher o tamanho maior para maior conforto durante a corrida.</p>
+              <div className="bg-white p-3 sm:p-4 rounded-lg border-2 border-[#00B8D4]">
+                <p className="font-bold mb-1 sm:mb-2 text-[#00B8D4] flex items-center gap-2 text-sm sm:text-base"><AlertCircle className="w-3 h-3 sm:w-4 sm:h-4" />Dica:</p>
+                <p className="text-gray-700 text-xs sm:text-sm">Se você estiver em dúvida entre dois tamanhos, recomendamos escolher o tamanho maior para maior conforto durante a corrida.</p>
               </div>
             </div>
           </CardContent>
@@ -248,28 +259,28 @@ export function Step3Kit({ form }: Step3Props) {
       )}
 
       <Card className="bg-[#FFE66D] border-2 border-gray-200">
-        <CardContent className="pt-6">
-          <h4 className="font-black text-[#E53935] mb-2 text-lg flex gap-2"><Shirt className="w-7 h-7" />Informações Importantes</h4>
+        <CardContent className="pt-4 sm:pt-6">
+          <h4 className="font-black text-[#E53935] mb-2 text-base sm:text-lg flex gap-2"><Shirt className="w-5 h-5 sm:w-6 sm:h-6 sm:w-7 sm:h-7" />Informações Importantes</h4>
 
-          <ul className="space-y-2 text-gray-700">
+          <ul className="space-y-1.5 sm:space-y-2 text-gray-700">
             <li className="flex items-start gap-2">
               <span className="text-[#00B8D4] font-bold">•</span>
-              <span className="text-gray-700 font-semibold">A camisa é de tecido tecnológico dry-fit</span>
+              <span className="text-gray-700 font-semibold text-xs sm:text-sm">A camisa é de tecido tecnológico dry-fit</span>
             </li>
 
             <li className="flex items-start gap-2">
               <span className="text-[#00B8D4] font-bold">•</span>
-              <span className="text-gray-700 font-semibold">Não será possível trocar o tamanho após a inscrição</span>
+              <span className="text-gray-700 font-semibold text-xs sm:text-sm">Não será possível trocar o tamanho após a inscrição</span>
             </li>
 
             <li className="flex items-start gap-2">
               <span className="text-[#00B8D4] font-bold">•</span>
-              <span className="text-gray-700 font-semibold">Escolha com atenção baseando-se nas medidas</span>
+              <span className="text-gray-700 font-semibold text-xs sm:text-sm">Escolha com atenção baseando-se nas medidas</span>
             </li>
 
             <li className="flex items-start gap-2">
               <span className="text-[#00B8D4] font-bold">•</span>
-              <span className="text-gray-700 font-semibold">Em caso de dúvida, entre em contato com a organização</span>
+              <span className="text-gray-700 font-semibold text-xs sm:text-sm">Em caso de dúvida, entre em contato com a organização</span>
             </li>
           </ul>
         </CardContent>
