@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'
 import Link from 'next/link';
+import { Facebook, Instagram } from 'lucide-react';
 
 export default function Home() {
   const { data: session, status } = useSession()
@@ -204,10 +205,21 @@ export default function Home() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-6 sm:mb-8 lg:mb-4">INSCRIÇÃO</h2>
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
+            
+            {/* Card do Kit Oficial */}
+            <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-10 relative">
+              {/* Badge do Primeiro Lote - Degradê */}
+              <div className="absolute -top-4 -right-4 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-5 py-3 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform">
+                <div className="text-center">
+                  {/* <p className="text-xs font-bold uppercase">Últimas Vagas</p> */}
+                  <p className="text-xl font-black flex items-center gap-1">
+                    <span></span> 1º LOTE <span></span>
+                  </p>
+                </div>
+              </div>
 
-            <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-10">
               <div className="bg-[#00B8D4] text-white py-3 sm:py-4 px-4 sm:px-6 rounded-xl text-center mb-6 -mt-10 sm:-mt-14 lg:-mt-16 shadow-lg">
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-black">KIT DE PARTICIPAÇÃO</h3>
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-black">KIT OFICIAL</h3>
               </div>
 
               <div className="text-center mb-6 sm:mb-8">
@@ -251,23 +263,24 @@ export default function Home() {
                 </ul>
               </div>
 
-              <button className="w-full bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg">GARANTIR MINHA VAGA</button>
+              <button className="w-full bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg">
+                GARANTIR MEU KIT!
+              </button>
             </div>
 
-            <div className="space-y-4 sm:space-y-6">
-
+            {/* Coluna da direita - Informações adicionais */}
+            <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-center mb-0">
                 <img src="/julius.png" alt="Julius" className="w-full max-w-xs sm:max-w-sm h-auto -mt-8 sm:-mt-14 lg:-mt-28"/>
               </div>
 
               <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
                 <h4 className="text-xl sm:text-2xl font-bold text-[#E53935] mb-2">📍 Retirada do Kit</h4>
-                <p className="text-sm sm:text-base text-gray-700"> Os kits poderão ser retirados no dia do evento a partir das <strong>06:30</strong> ou em local a ser divulgado nos dias anteriores.</p>
+                <p className="text-sm sm:text-base text-gray-700">Os kits poderão ser retirados no dia do evento a partir das <strong>06:30</strong> ou em local a ser divulgado nos dias anteriores.</p>
               </div>
 
               <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
                 <h4 className="text-xl sm:text-2xl font-bold text-[#E53935] mb-2">👕 Tamanhos Disponíveis</h4>
-
                 <p className="text-sm sm:text-base text-gray-700 mb-2 sm:mb-1">Camisetas disponíveis nos tamanhos:</p>
 
                 <div className="flex flex-wrap gap-2">
@@ -281,10 +294,10 @@ export default function Home() {
 
               <div className="bg-[#00B8D4] p-4 sm:p-6 rounded-xl shadow-lg text-white">
                 <h4 className="text-xl sm:text-2xl font-bold mb-2">⚡ Vagas Limitadas!</h4>
-
                 <p className="text-sm sm:text-base">As inscrições são limitadas. Garanta sua vaga o quanto antes para não ficar de fora dessa experiência incrível!</p>
               </div>
             </div>
+
           </div>
         </div>
       </section>
@@ -387,106 +400,236 @@ export default function Home() {
               </div>
             </div>
           )}
+
+          {/* Características do Circuito */}
+          <div className=" p-6 sm:p-8 mb-6 sm:mb-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-6 flex items-center justify-center gap-2">
+              <span className="text-2xl">🏃‍♂️</span> CARACTERÍSTICAS DO CIRCUITO
+            </h3>
+
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+              <div className="bg-[#FFE66D] p-4 rounded-xl text-center hover:scale-105 transition-transform">
+                <div className="text-3xl mb-2">🛣️</div>
+                <h4 className="font-bold text-[#E53935] mb-2 text-sm">Terreno</h4>
+                <p className="text-xs text-gray-700">Predominantemente plano com inclinações suaves</p>
+              </div>
+
+              <div className="bg-[#FFE66D] p-4 rounded-xl text-center hover:scale-105 transition-transform">
+                <div className="text-3xl mb-2">🚧</div>
+                <h4 className="font-bold text-[#E53935] mb-2 text-sm">Segurança</h4>
+                <p className="text-xs text-gray-700">Circuito fechado ao tráfego de veículos</p>
+              </div>
+
+              <div className="bg-[#FFE66D] p-4 rounded-xl text-center hover:scale-105 transition-transform">
+                <div className="text-3xl mb-2">🗺️</div>
+                <h4 className="font-bold text-[#E53935] mb-2 text-sm">Marcação</h4>
+                <p className="text-xs text-gray-700">Sinais, placas e fitas ao longo do trajeto</p>
+              </div>
+
+              <div className="bg-[#FFE66D] p-4 rounded-xl text-center hover:scale-105 transition-transform">
+                <div className="text-3xl mb-2">💧</div>
+                <h4 className="font-bold text-[#E53935] mb-2 text-sm">Hidratação</h4>
+                <p className="text-xs text-gray-700">Postos a cada 2,5 km com água e suprimentos</p>
+              </div>
+
+              <div className="bg-[#FFE66D] p-4 rounded-xl text-center hover:scale-105 transition-transform col-span-2 lg:col-span-1">
+                <div className="text-3xl mb-2">⏱️</div>
+                <h4 className="font-bold text-[#E53935] mb-2 text-sm">Cronometragem</h4>
+                <p className="text-xs text-gray-700">Registro eletrônico de tempo</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
       {/* INFORMAÇÕES DO EVENTO */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-[#FFE66D]">
+      <section id="informacoes" className="py-12 sm:py-16 lg:py-20 bg-[#FFE66D]">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-8 sm:mb-12">INFORMAÇÕES DO EVENTO</h2>
 
+          {/* Percurso e Arena */}
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
 
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
-              <h3 className="text-xl sm:text-2xl font-bold text-[#E53935] mb-4 sm:mb-6 text-center">📍 ARENA THE CHRIS</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-[#E53935] mb-4 sm:mb-6 text-center flex items-center justify-center gap-2">
+                <span className="text-2xl">📍</span> ARENA THE CHRIS
+              </h3>
 
-              <div className="space-y-3 sm:space-y-4">
-                <div>
-                  <h4 className="font-bold text-base sm:text-lg mb-1 text-[#00B8D4]">Concentração:</h4>
-
+              <div className="space-y-4">
+                <div className="bg-[#FFE66D] p-4 rounded-xl">
+                  <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🏁 Concentração</h4>
                   <p className="text-sm sm:text-base text-gray-800">Rua de Minas no Shopping Monte Carmo em frente ao The Chris Gastrobar</p>
                 </div>
 
-                <div>
-                  <h4 className="font-bold text-base sm:text-lg mb-1 text-[#00B8D4]">Largada e Chegada:</h4>
-
+                <div className="bg-[#FFE66D] p-4 rounded-xl">
+                  <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🚀 Largada e Chegada</h4>
                   <p className="text-sm sm:text-base text-gray-800">Estacionamento Monte Carmo Shopping</p>
                 </div>
 
-                <div>
-                  <h4 className="font-bold text-base sm:text-lg mb-1 text-[#00B8D4]">Trajeto:</h4>
-
-                  <p className="text-sm sm:text-base text-gray-800">Av. Marco Tulio Isaac e Edméia Mattos Lazzarotti</p>
+                <div className="bg-[#FFE66D] p-4 rounded-xl">
+                  <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🏆 Premiação</h4>
+                  <p className="text-sm sm:text-base text-gray-800">Medalhas para todos! Troféus para os 3 primeiros colocados nas categorias 5km e 10km.</p>
                 </div>
 
-                <div className="bg-[#FFE66D] p-3 sm:p-4 rounded-lg mt-4">
-                  <p className="text-sm sm:text-base text-gray-800"><strong>Pós-corrida:</strong> Premiação e confraternização no The Chris Gastrobar</p>
+                <div className="bg-[#FFE66D] p-4 rounded-xl">
+                  <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🎉 Pós-Corrida</h4>
+                  <p className="text-sm sm:text-base text-gray-800">Confraternização no The Chris Gastrobar</p>
                 </div>
               </div>
             </div>
 
             <div className="bg-[#00B8D4] p-6 sm:p-8 rounded-2xl shadow-lg text-white">
-              <h3 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">🏥 ESTRUTURA DE APOIO</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6 flex items-center justify-center gap-2">
+                <span className="text-2xl">🏥</span> ESTRUTURA DE APOIO
+              </h3>
+
               <p className="text-sm sm:text-base text-center mb-4 sm:mb-6">Todo suporte necessário aos participantes:</p>
 
-              <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                <div className="bg-white/10 p-2 sm:p-3 rounded-lg text-center">
-                  <p className="font-semibold text-xs sm:text-sm">🚑 Ambulância</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
+                  <div className="text-3xl mb-2">🚑</div>
+
+                  <p className="font-semibold text-xs sm:text-sm">Ambulância</p>
                 </div>
 
-                <div className="bg-white/10 p-2 sm:p-3 rounded-lg text-center">
-                  <p className="font-semibold text-xs sm:text-sm">🍽️ Praça de Alimentação</p>
+                <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
+                  <div className="text-3xl mb-2">👨‍⚕️</div>
+
+                  <p className="font-semibold text-xs sm:text-sm">Equipe Médica</p>
                 </div>
 
-                <div className="bg-white/10 p-2 sm:p-3 rounded-lg text-center">
-                  <p className="font-semibold text-xs sm:text-sm">🎒 Guarda Volumes</p>
+                <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
+                  <div className="text-3xl mb-2">🍽️</div>
+
+                  <p className="font-semibold text-xs sm:text-sm">Praça de Alimentação</p>
                 </div>
 
-                <div className="bg-white/10 p-2 sm:p-3 rounded-lg text-center">
-                  <p className="font-semibold text-xs sm:text-sm">👟 Espaço Atleta</p>
+                <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
+                  <div className="text-3xl mb-2">🎒</div>
+
+                  <p className="font-semibold text-xs sm:text-sm">Guarda Volumes</p>
                 </div>
 
-                <div className="bg-white/10 p-2 sm:p-3 rounded-lg text-center">
-                  <p className="font-semibold text-xs sm:text-sm">🚻 Banheiros</p>
+                <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
+                  <div className="text-3xl mb-2">👟</div>
+
+                  <p className="font-semibold text-xs sm:text-sm">Espaço Atleta</p>
                 </div>
 
-                <div className="bg-white/10 p-2 sm:p-3 rounded-lg text-center">
-                  <p className="font-semibold text-xs sm:text-sm">🏆 Área de Premiação</p>
+                <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
+                  <div className="text-3xl mb-2">🚻</div>
+
+                  <p className="font-semibold text-xs sm:text-sm">Banheiros</p>
+                </div>
+
+                <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
+                  <div className="text-3xl mb-2">🅿️</div>
+
+                  <p className="font-semibold text-xs sm:text-sm">Estacionamento</p>
+                </div>
+
+                <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
+                  <div className="text-3xl mb-2">💧</div>
+
+                  <p className="font-semibold text-xs sm:text-sm">Postos de Hidratação</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
-            <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-4 sm:mb-6">CARACTERÍSTICAS DO CIRCUITO</h3>
+          {/* Organização do Evento */}
+          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg mb-6 sm:mb-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-center text-[#00B8D4] mb-6 flex items-center justify-center gap-2">
+              <span className="text-2xl">🎪</span> ENTRETENIMENTO
+            </h3>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-              <div className="bg-[#FFE66D] p-3 sm:p-4 rounded-xl text-center">
-                <div className="text-2xl sm:text-3xl mb-2">🛣️</div>
-                <h4 className="font-bold text-[#E53935] mb-1 text-xs sm:text-sm">Terreno</h4>
+            {/* Entretenimento */}
+            <div className="bg-gradient-to-br from-[#00B8D4] to-[#00a0c0] p-5 rounded-xl text-white md:col-span-2">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
+                  <div className="text-3xl mb-2">🎵</div>
+                  <p className="text-sm sm:text-base font-semibold">Música ao vivo</p>
+                </div>
 
-                <p className="text-[10px] sm:text-xs text-gray-700">Predominantemente plano com inclinações suaves</p>
+                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
+                  <div className="text-3xl mb-2">💃</div>
+                  <p className="text-sm sm:text-base font-semibold">Aula de dança</p>
+                </div>
+
+                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
+                  <div className="text-3xl mb-2">🌟</div>
+                  <p className="text-sm sm:text-base font-semibold">Influenciadores</p>
+                </div>
+
+                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
+                  <div className="text-3xl mb-2">🍎</div>
+                  <p className="text-sm sm:text-base font-semibold">Mesa de frutas</p>
+                </div>
+
+                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
+                  <div className="text-3xl mb-2">🎪</div>
+                  <p className="text-sm sm:text-base font-semibold">Atividades recreativas</p>
+                </div>
+
+                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
+                  <div className="text-3xl mb-2">🎁</div>
+                  <p className="text-sm sm:text-base font-semibold">Stands de patrocinadores</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Cronograma */}
+          <div className="bg-gradient-to-br from-[#E53935] to-[#c62828] p-6 sm:p-8 rounded-2xl shadow-2xl text-white">
+            <h3 className="text-2xl sm:text-3xl font-black text-center mb-6 flex items-center justify-center gap-3">
+              <span className="text-3xl">🕐</span> CRONOGRAMA DO DIA
+            </h3>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">07:00</p>
+                <p className="text-sm">Abertura da Arena The Chris</p>
               </div>
 
-              <div className="bg-[#FFE66D] p-3 sm:p-4 rounded-xl text-center">
-                <div className="text-2xl sm:text-3xl mb-2">🚧</div>
-                <h4 className="font-bold text-[#E53935] mb-1 text-xs sm:text-sm">Segurança</h4>
-
-                <p className="text-[10px] sm:text-xs text-gray-700">Circuito fechado ao tráfego de veículos</p>
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">07:15</p>
+                <p className="text-sm">Mesa de frutas e música ambiente</p>
               </div>
 
-              <div className="bg-[#FFE66D] p-3 sm:p-4 rounded-xl text-center">
-                <div className="text-2xl sm:text-3xl mb-2">🗺️</div>
-                <h4 className="font-bold text-[#E53935] mb-1 text-xs sm:text-sm">Marcação</h4>
-
-                <p className="text-[10px] sm:text-xs text-gray-700">Sinais, placas e fitas ao longo do trajeto</p>
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">07:45</p>
+                <p className="text-sm">Aquecimento</p>
               </div>
 
-              <div className="bg-[#FFE66D] p-3 sm:p-4 rounded-xl text-center col-span-2 lg:col-span-1">
-                <div className="text-2xl sm:text-3xl mb-2">💧</div>
-                <h4 className="font-bold text-[#E53935] mb-1 text-xs sm:text-sm">Hidratação</h4>
+              <div className="bg-[#FFE66D] text-[#E53935] p-4 rounded-xl border-2 border-white font-bold hover:scale-105 transition-transform">
+                <p className="font-black text-lg mb-1">08:00 🏃</p>
+                <p className="text-sm font-black">LARGADA 10KM</p>
+              </div>
 
-                <p className="text-[10px] sm:text-xs text-gray-700">Postos a cada 2,5 km com água e suprimentos</p>
+              <div className="bg-[#FFE66D] text-[#E53935] p-4 rounded-xl border-2 border-white font-bold hover:scale-105 transition-transform">
+                <p className="font-black text-lg mb-1">08:15 🏃</p>
+                <p className="text-sm font-black">LARGADA 5KM</p>
+              </div>
+
+              <div className="bg-[#FFE66D] text-[#E53935] p-4 rounded-xl border-2 border-white font-bold hover:scale-105 transition-transform">
+                <p className="font-black text-lg mb-1">08:20 🚶</p>
+                <p className="text-sm font-black">LARGADA 3KM</p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">09:30 - 10:30</p>
+                <p className="text-sm">Show ao vivo 🎤</p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">10:40</p>
+                <p className="text-sm">Premiação e Sorteios 🏆</p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all md:col-span-2 lg:col-span-1">
+                <p className="font-black text-lg mb-1">12:00</p>
+                <p className="text-sm">Encerramento</p>
               </div>
             </div>
           </div>
@@ -541,55 +684,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-[#FFE66D]">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-8 sm:mb-12">DÚVIDAS FREQUENTES</h2>
-
-          <div className="space-y-3 sm:space-y-4">
-            <details className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
-              <summary className="font-bold text-base sm:text-lg cursor-pointer text-[#E53935]">Como faço para me inscrever?</summary>
-
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-700">Basta escolher seu kit acima e clicar em "Comprar Agora". Você será direcionado para o sistema de pagamento seguro.</p>
-            </details>
-
-            <details className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
-              <summary className="font-bold text-base sm:text-lg cursor-pointer text-[#E53935]">Posso retirar o kit no dia do evento?</summary>
-
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-700">Sim! Haverá retirada de kits no dia do evento a partir das 06:30. Recomendamos chegar com antecedência.</p>
-            </details>
-
-            <details className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
-              <summary className="font-bold text-base sm:text-lg cursor-pointer text-[#E53935]">Crianças podem participar?</summary>
-
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-700">Sim! Menores de 18 anos podem participar do percurso de 5km acompanhados de um responsável.</p>
-            </details>
-
-            <details className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
-              <summary className="font-bold text-base sm:text-lg cursor-pointer text-[#E53935]">O que acontece em caso de chuva?</summary>
-
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-700">O evento acontece com chuva ou sol! Só será adiado em casos de condições climáticas extremas.</p>
-            </details>
-          </div>
-        </div>
-      </section>
-
       {/* FOOTER */}
       <footer className="bg-gray-900 text-white py-8 sm:py-12">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
             <div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#FFE66D] mb-3 sm:mb-4">TODO MUNDO CORRE COM O CHRIS</h3>
-
               <p className="text-sm sm:text-base text-gray-400">A corrida mais divertida e nostálgica do ano!</p>
             </div>
 
             <div>
               <h4 className="font-bold mb-3 sm:mb-4 text-base sm:text-lg">CONTATO</h4>
-
               <ul className="space-y-1 sm:space-y-2 text-gray-400 text-sm sm:text-base">
                 <li>📧 contato@corridachris.com.br</li>
-                <li>📱 (31) 99999-9999</li>
+                <li>📱 (31) 99324-6370</li>
                 <li>📍 Betim, Minas Gerais</li>
               </ul>
             </div>
@@ -598,11 +706,22 @@ export default function Home() {
               <h4 className="font-bold mb-3 sm:mb-4 text-base sm:text-lg">REDES SOCIAIS</h4>
 
               <div className="flex gap-3 sm:gap-4">
-                <button className="bg-[#E53935] w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#c62828] transition text-sm sm:text-base">f</button>
+                {/* Facebook */}
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-[#E53935] w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center hover:bg-[#c62828] hover:scale-110 transition-all shadow-lg">
+                  <Facebook className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="white" />
+                </a>
 
-                <button className="bg-[#E53935] w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#c62828] transition text-sm sm:text-base">📷</button>
+                {/* Instagram */}
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-[#E53935] w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center hover:bg-[#c62828] hover:scale-110 transition-all shadow-lg">
+                  <Instagram className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                </a>
 
-                <button className="bg-[#E53935] w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#c62828] transition text-sm sm:text-base">🐦</button>
+                {/* X (Twitter) */}
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="bg-[#E53935] w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center hover:bg-[#c62828] hover:scale-110 transition-all shadow-lg">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
