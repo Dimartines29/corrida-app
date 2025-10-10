@@ -128,8 +128,8 @@ export default function Home() {
             <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
               <button onClick={() => scrollToSection('inicio')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">Início</button>
               <button onClick={() => scrollToSection('inscricoes')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">Inscrições</button>
-              <button onClick={() => scrollToSection('informacoes')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">Informações</button>
               <button onClick={() => scrollToSection('percurso')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">Percurso</button>
+              <button onClick={() => scrollToSection('informacoes')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">Informações</button>
             </div>
 
             <div className="hidden lg:block">
@@ -145,8 +145,8 @@ export default function Home() {
             <div className="lg:hidden pb-4 bg-gray-100">
               <button onClick={() => scrollToSection('inicio')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Início</button>
               <button onClick={() => scrollToSection('inscricoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Inscrições</button>
-              <button onClick={() => scrollToSection('informacoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Informações</button>
               <button onClick={() => scrollToSection('percurso')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Percurso</button>
+              <button onClick={() => scrollToSection('informacoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Informações</button>
               {renderMobileButton()}
             </div>
           )}
@@ -205,7 +205,7 @@ export default function Home() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-6 sm:mb-8 lg:mb-4">INSCRIÇÃO</h2>
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
-            
+
             {/* Card do Kit Oficial */}
             <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-10 relative">
               {/* Badge do Primeiro Lote - Degradê */}
@@ -263,9 +263,9 @@ export default function Home() {
                 </ul>
               </div>
 
-              <button className="w-full bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg">
+              <Link href="/inscricao" className="block w-full bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg text-center">
                 GARANTIR MEU KIT!
-              </button>
+              </Link>
             </div>
 
             {/* Coluna da direita - Informações adicionais */}
@@ -312,56 +312,6 @@ export default function Home() {
           <h3 className="text-2xl sm:text-3xl font-bold text-center text-[#E53935] mb-6 sm:mb-8">ESCOLHA SUA DISTÂNCIA</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
-            <div onClick={() => setSelectedDistance(3)}className={`p-4 sm:p-6 rounded-xl shadow-lg transform hover:scale-105 transition cursor-pointer ${selectedDistance === 3 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'}`}>
-
-              <div className="text-center mb-3 sm:mb-4">
-                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 3 ? 'text-white' : 'text-[#E53935]'}`}>3KM</h3>
-
-                <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 3 ? 'text-white' : 'text-gray-700'}`}>CAMINHADA</p>
-              </div>
-
-              <ul className={`space-y-2 text-sm sm:text-base ${selectedDistance === 3 ? 'text-white' : 'text-gray-800'}`}>
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Largada às 08:20</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Ritmo tranquilo</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Ideal para iniciantes e famílias</span>
-                </li>
-              </ul>
-            </div>
-
-            <div onClick={() => setSelectedDistance(5)}className={`p-4 sm:p-6 rounded-xl shadow-lg transform hover:scale-105 transition cursor-pointer border-4 ${selectedDistance === 5 ? 'bg-[#E53935] text-white border-[#E53935]' : 'bg-[#FFE66D] border-[#E53935]'}`}>
-              <div className="text-center mb-3 sm:mb-4">
-                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 5 ? 'text-white' : 'text-[#E53935]'}`}>5KM</h3>
-
-                <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 5 ? 'text-white' : 'text-gray-700'}`}>CORRIDA</p>
-              </div>
-
-              <ul className={`space-y-2 text-sm sm:text-base ${selectedDistance === 5 ? 'text-white' : 'text-gray-800'}`}>
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Largada às 08:15</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Percurso predominantemente plano</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Cronometragem oficial</span>
-                </li>
-              </ul>
-            </div>
 
             <div onClick={() => setSelectedDistance(10)}className={`p-4 sm:p-6 rounded-xl shadow-lg transform hover:scale-105 transition cursor-pointer sm:col-span-2 md:col-span-1 ${selectedDistance === 10 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'}`}>
               <div className="text-center mb-3 sm:mb-4">
@@ -387,16 +337,104 @@ export default function Home() {
                 </li>
               </ul>
             </div>
+
+            <div onClick={() => setSelectedDistance(6)}className={`p-4 sm:p-6 rounded-xl shadow-lg transform hover:scale-105 transition cursor-pointer border-4 ${selectedDistance === 5 ? 'bg-[#E53935] text-white border-[#E53935]' : 'bg-[#FFE66D] border-[#E53935]'}`}>
+              <div className="text-center mb-3 sm:mb-4">
+                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 5 ? 'text-white' : 'text-[#E53935]'}`}>5KM</h3>
+
+                <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 5 ? 'text-white' : 'text-gray-700'}`}>CORRIDA</p>
+              </div>
+
+              <ul className={`space-y-2 text-sm sm:text-base ${selectedDistance === 5 ? 'text-white' : 'text-gray-800'}`}>
+                <li className="flex items-start">
+                  <span className="mr-2">✓</span>
+                  <span>Largada às 08:15</span>
+                </li>
+
+                <li className="flex items-start">
+                  <span className="mr-2">✓</span>
+                  <span>Percurso predominantemente plano</span>
+                </li>
+
+                <li className="flex items-start">
+                  <span className="mr-2">✓</span>
+                  <span>Cronometragem oficial</span>
+                </li>
+              </ul>
+            </div>
+
+            <div onClick={() => setSelectedDistance(3)}className={`p-4 sm:p-6 rounded-xl shadow-lg transform hover:scale-105 transition cursor-pointer ${selectedDistance === 3 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'}`}>
+
+              <div className="text-center mb-3 sm:mb-4">
+                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 3 ? 'text-white' : 'text-[#E53935]'}`}>3KM</h3>
+
+                <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 3 ? 'text-white' : 'text-gray-700'}`}>CAMINHADA</p>
+              </div>
+
+              <ul className={`space-y-2 text-sm sm:text-base ${selectedDistance === 3 ? 'text-white' : 'text-gray-800'}`}>
+                <li className="flex items-start">
+                  <span className="mr-2">✓</span>
+                  <span>Largada às 08:20</span>
+                </li>
+
+                <li className="flex items-start">
+                  <span className="mr-2">✓</span>
+                  <span>Ritmo tranquilo</span>
+                </li>
+
+                <li className="flex items-start">
+                  <span className="mr-2">✓</span>
+                  <span>Ideal para iniciantes e famílias</span>
+                </li>
+              </ul>
+            </div>
           </div>
 
           {selectedDistance && (
             <div className="mt-8 sm:mt-12 bg-gray-100 p-6 sm:p-8 rounded-2xl shadow-lg">
-              <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-4">📍 MAPA DO PERCURSO - {selectedDistance}KM</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-4">
+                📍 MAPA DO PERCURSO - {selectedDistance}KM
+              </h3>
 
-              <div className="bg-gray-300 h-48 sm:h-64 rounded-lg flex items-center justify-center">
-                {selectedDistance === 3 && (<p className="text-gray-600 text-base sm:text-lg px-4 text-center">Mapa de 3km será divulgado em breve</p>)}
-                {selectedDistance === 5 && (<p className="text-gray-600 text-base sm:text-lg px-4 text-center">Mapa de 5km será divulgado em breve</p>)}
-                {selectedDistance === 10 && (<p className="text-gray-600 text-base sm:text-lg px-4 text-center">Mapa de 10km será divulgado em breve</p>)}
+              <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+                {selectedDistance === 3 && (
+                  <iframe
+                    src="https://www.google.com/maps/d/embed?mid=1ACPm3ryBciDXEEChV9_p8kIypKNedQY&ehbc=2E312F"
+                    width="100%"
+                    height="550"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="rounded-lg"
+                  />
+                )}
+
+                {selectedDistance === 6 && (
+                  <iframe
+                    src="COLE_AQUI_O_LINK_DO_MAPA_5KM"
+                    width="100%"
+                    height="550"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="rounded-lg"
+                  />
+                )}
+
+                {selectedDistance === 10 && (
+                  <iframe
+                    src="COLE_AQUI_O_LINK_DO_MAPA_10KM"
+                    width="100%"
+                    height="550"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="rounded-lg"
+                  />
+                )}
               </div>
             </div>
           )}
@@ -533,48 +571,6 @@ export default function Home() {
                   <div className="text-3xl mb-2">💧</div>
 
                   <p className="font-semibold text-xs sm:text-sm">Postos de Hidratação</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Organização do Evento */}
-          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg mb-6 sm:mb-8">
-            <h3 className="text-xl sm:text-2xl font-bold text-center text-[#00B8D4] mb-6 flex items-center justify-center gap-2">
-              <span className="text-2xl">🎪</span> ENTRETENIMENTO
-            </h3>
-
-            {/* Entretenimento */}
-            <div className="bg-gradient-to-br from-[#00B8D4] to-[#00a0c0] p-5 rounded-xl text-white md:col-span-2">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
-                  <div className="text-3xl mb-2">🎵</div>
-                  <p className="text-sm sm:text-base font-semibold">Música ao vivo</p>
-                </div>
-
-                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
-                  <div className="text-3xl mb-2">💃</div>
-                  <p className="text-sm sm:text-base font-semibold">Aula de dança</p>
-                </div>
-
-                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
-                  <div className="text-3xl mb-2">🌟</div>
-                  <p className="text-sm sm:text-base font-semibold">Influenciadores</p>
-                </div>
-
-                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
-                  <div className="text-3xl mb-2">🍎</div>
-                  <p className="text-sm sm:text-base font-semibold">Mesa de frutas</p>
-                </div>
-
-                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
-                  <div className="text-3xl mb-2">🎪</div>
-                  <p className="text-sm sm:text-base font-semibold">Atividades recreativas</p>
-                </div>
-
-                <div className="bg-white/10 p-4 rounded-xl text-center border border-white/30">
-                  <div className="text-3xl mb-2">🎁</div>
-                  <p className="text-sm sm:text-base font-semibold">Stands de patrocinadores</p>
                 </div>
               </div>
             </div>
