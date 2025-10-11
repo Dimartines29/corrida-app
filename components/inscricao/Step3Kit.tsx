@@ -1,22 +1,13 @@
 // Step3Kit.tsx
-import { useState, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Flag, Shirt, Ruler, AlertCircle } from "lucide-react";
+import { Check, Shirt, Ruler, AlertCircle } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 interface Step3Props {
   form: UseFormReturn<InscricaoCompleta>;
-}
-
-interface Kit {
-  id: string;
-  nome: string;
-  preco: number;
-  itens: string;
 }
 
 const tamanhos = [
@@ -53,67 +44,7 @@ const tamanhos = [
 ];
 
 export function Step3Kit({ form }: Step3Props) {
-  const [kits, setKits] = useState<Kit[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const kitsRes = await fetch("/api/kits");
-        const kitsData = await kitsRes.json();
-
-        if (Array.isArray(kitsData)) {
-          setKits(kitsData);
-        } else if (kitsData?.kits && Array.isArray(kitsData.kits)) {
-          setKits(kitsData.kits);
-        } else {
-          setKits([
-            {
-              id: "1",
-              nome: "Kit Básico",
-              preco: 80,
-              itens: "Camisa + Número + Chip + Medalha"
-            },
-            {
-              id: "2",
-              nome: "Kit Premium",
-              preco: 130,
-              itens: "Kit Básico + Boné + Mochila + Lanche"
-            },
-            {
-              id: "3",
-              nome: "Kit VIP",
-              preco: 200,
-              itens: "Kit Premium + 2ª Camisa + Garrafa + Toalha + Foto + Massagem"
-            }
-          ]);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar dados:", error);
-        setKits([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const kitIdSelecionado = form.watch("kitId");
-  const kitSelecionado = Array.isArray(kits)
-    ? kits.find((kit) => kit.id === kitIdSelecionado)
-    : undefined;
-
   const tamanhoSelecionado = form.watch("tamanhoCamisa");
-
-  if (loading) {
-    return (
-      <div className="text-center py-8 sm:py-12">
-        <div className="inline-block animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-4 border-[#00B8D4] border-t-transparent"></div>
-        <p className="text-gray-600 mt-3 sm:mt-4 font-semibold text-sm sm:text-base">Carregando kits disponíveis...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-4 sm:space-y-6">
@@ -121,91 +52,14 @@ export function Step3Kit({ form }: Step3Props) {
         <div className="flex items-center gap-2 sm:gap-3">
           <Shirt className="w-6 h-6 sm:w-8 sm:h-8 text-[#E53935]" />
           <div>
-            <h3 className="text-lg sm:text-xl font-black text-[#E53935]">Kit do Participante</h3>
-            <p className="text-xs sm:text-sm text-gray-700">Selecione o tamanho da sua camisa oficial</p>
+            <h3 className="text-lg sm:text-xl font-black text-[#E53935]">Tamanho da Camisa</h3>
+            <p className="text-xs sm:text-sm text-gray-700">Escolha o tamanho que melhor se ajusta a você</p>
           </div>
         </div>
       </div>
 
-      <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-        <FormField control={form.control} name="kitId" render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-[#E53935] font-bold text-base sm:text-lg flex items-center gap-2">
-                <Flag className="w-4 h-4 sm:w-5 sm:h-5" /> Escolha seu Kit *
-              </FormLabel>
-
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="border-2 border-[#00B8D4] h-10 sm:h-12 text-sm sm:text-base">
-                    <SelectValue placeholder="Selecione o kit" />
-                  </SelectTrigger>
-                </FormControl>
-
-                <SelectContent>
-                  {Array.isArray(kits) && kits.length > 0 ? (kits.map((kit) => (<SelectItem key={kit.id} value={kit.id} className="text-sm sm:text-base">{kit.nome}</SelectItem>))) : (<SelectItem value="none" disabled>Nenhum kit disponível</SelectItem>)}
-                </SelectContent>
-              </Select>
-
-              <FormDescription className="text-gray-600 text-xs sm:text-sm">Escolha o kit que deseja para a corrida</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-
-      {/* Card do Kit - Desktop e Mobile */}
-      {kitSelecionado && (
-        <>
-          {/* Versão Desktop - Flutuante */}
-          <div className="hidden xl:block fixed top-[280px] right-6 z-40 w-80">
-            <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-2xl">
-              <CardContent className="pt-6 sm:pt-8 pb-6 sm:pb-8 px-4 sm:px-6">
-                <div className="space-y-3 sm:space-y-4 text-white">
-                  <div className="flex items-start justify-between">
-                    <Badge variant="secondary" className="bg-white text-[#00B8D4] font-bold px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base">
-                      {kitSelecionado.nome}
-                    </Badge>
-                  </div>
-
-                  <div className="pt-3 sm:pt-4 border-t border-white/30">
-                    <p className="text-xs sm:text-sm text-white/80 mb-2">Itens inclusos:</p>
-                    <p className="text-lg sm:text-xl font-bold text-white leading-relaxed">{kitSelecionado.itens}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Versão Mobile/Tablet - Inline */}
-          <div className="xl:hidden">
-            <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-lg">
-              <CardContent className="pt-6 pb-6 px-4">
-                <div className="space-y-3 text-white">
-                  <div className="flex items-start justify-between">
-                    <Badge variant="secondary" className="bg-white text-[#00B8D4] font-bold px-3 py-1.5 text-sm">
-                      {kitSelecionado.nome}
-                    </Badge>
-                  </div>
-
-                  <div className="pt-3 border-t border-white/30">
-                    <p className="text-xs text-white/80 mb-2">Itens inclusos:</p>
-                    <p className="text-base sm:text-lg font-bold text-white leading-relaxed">{kitSelecionado.itens}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </>
-      )}
-
       <FormField control={form.control} name="tamanhoCamisa" render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-[#E53935] font-bold text-base sm:text-lg flex items-center gap-2">
-              <Ruler className="w-4 h-4 sm:w-5 sm:h-5" />Tamanho da Camisa *
-            </FormLabel>
-
-            <FormDescription className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">Escolha o tamanho que melhor se ajusta a você</FormDescription>
-
             <FormControl>
               <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 gap-2 mt-2">
                 {tamanhos.map((tamanho) => {
@@ -260,7 +114,7 @@ export function Step3Kit({ form }: Step3Props) {
 
       <Card className="bg-[#FFE66D] border-2 border-gray-200">
         <CardContent className="pt-4 sm:pt-6">
-          <h4 className="font-black text-[#E53935] mb-2 text-base sm:text-lg flex gap-2"><Shirt className="w-5 h-5 sm:w-6 sm:h-6 sm:w-7 sm:h-7" />Informações Importantes</h4>
+          <h4 className="font-black text-[#E53935] mb-2 text-base sm:text-lg flex gap-2"><Shirt className="w-5 h-5 sm:w-6 sm:h-6" />Informações Importantes</h4>
 
           <ul className="space-y-1.5 sm:space-y-2 text-gray-700">
             <li className="flex items-start gap-2">
