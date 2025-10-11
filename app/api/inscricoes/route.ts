@@ -12,6 +12,8 @@ export async function GET() {
         kit: true,
         tamanhoCamisa: true,
         status: true,
+        valorPago: true,
+        createdAt: true,
       },
       orderBy: {
         id: "asc",
