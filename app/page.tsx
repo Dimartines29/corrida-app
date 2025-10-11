@@ -638,44 +638,48 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-8 sm:mb-12">PATROCINADORES</h2>
 
-          <div className="mb-8 sm:mb-12">
-            <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-4 sm:mb-6">PATROCÍNIO MASTER</h3>
-
+          {/* PATROCÍNIO MASTER */}
+          <div className="mb-8 sm:mb-6">
+            <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-4 sm:mb-4">PATROCÍNIO MASTER</h3>
             <div className="flex justify-center">
-              <div className="bg-gray-100 w-48 sm:w-64 h-24 sm:h-32 rounded-lg flex items-center justify-center shadow-lg">
-                <span className="text-gray-400 text-sm sm:text-base">Logo Patrocinador</span>
+              <div className="bg-gray-100 w-48 sm:w-96 h-36 sm:h-74 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
+                <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
               </div>
             </div>
           </div>
 
-          <div className="mb-8 sm:mb-12">
-            <h3 className="text-lg sm:text-xl font-bold text-center text-[#00B8D4] mb-4 sm:mb-6">PATROCÍNIO OURO</h3>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="bg-gray-100 h-20 sm:h-24 rounded-lg flex items-center justify-center shadow">
-                  <span className="text-gray-400 text-xs sm:text-sm">Logo</span>
-                </div>
-              ))}
+          {/* PATROCÍNIO OURO */}
+          <div className="mb-8 sm:mb-6">
+            <h3 className="text-lg sm:text-xl font-bold text-center text-[#00B8D4] mb-4 sm:mb-4">PATROCÍNIO OURO</h3>
+            <div className="flex justify-center">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 justify-items-center">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="bg-gray-100 sm:w-64 sm:h-48 rounded-lg flex items-center justify-center shadow">
+                    <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
+          {/* APOIO */}
           <div>
-            <h3 className="text-lg sm:text-xl font-bold text-center text-[#00B8D4] mb-4 sm:mb-6">APOIO</h3>
-
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-gray-100 h-16 sm:h-20 rounded-lg flex items-center justify-center shadow">
-                  <span className="text-gray-400 text-[10px] sm:text-xs">Logo</span>
-                </div>
-              ))}
+            <h3 className="text-lg sm:text-xl font-bold text-center text-[#00B8D4] mb-4 sm:mb-4">APOIO</h3>
+            <div className="flex justify-center">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 justify-items-center">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <div key={i} className="bg-gray-100 sm:w-44 sm:h-28 rounded-lg flex items-center justify-center shadow">
+                    <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
+          {/* BOTÃO DE CONTATO */}
           <div className="mt-8 sm:mt-12 text-center">
             <p className="text-base sm:text-lg text-gray-600 mb-3 sm:mb-4">Quer ser um patrocinador?</p>
-
-            <button className="bg-[#E53935] text-white px-6 sm:px-8 py-2 sm:py-3 rounded-md font-bold hover:bg-[#c62828] transition text-sm sm:text-base">ENTRE EM CONTATO</button>
+            <button className="bg-[#E53935] text-white px-6 sm:px-8 py-2 sm:py-3 rounded-md font-bold hover:bg-[#e53935]/90 transition text-sm sm:text-base">ENTRE EM CONTATO</button>
           </div>
         </div>
       </section>
