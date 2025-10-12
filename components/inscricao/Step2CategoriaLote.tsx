@@ -12,13 +12,6 @@ interface Step2Props {
   form: UseFormReturn<InscricaoCompleta>;
 }
 
-interface Categoria {
-  id: string;
-  nome: string;
-  descricao: string;
-  distancia: number;
-}
-
 interface Lote {
   id: string;
   nome: string;
@@ -33,37 +26,16 @@ interface Kit {
 }
 
 export function Step2CategoriaLote({ form }: Step2Props) {
-  const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [lotes, setLotes] = useState<Lote[]>([]);
-  const [kits, setKits] = useState<Kit[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const categoriasRes = await fetch("/api/categorias");
-        const categoriasData = await categoriasRes.json();
-        setCategorias(categoriasData);
-
         const lotesRes = await fetch("/api/lotes");
         const lotesData = await lotesRes.json();
         setLotes(lotesData);
 
-        const kitsRes = await fetch("/api/kits");
-        const kitsData = await kitsRes.json();
-
-        if (Array.isArray(kitsData)) {
-          setKits(kitsData);
-        } else if (kitsData?.kits && Array.isArray(kitsData.kits)) {
-          setKits(kitsData.kits);
-        } else {
-          setKits([
-            {
-              id: "1",
-              nome: "Kit Básico"
-            }
-          ]);
-        }
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       } finally {
@@ -74,19 +46,20 @@ export function Step2CategoriaLote({ form }: Step2Props) {
     fetchData();
   }, []);
 
-  const categoriaIdSelecionada = form.watch("categoriaId");
+  const categorias = [
+    'Caminhada - 3km',
+    'Corrida - 5km',
+    'Corrida - 10km',
+  ]
+
+  const categoriaIdSelecionada = form.watch("categoria");
   const loteIdSelecionado = form.watch("loteId");
-  const kitIdSelecionado = form.watch("kitId");
 
   const categoriaSelecionada = categorias.find(
-    (cat) => cat.id === categoriaIdSelecionada
+    (cat) => cat === categoriaIdSelecionada
   );
 
   const loteSelecionado = lotes.find((lote) => lote.id === loteIdSelecionado);
-
-  const kitSelecionado = Array.isArray(kits)
-    ? kits.find((kit) => kit.id === kitIdSelecionado)
-    : undefined;
 
   if (loading) {
     return (
@@ -105,15 +78,15 @@ export function Step2CategoriaLote({ form }: Step2Props) {
         <div className="flex items-center gap-2 sm:gap-3">
           <Flag className="w-6 h-6 sm:w-8 sm:h-8 text-[#E53935]" />
           <div>
-            <h3 className="text-lg sm:text-xl font-black text-[#E53935]">Categoria, Kit e Lote</h3>
-            <p className="text-xs sm:text-sm text-gray-700">Escolha sua distância, kit e lote de inscrição</p>
+            <h3 className="text-lg sm:text-xl font-black text-[#E53935]">Categoria e Lote</h3>
+            <p className="text-xs sm:text-sm text-gray-700">Escolha sua distância e lote de inscrição</p>
           </div>
         </div>
       </div>
 
       {/* Categoria */}
       <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
-        <FormField control={form.control} name="categoriaId" render={({ field }) => (
+        <FormField control={form.control} name="categoria" render={({ field }) => (
             <FormItem>
               <FormLabel className="text-[#E53935] font-bold text-base sm:text-lg flex items-center gap-2">
                 <Flag className="w-4 h-4 sm:w-5 sm:h-5" /> Categoria da Corrida
@@ -127,7 +100,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                 </FormControl>
 
                 <SelectContent>
-                  {categorias.map((categoria) => (<SelectItem key={categoria.id} value={categoria.id} className="text-sm sm:text-base"> {categoria.nome} - {categoria.distancia}km </SelectItem>))}
+                  {categorias.map((categoria) => (<SelectItem key={categoria} value={categoria} className="text-sm sm:text-base">{categoria}</SelectItem>))}
                 </SelectContent>
               </Select>
 
@@ -148,9 +121,9 @@ export function Step2CategoriaLote({ form }: Step2Props) {
               <CardContent className="pt-6 sm:pt-8 pb-6 sm:pb-8 px-4 sm:px-6">
                 <div className="space-y-3 sm:space-y-4 text-white">
                   <p className="text-xs sm:text-sm text-white/80 mb-2">Distância do percurso:</p>
-                  <p className="text-4xl sm:text-5xl font-black">{categoriaSelecionada.distancia} KM</p>
+                  <p className="text-4xl sm:text-5xl font-black">{categoriaSelecionada}</p>
 
-                  {categoriaSelecionada.descricao && (<div className="pt-3 sm:pt-4 border-t border-white/30"><p className="text-sm sm:text-base text-white/90 leading-relaxed">{categoriaSelecionada.descricao}</p></div>)}
+                  {categoriaSelecionada && (<div className="pt-3 sm:pt-4 border-t border-white/30"><p className="text-sm sm:text-base text-white/90 leading-relaxed">{categoriaSelecionada}</p></div>)}
                 </div>
               </CardContent>
             </Card>
@@ -162,9 +135,9 @@ export function Step2CategoriaLote({ form }: Step2Props) {
               <CardContent className="pt-6 pb-6 px-4">
                 <div className="space-y-3 text-white">
                   <p className="text-xs text-white/80 mb-2">Distância do percurso:</p>
-                  <p className="text-3xl sm:text-4xl font-black">{categoriaSelecionada.distancia} KM</p>
+                  <p className="text-3xl sm:text-4xl font-black">{categoriaSelecionada} KM</p>
 
-                  {categoriaSelecionada.descricao && (<div className="pt-3 border-t border-white/30"><p className="text-sm text-white/90 leading-relaxed">{categoriaSelecionada.descricao}</p></div>)}
+                  {categoriaSelecionada && (<div className="pt-3 border-t border-white/30"><p className="text-sm text-white/90 leading-relaxed">{categoriaSelecionada}</p></div>)}
                 </div>
               </CardContent>
             </Card>
@@ -175,7 +148,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
       {/* Grid: Kit e Lote lado a lado em telas grandes, empilhados em mobile */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Escolha do Kit (sempre primeiro) */}
-        <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#E53935] transition-all">
+        {/* <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#E53935] transition-all">
           <FormField control={form.control} name="kitId" render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[#E53935] font-bold text-base sm:text-lg flex items-center gap-2">
@@ -199,7 +172,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
               </FormItem>
             )}
           />
-        </div>
+        </div> */}
 
         {/* Lote (sempre segundo) */}
         <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#E53935] transition-all">
@@ -233,7 +206,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
       {/* Cards do Kit e Lote lado a lado em mobile */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Card do Kit */}
-        {kitSelecionado && (
+        {/* {kitSelecionado && (
           <Card className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] border-none shadow-lg xl:hidden">
             <CardContent className="pt-6 pb-6 px-4">
               <div className="space-y-3">
@@ -250,7 +223,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
               </div>
             </CardContent>
           </Card>
-        )}
+        )} */}
 
         {/* Card de Lote */}
         {loteSelecionado && (
@@ -277,7 +250,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
       </div>
 
       {/* Card Flutuante Desktop - Lote com Badge do Kit */}
-      {loteSelecionado && kitSelecionado && (
+      {loteSelecionado && (
         <div className="hidden xl:block fixed top-[400px] right-6 z-40 w-80">
           <Card className="bg-gradient-to-r from-[#E53935] to-[#c62828] border-none shadow-2xl">
             <CardContent className="pt-6 sm:pt-8 pb-6 sm:pb-8 px-4 sm:px-6">

@@ -193,7 +193,7 @@ export default function Inscricoes() {
 
     if (activeCardFilter) {
       switch (activeCardFilter) {
-        case 'category':
+        case 'categoria':
           if (selectedCategory) {
             data = registrations.filter(registration =>
               registration.categoria === selectedCategory
@@ -348,7 +348,7 @@ export default function Inscricoes() {
           </CardHeader>
           <CardContent>
             <div>
-              {statistics?.statusMethods.slice(0, 3).map((status) => (
+              {statistics?.statusMethods.map((status) => (
                 <div key={status.name} className="flex justify-between items-center hover:bg-muted/30 rounded cursor-pointer transition-colors duration-200" onClick={() => handleStatusFilter(status.name)}>
                   <span className={`text-sm md:text-lg py-2 md:py-1 truncate transition-colors duration-200 ${selectedStatus === status.name ? 'text-green-600 font-semibold' : 'text-foreground hover:text-primary'}`}>
                     {status.name}
@@ -363,19 +363,19 @@ export default function Inscricoes() {
         </Card>
 
         {/* Categories */}
-        <Card className={`border hover:shadow-md transition-all duration-200 ${activeCardFilter === 'category' ? 'bg-primary/10 border-primary/20 shadow-md' : 'bg-muted/50'}`}>
+        <Card className={`border hover:shadow-md transition-all duration-200 ${activeCardFilter === 'categoria' ? 'bg-primary/10 border-primary/20 shadow-md' : 'bg-muted/50'}`}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm md:text-lg font-medium text-muted-foreground">Categorias</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div>
-              {statistics?.categories.slice(0, 3).map((category) => (
+              {statistics?.categories.map((category) => (
                 <div key={category.name} className="flex justify-between items-center hover:bg-muted/30 rounded cursor-pointer transition-colors duration-200" onClick={() => handleCategoryFilter(category.name)}>
                   <span className={`text-sm md:text-lg py-2 md:py-1 truncate transition-colors duration-200 ${selectedCategory === category.name ? 'text-green-600 font-semibold' : 'text-foreground hover:text-primary'}`}>
                     {category.name}
                   </span>
-                  <Badge variant="secondary" className={`text-sm md:text-lg py-2 md:py-1 cursor-pointer transition-colors duration-200 ${selectedCategory === category.name ? 'bg-green-100 text-green-600 border-green-300' : ''}`} onClick={(e) => {e.stopPropagation(); handleCategoryFilter(category.name)}}>
+                  <Badge variant="secondary" className={`text-sm md:text-lg py-1 md:py-0 cursor-pointer transition-colors duration-200 ${selectedCategory === category.name ? 'bg-green-100 text-green-600 border-green-300' : ''}`} onClick={(e) => {e.stopPropagation(); handleCategoryFilter(category.name)}}>
                     {category.count}
                   </Badge>
                 </div>
@@ -451,7 +451,7 @@ export default function Inscricoes() {
                       </td>
 
                       <td className="hidden md:table-cell p-1 md:p-2 w-92">
-                        5km - MUDAR
+                        {registration.categoria}
                       </td>
 
                       <td className="p-1 md:p-2 w-26">
