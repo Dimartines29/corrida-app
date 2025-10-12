@@ -56,16 +56,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Categoria {
-  id         String      @id @default(cuid())
-  nome       String
-  descricao  String
-  distancia  Float
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  inscricoes Inscricao[]
-}
-
 model Lote {
   id         String      @id @default(cuid())
   nome       String
@@ -78,22 +68,12 @@ model Lote {
   inscricoes Inscricao[]
 }
 
-model Kit {
-  id         String      @id @default(cuid())
-  nome       String
-  preco      Float
-  itens      String
-  disponivel      Boolean     @default(true)
-  inscricoes Inscricao[]
-}
-
 model Inscricao {
   id                 String          @id @default(cuid())
   codigo             String          @unique
   userId             String          @unique
-  categoriaId        String
+  categoria          String
   loteId             String
-  kitId             String
   nomeCompleto       String
   cpf                String          @unique
   rg                 String
@@ -112,9 +92,7 @@ model Inscricao {
   status             StatusInscricao @default(PENDENTE)
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
-  categoria          Categoria       @relation(fields: [categoriaId], references: [id])
   lote               Lote            @relation(fields: [loteId], references: [id])
-  kit                Kit             @relation(fields: [kitId], references: [id])
   user               User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   pagamento          Pagamento?
 }

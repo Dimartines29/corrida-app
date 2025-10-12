@@ -9,7 +9,6 @@ export async function GET() {
         nomeCompleto: true,
         cpf: true,
         categoria: true,
-        kit: true,
         tamanhoCamisa: true,
         status: true,
         valorPago: true,

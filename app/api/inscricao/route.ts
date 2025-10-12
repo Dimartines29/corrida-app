@@ -78,18 +78,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 6. Valida se categoria existe
-    const categoria = await prisma.categoria.findUnique({
-      where: { id: data.categoriaId },
-    });
-
-    if (!categoria) {
-      return NextResponse.json(
-        { error: "Categoria não encontrada" },
-        { status: 404 }
-      );
-    }
-
     // 7. Valida se lote existe, está ativo e no período válido
     const agora = new Date();
     const lote = await prisma.lote.findFirst({
@@ -141,10 +129,9 @@ export async function POST(request: NextRequest) {
         data: {
           codigo: codigoInscricao,
           userId: user.id,
-          categoriaId: data.categoriaId,
           loteId: data.loteId,
-          kitId: data.kitId,
           nomeCompleto: data.nomeCompleto,
+          categoria: data.categoria,
           cpf: data.cpf,
           rg: data.rg,
           dataNascimento: new Date(data.dataNascimento),
@@ -162,7 +149,6 @@ export async function POST(request: NextRequest) {
           status: "PENDENTE",
         },
         include: {
-          categoria: true,
           lote: true,
         },
       });
@@ -190,7 +176,7 @@ export async function POST(request: NextRequest) {
         para: user.email,
         nomeCompleto: inscricao.nomeCompleto,
         codigo: inscricao.codigo,
-        categoria: inscricao.categoria.nome,
+        categoria: inscricao.categoria,
         valorPago: inscricao.valorPago,
         dataEvento: configuracao?.dataEvento
           ? new Date(configuracao.dataEvento).toLocaleDateString('pt-BR', {
@@ -217,7 +203,7 @@ export async function POST(request: NextRequest) {
           id: inscricao.id,
           codigo: inscricao.codigo,
           nomeCompleto: inscricao.nomeCompleto,
-          categoria: inscricao.categoria.nome,
+          categoria: inscricao.categoria,
           valor: inscricao.valorPago,
           status: inscricao.status,
         },

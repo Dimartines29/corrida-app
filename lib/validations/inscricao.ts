@@ -53,7 +53,7 @@ export const step1Schema = z.object({
   telefone: z
     .string()
     .min(10, "Telefone inválido")
-    .regex(/^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/, 
+    .regex(/^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/,
       "Formato inválido. Use (99) 99999-9999"),
 
   endereco: z
@@ -75,7 +75,7 @@ export const step1Schema = z.object({
 });
 
 export const step2Schema = z.object({
-  categoriaId: z
+  categoria: z
     .string()
     .min(1, "Selecione uma categoria"),
 

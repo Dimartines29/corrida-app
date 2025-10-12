@@ -30,7 +30,7 @@ export function InscricaoForm() {
       cidade: "",
       estado: "",
       cep: "",
-      categoriaId: "",
+      categoria: "",
       loteId: "",
       tamanhoCamisa: "",
       possuiPlanoSaude: false,
