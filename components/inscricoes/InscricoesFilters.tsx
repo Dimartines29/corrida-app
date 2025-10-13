@@ -14,30 +14,26 @@ interface InscricoesFiltersProps {
   filters: InscricaoConsolidatedFilters
   onFiltersChange: (filters: InscricaoConsolidatedFilters) => void
   metadata: {
-    departments: string[]
-    status: ['Pago', 'Pendente', 'Cancelado']
-    agents?: string[]
-    states?: string[]
+    status: ['PAGO', 'PENDENTE', 'CANCELADO']
+    category: ['Caminhada - 3km', 'Corrida - 5km', 'Corrida - 10km']
+    shirtSize: ['PP', 'P', 'M', 'G', 'GG', 'XG'],
+    tier: ['1º Lote', '2º Lote', '3º Lote', '4º Lote', '5º Lote'],
     isLoading?: boolean
   }
 }
 
-export function CasesFilters({filters, onFiltersChange, metadata}: InscricoesFiltersProps) {
+export function InscricoesFilters({filters, onFiltersChange, metadata}: InscricoesFiltersProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const getActiveFiltersCount = () => {
     let count = 0
-    if (filters.creation && filters.creation !== undefined) count++
-    if (filters.lastUpdate && filters.lastUpdate !== undefined) count++
+    if (filters.createdAt && filters.createdAt !== undefined) count++
     if (filters.search) count++
-    if (filters.department && filters.department !== 'todos') count++
+    if (filters.category && filters.category !== 'todos') count++
     if (filters.status && filters.status !== 'todos') count++
-    if (filters.instructed && filters.instructed !== 'todos') count++
-    if (filters.caseCode) count++
-    if (filters.negocioCode) count++
-    if (filters.negocioSerialNumber) count++
-    if (filters.responsible && filters.responsible !== 'todos') count++
-    if (filters.uf && filters.uf !== 'todos') count++
-
+    if (filters.tier && filters.tier !== 'todos') count++
+    if (filters.code) count++
+    if (filters.fullname) count++
+    if (filters.cpf) count++
     return count
   }
 
@@ -46,17 +42,14 @@ export function CasesFilters({filters, onFiltersChange, metadata}: InscricoesFil
   const clearAllFilters = () => {
     onFiltersChange({
       ...filters,
-      creation: undefined,
+      createdAt: undefined,
       search: '',
       status: 'todos',
-      instructed: 'todos',
-      department: 'todos',
-      lastUpdate: undefined,
-      caseCode: '',
-      negocioCode: '',
-      negocioSerialNumber: '',
-      responsible: 'todos',
-      uf: 'todos',
+      category: 'todos',
+      tier: 'todos',
+      code: '',
+      fullname: '',
+      cpf: '',
     })
   }
 
@@ -73,7 +66,7 @@ export function CasesFilters({filters, onFiltersChange, metadata}: InscricoesFil
                 value={filters.search}
                 onChange={(e) => onFiltersChange({ ...filters, search: e.target.value })}
                 disabled={metadata.isLoading}
-                className="pl-10"
+                className="pl-10 text-muted-foreground"
               />
             </div>
           </div>
@@ -82,8 +75,8 @@ export function CasesFilters({filters, onFiltersChange, metadata}: InscricoesFil
             <div className="lg:col-span-2">
               <label className="text-sm font-medium mb-2 block">Criação</label>
               <EnhancedDateRangePicker
-                value={filters.creation || undefined}
-                onChange={(creation) => onFiltersChange({ ...filters, creation })}
+                value={filters.createdAt || undefined}
+                onChange={(createdAt) => onFiltersChange({ ...filters, createdAt })}
                 isLoading={metadata.isLoading}
                 numberOfMonths={2}
               />
@@ -156,50 +149,69 @@ export function CasesFilters({filters, onFiltersChange, metadata}: InscricoesFil
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
-                      {metadata.status?.map(status => (
-                        <SelectItem className="text-sm md:text-xs" key={status} value={status}>{status}</SelectItem>
+                    <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
+                      {metadata.status?.map(sts => (
+                        <SelectItem className="text-sm md:text-xs" key={sts} value={sts}>{sts}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div>
-                  <label className="text-sm md:text-xs block mb-1">Instruído</label>
+                  <label className="text-sm md:text-xs block mb-1">Categoria</label>
                   <Select
-                    value={filters.instructed}
-                    onValueChange={(value) => onFiltersChange({ ...filters, instructed: value })}
-                  >
-                    <SelectTrigger className="h-9 text-sm md:text-xs">
-                      <SelectValue placeholder="Todos" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
-                      <SelectItem className="text-sm md:text-xs" value="sim">Sim</SelectItem>
-                      <SelectItem className="text-sm md:text-xs" value="nao">Não</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-sm md:text-xs block mb-1">Fase</label>
-                  <Select
-                    value={filters.department}
-                    onValueChange={(value) => onFiltersChange({ ...filters, department: value })}
+                    value={filters.category}
+                    onValueChange={(value) => onFiltersChange({ ...filters, category: value })}
                   >
                     <SelectTrigger className="h-9 text-sm md:text-xs">
                       <SelectValue placeholder="Todas" />
                     </SelectTrigger>
                     <SelectContent>
                     <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
-                      {metadata.departments?.map(dept => (
-                        <SelectItem className="text-sm md:text-xs" key={dept} value={dept}>{dept}</SelectItem>
+                      {metadata.category?.map(ctg => (
+                        <SelectItem className="text-sm md:text-xs" key={ctg} value={ctg}>{ctg}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
 
-                <div className='truncate'>
+                <div>
+                  <label className="text-sm md:text-xs block mb-1">Camisa</label>
+                  <Select
+                    value={filters.shirtSize}
+                    onValueChange={(value) => onFiltersChange({ ...filters, shirtSize: value })}
+                  >
+                    <SelectTrigger className="h-9 text-sm md:text-xs">
+                      <SelectValue placeholder="Todas" />
+                    </SelectTrigger>
+                    <SelectContent>
+                    <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
+                      {metadata.shirtSize?.map(ss => (
+                        <SelectItem className="text-sm md:text-xs" key={ss} value={ss}>{ss}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm md:text-xs block mb-1">Lote</label>
+                  <Select
+                    value={filters.tier}
+                    onValueChange={(value) => onFiltersChange({ ...filters, tier: value })}
+                  >
+                    <SelectTrigger className="h-9 text-sm md:text-xs">
+                      <SelectValue placeholder="Todos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                    <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
+                      {metadata.tier?.map(tier => (
+                        <SelectItem className="text-sm md:text-xs" key={tier} value={tier}>{tier}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* <div className='truncate'>
                   <label className="text-sm md:text-xs block mb-1">Responsável</label>
                   <Select
                     value={filters.responsible}
@@ -215,9 +227,9 @@ export function CasesFilters({filters, onFiltersChange, metadata}: InscricoesFil
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
+                </div> */}
 
-                <div>
+                {/* <div>
                   <label className="text-sm md:text-xs block mb-1">UF</label>
                   <Select
                     value={filters.uf}
@@ -233,48 +245,7 @@ export function CasesFilters({filters, onFiltersChange, metadata}: InscricoesFil
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                <div>
-                  <label className="text-sm md:text-xs block mb-1">Últ. Atualização</label>
-                  <EnhancedDateRangePicker
-                    value={filters.lastUpdate || undefined}
-                    onChange={(lastUpdate) => onFiltersChange({ ...filters, lastUpdate })}
-                    isLoading={metadata.isLoading}
-                    numberOfMonths={2}
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm md:text-xs block mb-1">Número do Case</label>
-                  <Input
-                    value={filters.caseCode}
-                    onChange={(e) => onFiltersChange({ ...filters, caseCode: e.target.value })}
-                    className="h-9"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm md:text-xs block mb-1">Código do Negócio</label>
-                  <Input
-                    value={filters.negocioCode}
-                    onChange={(e) => onFiltersChange({ ...filters, negocioCode: e.target.value })}
-                    className="h-9"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm md:text-xs block mb-1">Nº de Série</label>
-                  <Input
-                    value={filters.negocioSerialNumber}
-                    onChange={(e) => onFiltersChange({ ...filters, negocioSerialNumber: e.target.value })}
-                    className="h-9"
-                  />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

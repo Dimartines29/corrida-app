@@ -5,6 +5,12 @@ export interface DateRange {
   to: Date
 }
 
+export interface Lote {
+    nome: string;
+    preco: number;
+}
+
+
 export interface Inscricao {
   codigo: string;
   createdAt: string;
@@ -15,7 +21,7 @@ export interface Inscricao {
   cidade: string;
   estado: string;
   categoria: string
-  lote: string;
+  lote: Lote;
   valorPago: number;
   tamanhoCamisa: string;
   status: string;

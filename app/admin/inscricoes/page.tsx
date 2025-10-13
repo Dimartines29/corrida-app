@@ -13,6 +13,7 @@ import IndicatorCard from "@/components/inscricoes/IndicatorCard"
 import MobileButton from "@/components/mobile/MobileButton"
 import Paginator from "@/components/pagination/Paginator"
 import { se } from "date-fns/locale"
+import { InscricoesFilters } from "@/components/inscricoes/InscricoesFilters"
 
 export function createDefaultInscricaoFilters(): InscricaoConsolidatedFilters {
   return {
@@ -135,9 +136,6 @@ export default function Inscricoes() {
   const statistics = useMemo(() => {
     if (!registrations) return null
 
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
     const income = registrations.filter((registration) => {
       return registration.valorPago || 0
     })
@@ -190,9 +188,6 @@ export default function Inscricoes() {
 
     var data = registrations
 
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
     if (activeCardFilter) {
       switch (activeCardFilter) {
         case 'categoria':
@@ -216,6 +211,7 @@ export default function Inscricoes() {
       if (filters.search) {
         const searchTerm = filters.search.toLowerCase()
         const searchableText = [
+          registration.codigo || "",
           registration.nomeCompleto || "",
           registration.cpf || "",
           registration.telefone || "",
@@ -236,7 +232,7 @@ export default function Inscricoes() {
       }
 
       if (filters.tier && filters.tier !== "todos") {
-        if (registration.lote !== filters.tier) return false
+        if (registration.lote.nome !== filters.tier) return false
       }
 
       if (filters.shirtSize && filters.shirtSize !== "todos") {
@@ -333,7 +329,7 @@ export default function Inscricoes() {
                 <BadgeAlert className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div className="text-4xl md:text-5xl font-bold text-foreground">R${statistics?.income ?? 0}</div>
+                <div className="text-2xl md:text-4xl font-bold text-foreground">R${statistics?.income ?? 0}</div>
             </CardContent>
             <CardFooter className="flex-col items-start gap-1.5 text-sm">
                 <div className="line-clamp-1 flex gap-2 font-medium">
@@ -387,39 +383,43 @@ export default function Inscricoes() {
         </Card>
       </div>
 
-      {/* <div className={`${showFiltersOnMobile ? 'block' : 'hidden md:grid'}`}>
-        <CasesFilters
+      <div className={`${showFiltersOnMobile ? 'block' : 'hidden md:grid'}`}>
+        <InscricoesFilters
           filters={filters}
           onFiltersChange={handleFiltersChange}
           metadata={{
-            departments: data?.departments || [],
-            status: ["Aberto", "Concluído"],
-            agents: data?.responsibles || [],
-            states: data?.states || [],
-            isLoading: isLoading,
+            status: ['PAGO', 'PENDENTE', 'CANCELADO'],
+            category: ['Caminhada - 3km', 'Corrida - 5km', 'Corrida - 10km'],
+            shirtSize: ['PP', 'P', 'M', 'G', 'GG', 'XG'],
+            tier: ['1º Lote', '2º Lote', '3º Lote', '4º Lote', '5º Lote'],
           }}
         />
-      </div> */}
+      </div>
 
       <div>
+        <h1 className="text-muted-foreground p-3">Exibindo {filteredRegistrations.length} de {registrations.length} Inscrições</h1>
         <Card className="border-border/50 shadow-sm hidden md:block">
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="border-b border-border/50">
                   <tr>
-                    <th className="text-left p-3 md:p-4 w-48 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="text-left p-3 md:p-4 w-72 text-xs md:text-sm font-medium text-muted-foreground">
                       <div>
                         <div>Nome</div>
                         <div>Código</div>
                       </div>
                     </th>
 
-                    <th className="text-left p-3 md:p-4 w-120 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="text-left p-3 md:p-4 text-xs md:text-sm font-medium text-muted-foreground">
                       Categoria
                     </th>
 
-                    <th className="text-left p-3 md:p-4 w-32 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="text-left p-3 md:p-4 text-xs md:text-sm font-medium text-muted-foreground">
+                      CPF
+                    </th>
+
+                    <th className="text-left p-3 md:p-4 text-xs md:text-sm font-medium text-muted-foreground">
                       <button
                         onClick={() => handleSort("createdAt")}
                         className="flex items-center gap-2 hover:text-foreground transition-colors"
@@ -430,11 +430,15 @@ export default function Inscricoes() {
                       </button>
                     </th>
 
-                    <th className="hidden md:table-cell text-left p-3 md:p-4 w-32 text-xs md:text-sm font-medium text-muted-foreground">
-                      Tamanho Camisa
+                    <th className="hidden md:table-cell text-left p-3 md:p-4 text-xs md:text-sm font-medium text-muted-foreground">
+                      Lote
                     </th>
 
-                    <th className="text-center p-1 w-8 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="hidden md:table-cell text-left p-3 md:p-4 text-xs md:text-sm font-medium text-muted-foreground">
+                      Camisa
+                    </th>
+
+                    <th className="text-left p-1 w-8 text-xs md:text-sm font-medium text-muted-foreground">
                       Status
                     </th>
                   </tr>
@@ -442,39 +446,47 @@ export default function Inscricoes() {
                 <tbody>
                   {paginatedRegistrations.map((registration, index) => (
                     <tr key={registration.cpf} className="border-b border-border/30 hover:bg-muted/20 transition-colors duration-150 group" style={{ animationDelay: `${index * 50}ms`, animation: "fadeIn 0.3s ease-out forwards" }}>
-                      <td className="p-1 md:p-2 w-62">
+                      <td className="p-1 md:p-2">
                         <div className="flex items-center gap-1">
-                          <User className="h-3 w-3 text-muted-foreground" />
+                          <User className="h-5 w-5 text-muted-foreground" />
                           <span className="text-xs md:text-sm font-medium text-foreground">
-                            {registration.nomeCompleto}
+                            {registration.nomeCompleto} <br />
+                            {registration.codigo}
                           </span>
                         </div>
-                        {registration.codigo}
                       </td>
 
-                      <td className="hidden md:table-cell p-1 md:p-2 w-92">
+                      <td className="hidden md:table-cell p-1 md:p-2">
                         {registration.categoria}
                       </td>
 
-                      <td className="p-1 md:p-2 w-26">
+                      <td className="hidden md:table-cell p-1 md:p-2">
+                        {registration.cpf}
+                      </td>
+
+                      <td className="p-1 md:p-2">
                         <div className="space-y-2">
-                          <div className="hidden md:block text-xs text-muted-foreground">
+                          <div className="hidden md:block text-muted-foreground">
                             {format(registration.createdAt, "dd/MM/yyyy")}
                           </div>
                         </div>
                       </td>
 
-                      <td className="hidden md:table-cell p-1 md:p-2 w-24">
+                      <td className="hidden md:table-cell p-1 md:p-2 text-md">
+                        {registration.lote.nome}
+                      </td>
+
+                      <td className="hidden md:table-cell p-1 md:p-2 text-md">
                         {registration.tamanhoCamisa}
                       </td>
 
-                      <td className="pr-4 w-8">
+                      <td className="pr-4">
                         {registration.status === 'PAGO' ? (
-                          <Badge className="bg-green-100 text-green-600 border-green-300 px-2 py-1 text-xs md:text-sm">Pago</Badge>
+                          <Badge className="bg-green-100 text-green-600 border-green-300 px-2 py-1 w-22 text-xs md:text-sm">Pago</Badge>
                         ) : registration.status === 'PENDENTE' ? (
-                          <Badge className="bg-yellow-100 text-yellow-600 border-yellow-300 px-2 py-1 text-xs md:text-sm">Pendente</Badge>
+                          <Badge className="bg-yellow-100 text-yellow-600 border-yellow-300 px-2 py-1 w-22 text-xs md:text-sm">Pendente</Badge>
                         ) : registration.status === 'CANCELADO' ? (
-                          <Badge className="bg-red-100 text-red-600 border-red-300 px-2 py-1 text-xs md:text-sm">Cancelado</Badge>
+                          <Badge className="bg-red-100 text-red-600 border-red-300 px-2 py-1 w-22 text-xs md:text-sm">Cancelado</Badge>
                         ) : (
                           <Badge className="bg-gray-100 text-gray-600 border-gray-300 px-2 py-1 text-xs md:text-sm">Desconhecido</Badge>
                         )}

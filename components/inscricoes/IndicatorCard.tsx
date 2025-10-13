@@ -11,7 +11,7 @@ export default function IndicatorCard({ title, description, value, activeCardFil
                 <BadgeAlert className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div className="text-4xl md:text-5xl font-bold text-foreground">{value}</div>
+                <div className="text-3xl md:text-4xl font-bold text-foreground">{value}</div>
             </CardContent>
             <CardFooter className="flex-col items-start gap-1.5 text-sm">
                 <div className="line-clamp-1 flex gap-2 font-medium">

@@ -21,7 +21,7 @@ const presets = [
     value: "today",
     range: () => ({
       from: new Date(),
-      to: includeFullDay(new Date())
+      to: new Date()
     }),
   },
   {
@@ -30,7 +30,7 @@ const presets = [
     range: () => {
       return {
         from: addDays(new Date(), -1),
-        to: new Date(),
+        to: addDays(new Date(), -1),
       }
     },
   },
@@ -39,7 +39,7 @@ const presets = [
     value: "last7days",
     range: () => ({
       from: addDays(new Date(), -6),
-      to: includeFullDay(new Date())
+      to: new Date()
     }),
   },
   {
@@ -47,7 +47,7 @@ const presets = [
     value: "last14days",
     range: () => ({
       from: addDays(new Date(), -13),
-      to: includeFullDay(new Date())
+      to: new Date()
     }),
   },
   {
@@ -55,7 +55,7 @@ const presets = [
     value: "last30days",
     range: () => ({
       from: addDays(new Date(), -29),
-      to: includeFullDay(new Date())
+      to: new Date()
     }),
   },
   {

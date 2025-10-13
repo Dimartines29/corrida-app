@@ -6,6 +6,7 @@ export async function GET() {
     const inscricoes = await prisma.inscricao.findMany({
       select: {
         id: true,
+        codigo: true,
         nomeCompleto: true,
         cpf: true,
         categoria: true,
@@ -13,6 +14,9 @@ export async function GET() {
         status: true,
         valorPago: true,
         createdAt: true,
+        cidade: true,
+        estado: true,
+        lote: true,
       },
       orderBy: {
         id: "asc",
