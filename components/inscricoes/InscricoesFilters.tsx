@@ -62,7 +62,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
-                placeholder="Buscar em todo texto do Case..."
+                placeholder="Busca geral..."
                 value={filters.search}
                 onChange={(e) => onFiltersChange({ ...filters, search: e.target.value })}
                 disabled={metadata.isLoading}

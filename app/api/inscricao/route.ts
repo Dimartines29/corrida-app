@@ -2,8 +2,7 @@ import { enviarEmailInscricaoPendente } from "@/lib/email/send-email";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { inscricaoCompletaSchema } from "@/lib/validations/inscricao";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth/auth-options";
+import { auth } from "@/auth";
 
 // Função para gerar código único de inscrição
 function gerarCodigoInscricao(): string {
@@ -17,7 +16,7 @@ function gerarCodigoInscricao(): string {
 export async function POST(request: NextRequest) {
   try {
     // 1. Verifica autenticação
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session || !session.user?.email) {
       return NextResponse.json(

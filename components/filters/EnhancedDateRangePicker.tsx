@@ -12,9 +12,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import type { DateRangePickerProps, DateRange } from "@/types/types"
 import { cn } from "@/lib/utils"
 
-// Add 1 day to include all records from the target date
-const includeFullDay = (date: Date) => addDays(date, 1)
-
 const presets = [
   {
     label: "Hoje",

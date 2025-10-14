@@ -3,8 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { prisma } from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
+import { auth } from "@/auth"
 
 const mercadoPagoClient = new MercadoPagoConfig({
   accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN!,
@@ -15,7 +14,7 @@ const preference = new Preference(mercadoPagoClient);
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth()
 
     if (!session || !session.user) {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
 
     const inscricao = await prisma.inscricao.findUnique({
       where: { id: inscricaoId },
-      include: { categoria: true, lote: true, user: true, pagamento: true },
+      include: {lote: true, user: true, pagamento: true },
     });
 
     if (!inscricao) {
@@ -59,8 +58,8 @@ export async function POST(request: NextRequest) {
         items: [
           {
             id: inscricao.codigo,
-            title: `Inscrição ${inscricao.categoria.nome} - ${inscricao.codigo}`,
-            description: `Corrida ${inscricao.categoria.distancia}km - ${inscricao.lote.nome}`,
+            title: `Inscrição ${inscricao.categoria} - ${inscricao.codigo}`,
+            description: `Corrida ${inscricao.categoria}km - ${inscricao.lote.nome}`,
             category_id: 'sports',
             quantity: 1,
             currency_id: 'BRL',
@@ -98,7 +97,7 @@ export async function POST(request: NextRequest) {
         metadata: {
           inscricao_id: inscricao.id,
           codigo: inscricao.codigo,
-          categoria: inscricao.categoria.nome,
+          categoria: inscricao.categoria,
           usuario_email: inscricao.user.email,
         },
       },
