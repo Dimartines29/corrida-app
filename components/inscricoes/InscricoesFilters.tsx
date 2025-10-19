@@ -127,24 +127,16 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
           <div className="mt-6 pt-4 border-t space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-medium">Filtros Específicos</h3>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsExpanded(false)}
-                className="text-gray-500 hover:text-gray-700 lg:hidden"
-              >
+              <Button variant="ghost" size="sm" onClick={() => setIsExpanded(false)} className="text-gray-500 hover:text-gray-700 lg:hidden">
                 <ChevronUp className="h-4 w-4" />
               </Button>
             </div>
 
             <div className="space-y-4">
-              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Status</label>
-                  <Select
-                    value={filters.status}
-                    onValueChange={(value) => onFiltersChange({ ...filters, status: value })}
-                  >
+                  <Select value={filters.status} onValueChange={(value) => onFiltersChange({ ...filters, status: value })}>
                     <SelectTrigger className="h-9 text-sm md:text-xs">
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
@@ -159,10 +151,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
 
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Categoria</label>
-                  <Select
-                    value={filters.category}
-                    onValueChange={(value) => onFiltersChange({ ...filters, category: value })}
-                  >
+                  <Select value={filters.category} onValueChange={(value) => onFiltersChange({ ...filters, category: value })}>
                     <SelectTrigger className="h-9 text-sm md:text-xs">
                       <SelectValue placeholder="Todas" />
                     </SelectTrigger>
@@ -177,10 +166,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
 
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Camisa</label>
-                  <Select
-                    value={filters.shirtSize}
-                    onValueChange={(value) => onFiltersChange({ ...filters, shirtSize: value })}
-                  >
+                  <Select value={filters.shirtSize} onValueChange={(value) => onFiltersChange({ ...filters, shirtSize: value })}>
                     <SelectTrigger className="h-9 text-sm md:text-xs">
                       <SelectValue placeholder="Todas" />
                     </SelectTrigger>
@@ -195,10 +181,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
 
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Lote</label>
-                  <Select
-                    value={filters.tier}
-                    onValueChange={(value) => onFiltersChange({ ...filters, tier: value })}
-                  >
+                  <Select value={filters.tier} onValueChange={(value) => onFiltersChange({ ...filters, tier: value })}>
                     <SelectTrigger className="h-9 text-sm md:text-xs">
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
@@ -210,42 +193,6 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                     </SelectContent>
                   </Select>
                 </div>
-
-                {/* <div className='truncate'>
-                  <label className="text-sm md:text-xs block mb-1">Responsável</label>
-                  <Select
-                    value={filters.responsible}
-                    onValueChange={(value) => onFiltersChange({ ...filters, responsible: value })}
-                  >
-                    <SelectTrigger className="h-9 text-sm md:text-xs">
-                      <SelectValue placeholder="Todos" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
-                      {metadata.agents?.map(agent => (
-                        <SelectItem className="text-sm md:text-xs" key={agent} value={agent}>{agent}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div> */}
-
-                {/* <div>
-                  <label className="text-sm md:text-xs block mb-1">UF</label>
-                  <Select
-                    value={filters.uf}
-                    onValueChange={(value) => onFiltersChange({ ...filters, uf: value })}
-                  >
-                    <SelectTrigger className="h-9 text-sm md:text-xs">
-                      <SelectValue placeholder="Todas" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
-                      {metadata.states?.map(state => (
-                        <SelectItem className="text-sm md:text-xs" key={state} value={state}>{state}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div> */}
               </div>
             </div>
           </div>
