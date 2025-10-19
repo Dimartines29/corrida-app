@@ -4,32 +4,7 @@ import * as bcrypt from 'bcryptjs'
 const prisma = new PrismaClient()
 
 async function main() {
-  // 1. CRIAR CATEGORIAS
-  await prisma.categoria.create({
-    data: {
-      nome: '3km',
-      descricao: 'Corrida ideal para iniciantes',
-      distancia: 3.0,
-    },
-  })
-
-  await prisma.categoria.create({
-    data: {
-      nome: '5km',
-      descricao: 'Corrida de 5 quilômetros.',
-      distancia: 5.0,
-    },
-  })
-
-  await prisma.categoria.create({
-    data: {
-      nome: '10km',
-      descricao: 'Corrida de 5 quilômetros.',
-      distancia: 10.0,
-    },
-  })
-
-  // 2. CRIAR LOTES
+  // 1. CRIAR LOTES
   await prisma.lote.create({
     data: {
       nome: '1º Lote',
@@ -60,26 +35,7 @@ async function main() {
     },
   })
 
-  // 2. CRIAR KITS
-  await prisma.kit.create({
-    data: {
-      nome: 'Kit Completo',
-      preco: 100.0,
-      itens: 'Camiseta, Mochila, Medalha, Número de Peito, Vale Chopp',
-      disponivel: true,
-    },
-  })
-
-  await prisma.kit.create({
-    data: {
-      nome: 'Kit Participação',
-      preco: 80.0,
-      itens: 'Medalha, Número de Peito',
-      disponivel: true,
-    },
-  })
-
-  // 3. CRIAR CONFIGURAÇÃO DO SITE
+  // 2. CRIAR CONFIGURAÇÃO DO SITE
   const config = await prisma.configuracaoSite.create({
     data: {
       nomeEvento: 'Todo mundo Corre com o Chris',
@@ -97,7 +53,7 @@ async function main() {
 
   console.log('Configuração do site criada:', config.nomeEvento)
 
-  // 4. CRIAR USUÁRIO ADMIN
+  // 3. CRIAR USUÁRIO ADMIN
   const hashedPassword = await bcrypt.hash('admin123', 10)
   await prisma.user.create({
     data: {

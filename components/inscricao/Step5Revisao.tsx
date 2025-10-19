@@ -3,18 +3,7 @@ import { useState, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  User, 
-  MapPin, 
-  Shirt, 
-  Heart, 
-  CheckCircle2, 
-  AlertCircle, 
-  Calendar,
-  Phone,
-  CreditCard,
-  Package
-} from "lucide-react";
+import { User, MapPin, Shirt, Heart, CheckCircle2, AlertCircle, Calendar, Phone, CreditCard, Package } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 interface Step5Props {
@@ -43,8 +32,6 @@ interface Kit {
 }
 
 export function Step5Revisao({ form }: Step5Props) {
-  const [categoria, setCategoria] = useState<Categoria | null>(null);
-  const [kit, setKit] = useState<Kit | null>(null);
   const [lote, setLote] = useState<Lote | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -53,26 +40,12 @@ export function Step5Revisao({ form }: Step5Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const categoriasRes = await fetch("/api/categorias");
-        const categorias = await categoriasRes.json();
-        const catSelecionada = Array.isArray(categorias) 
-          ? categorias.find((c: Categoria) => c.id === formData.categoriaId)
-          : undefined;
-        setCategoria(catSelecionada);
-
         const lotesRes = await fetch("/api/lotes");
         const lotes = await lotesRes.json();
         const loteSelecionado = Array.isArray(lotes)
           ? lotes.find((l: Lote) => l.id === formData.loteId)
           : undefined;
         setLote(loteSelecionado);
-
-        const kitsRes = await fetch("/api/kits");
-        const kits = await kitsRes.json();
-        const kitSelecionado = Array.isArray(kits)
-          ? kits.find((k: Kit) => k.id === formData.kitId)
-          : undefined;
-        setKit(kitSelecionado);
 
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
@@ -82,7 +55,7 @@ export function Step5Revisao({ form }: Step5Props) {
     };
 
     fetchData();
-  }, [formData.categoriaId, formData.loteId, formData.kitId]);
+  }, [formData.loteId]);
 
   if (loading) {
     return (
@@ -128,28 +101,28 @@ export function Step5Revisao({ form }: Step5Props) {
 
           <div className="space-y-3 sm:space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              <InfoBox 
-                label="Nome Completo" 
+              <InfoBox
+                label="Nome Completo"
                 value={formData.nomeCompleto}
                 icon={<User className="w-3 h-3 sm:w-4 sm:h-4 text-[#00B8D4]" />}
               />
-              <InfoBox 
-                label="CPF" 
+              <InfoBox
+                label="CPF"
                 value={formData.cpf}
                 icon={<User className="w-3 h-3 sm:w-4 sm:h-4 text-[#00B8D4]" />}
               />
-              <InfoBox 
-                label="RG" 
+              <InfoBox
+                label="RG"
                 value={formData.rg}
                 icon={<User className="w-3 h-3 sm:w-4 sm:h-4 text-[#00B8D4]" />}
               />
-              <InfoBox 
-                label="Data de Nascimento" 
+              <InfoBox
+                label="Data de Nascimento"
                 value={new Date(formData.dataNascimento).toLocaleDateString("pt-BR")}
                 icon={<Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-[#00B8D4]" />}
               />
-              <InfoBox 
-                label="Telefone" 
+              <InfoBox
+                label="Telefone"
                 value={formData.telefone}
                 icon={<Phone className="w-3 h-3 sm:w-4 sm:h-4 text-[#00B8D4]" />}
               />
@@ -218,8 +191,8 @@ export function Step5Revisao({ form }: Step5Props) {
 
           <div className="space-y-3 sm:space-y-4">
             <div className={`p-3 sm:p-4 rounded-lg border-2 ${
-              formData.possuiPlanoSaude 
-                ? "bg-green-50 border-green-400" 
+              formData.possuiPlanoSaude
+                ? "bg-green-50 border-green-400"
                 : "bg-gray-50 border-gray-300"
             }`}>
               <div className="flex items-center gap-2 sm:gap-3">
@@ -243,13 +216,13 @@ export function Step5Revisao({ form }: Step5Props) {
                 Contato de Emergência
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <InfoBox 
-                  label="Nome" 
+                <InfoBox
+                  label="Nome"
                   value={formData.contatoEmergencia}
                   icon={<User className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />}
                 />
-                <InfoBox 
-                  label="Telefone" 
+                <InfoBox
+                  label="Telefone"
                   value={formData.telefoneEmergencia}
                   icon={<Phone className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />}
                 />
@@ -325,15 +298,7 @@ export function Step5Revisao({ form }: Step5Props) {
 }
 
 // Componente auxiliar para InfoBox
-function InfoBox({ 
-  label, 
-  value, 
-  icon 
-}: { 
-  label: string; 
-  value: string;
-  icon: React.ReactNode;
-}) {
+function InfoBox({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
   return (
     <div className="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200 hover:border-[#00B8D4] transition-all">
       <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">

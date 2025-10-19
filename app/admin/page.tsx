@@ -1,3 +1,4 @@
+// app/admin/page.tsx
 'use client'
 import { useState, useCallback, useMemo, useEffect } from "react"
 import { format } from "date-fns"
@@ -182,7 +183,7 @@ export default function Inscricoes() {
   const filteredRegistrations = useMemo(() => {
     if (!registrations) return []
 
-    var data = registrations
+    let data = registrations
 
     if (activeCardFilter) {
       switch (activeCardFilter) {
@@ -271,8 +272,8 @@ export default function Inscricoes() {
 
   const sortedRegistrations = useMemo(() => {
     return [...filteredRegistrations].sort((a, b) => {
-      let aValue: any
-      let bValue: any
+      let aValue: Date | string | number
+      let bValue: Date | string | number
 
       switch (sortField) {
         case "createdAt":

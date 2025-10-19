@@ -44,18 +44,28 @@ export function InscricaoForm() {
   const stepSchemas = [step1Schema, step2Schema, step3Schema, step4Schema];
 
   const handleNext = async (e?: React.MouseEvent) => {
-    if (e) {e.preventDefault(); e.stopPropagation();}
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
 
-    if (currentStep === 5) return;
+    if (currentStep === 5) return
 
-    const currentSchema = stepSchemas[currentStep - 1];
-    const values = form.getValues();
-    const result = await currentSchema.safeParseAsync(values);
+    const currentSchema = stepSchemas[currentStep - 1]
+    const values = form.getValues()
+    const result = await currentSchema.safeParseAsync(values)
 
-    if (result.success) {setCurrentStep(currentStep + 1);}
-
-    else {result.error.issues.forEach((issue) => {form.setError(issue.path[0] as any, {type: "manual", message: issue.message,});});}
-  };
+    if (result.success) {
+      setCurrentStep(currentStep + 1)
+    } else {
+      result.error.issues.forEach((issue) => {
+        form.setError(issue.path[0] as keyof InscricaoCompleta, {
+          type: "manual",
+          message: issue.message,
+        })
+      })
+    }
+  }
 
   const handleBack = (e?: React.MouseEvent) => {
     if (e) {e.preventDefault(); e.stopPropagation();}
