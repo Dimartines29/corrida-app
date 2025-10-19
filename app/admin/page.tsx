@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useEffect } from "react"
 import { format } from "date-fns"
 import type { Inscricao, InscricaoConsolidatedFilters } from "@/types/types"
 import { ArrowDown, ArrowUp, ArrowUpDown, BadgeAlert, User, Users } from "lucide-react"
+import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -444,13 +445,13 @@ export default function Inscricoes() {
                   {paginatedRegistrations.map((registration, index) => (
                     <tr key={registration.cpf} className="border-b border-border/30 hover:bg-muted/20 transition-colors duration-150 group animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
                       <td className="p-1 md:p-2">
-                        <div className="flex items-center gap-1">
-                          <User className="h-5 w-5 text-muted-foreground" />
-                          <span className="text-xs md:text-sm font-medium text-foreground">
+                        <Link href={`/admin/inscricoes/${registration.id}`} className="flex items-center gap-1 hover:bg-muted/50 rounded p-2 transition-colors group">
+                          <User className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                          <span className="text-xs md:text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                             {registration.nomeCompleto} <br />
-                            {registration.codigo}
+                            <span className="text-muted-foreground">{registration.codigo}</span>
                           </span>
-                        </div>
+                        </Link>
                       </td>
 
                       <td className="hidden md:table-cell p-1 md:p-2">

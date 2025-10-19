@@ -46,7 +46,7 @@ export function NavUser({user}: {user: { name: string, email: string }}) {
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <IconLogout />
-              Log out
+              Sair
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

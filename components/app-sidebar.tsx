@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { IconInnerShadowTop, IconSettings, IconUser, IconUserEdit, IconBookmarkEdit } from "@tabler/icons-react"
+import { IconInnerShadowTop, IconHome, IconUser, IconUserEdit, IconBookmarkEdit } from "@tabler/icons-react"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
@@ -34,9 +34,9 @@ const data = {
   ],
   navSecondary: [
     {
-      title: "Configurações",
-      url: "/admin/configuracoes",
-      icon: IconSettings,
+      title: "Página inicial",
+      url: "/",
+      icon: IconHome,
     }
   ]
 }

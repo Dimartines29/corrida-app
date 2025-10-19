@@ -4,16 +4,7 @@ import { getCurrentUser } from '@/lib/auth/get-session'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { 
-  User, 
-  Mail, 
-  Shield, 
-  LogOut, 
-  FileText, 
-  Calendar,
-  Trophy,
-  Settings
-} from 'lucide-react'
+import { User, Mail, Shield, LogOut, FileText, Calendar, Trophy, Settings } from 'lucide-react'
 
 export default async function MinhaAreaPage() {
   const user = await getCurrentUser()
@@ -30,9 +21,9 @@ export default async function MinhaAreaPage() {
           <div className="flex justify-between items-center h-16 sm:h-20">
             <div className="flex-shrink-0">
               <Link href="/">
-                <img 
-                  src="/logo-chris.png" 
-                  alt="Todo Mundo Corre com o Chris" 
+                <img
+                  src="/logo-chris.png"
+                  alt="Todo Mundo Corre com o Chris"
                   className="h-10 sm:h-13 w-auto cursor-pointer"
                 />
               </Link>
