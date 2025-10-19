@@ -73,6 +73,21 @@ export function EnhancedDateRangePicker({
   numberOfMonths = 1
 }: DateRangePickerProps) {
   const [open, setOpen] = React.useState(false)
+  const [isMobile, setIsMobile] = React.useState(false)
+  const [isClient, setIsClient] = React.useState(false)
+
+  React.useEffect(() => {
+    setIsClient(true)
+
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const getSelectedPreset = () => {
     if (!value?.from || !value?.to) return null
@@ -158,12 +173,13 @@ export function EnhancedDateRangePicker({
                 if (selectedRange?.from && selectedRange?.to) {
                   onChange(selectedRange as DateRange)
 
-                  if (window.innerWidth < 768) {
+                  if (isMobile && isClient) {
                     setTimeout(() => setOpen(false), 300)
                   }
                 }
               }}
-              numberOfMonths={window.innerWidth < 768 ? 1 : numberOfMonths}
+
+              numberOfMonths={isMobile ? 1 : numberOfMonths}
               locale={ptBR}
               className="rounded-md border-0 md:border"
             />

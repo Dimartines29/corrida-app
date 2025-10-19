@@ -6,8 +6,6 @@ import { ArrowDown, ArrowUp, ArrowUpDown, BadgeAlert, User, Users } from "lucide
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-
-// import { RegistrationsFilters } from "@/components/cases/RegistrationsFilters"
 import IndicatorCard from "@/components/inscricoes/IndicatorCard"
 import MobileButton from "@/components/mobile/MobileButton"
 import Paginator from "@/components/pagination/Paginator"
@@ -443,7 +441,7 @@ export default function Inscricoes() {
                 </thead>
                 <tbody>
                   {paginatedRegistrations.map((registration, index) => (
-                    <tr key={registration.cpf} className="border-b border-border/30 hover:bg-muted/20 transition-colors duration-150 group" style={{ animationDelay: `${index * 50}ms`, animation: "fadeIn 0.3s ease-out forwards" }}>
+                    <tr key={registration.cpf} className="border-b border-border/30 hover:bg-muted/20 transition-colors duration-150 group animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
                       <td className="p-1 md:p-2">
                         <div className="flex items-center gap-1">
                           <User className="h-5 w-5 text-muted-foreground" />
