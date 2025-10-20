@@ -41,7 +41,7 @@ export default function LoginPage() {
         return
       }
 
-      router.push('/corrida')
+      router.push('/minha-area')
       router.refresh()
     } catch (error) {
       setError('Erro ao fazer login')
@@ -211,13 +211,21 @@ export default function LoginPage() {
 
               {/* Senha */}
               <div className="bg-white p-5 rounded-xl border-2 border-gray-300 hover:border-[#E53935] transition-all">
-                <Label
-                  htmlFor="password"
-                  className="text-[#E53935] font-bold flex items-center gap-2 mb-2"
-                >
-                  <Lock className="w-4 h-4" />
-                  Senha *
-                </Label>
+                <div className="flex items-center justify-between mb-2">
+                  <Label
+                    htmlFor="password"
+                    className="text-[#E53935] font-bold flex items-center gap-2"
+                  >
+                    <Lock className="w-4 h-4" />
+                    Senha *
+                  </Label>
+                  <Link
+                    href="/esqueci-senha"
+                    className="text-xs text-[#00B8D4] hover:text-[#008a9e] font-semibold hover:underline transition-colors"
+                  >
+                    Esqueci minha senha
+                  </Link>
+                </div>
                 <Input
                   id="password"
                   type="password"

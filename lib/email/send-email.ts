@@ -1,5 +1,5 @@
 import { resend } from './resend';
-import { emailInscricaoPendente } from './templates';
+import { emailInscricaoPendente, emailRecuperacaoSenha } from './templates';
 
 interface EnviarEmailInscricaoPendenteProps {
   para: string;
@@ -46,6 +46,43 @@ export async function enviarEmailInscricaoPendente({
     }
 
     console.log('Email de inscrição pendente enviado:', data);
+    return { success: true, data };
+
+  } catch (error) {
+    console.error('Erro ao enviar email:', error);
+    throw error;
+  }
+}
+
+interface EnviarEmailRecuperacaoSenhaProps {
+  para: string;
+  nomeCompleto: string;
+  resetUrl: string;
+}
+
+export async function enviarEmailRecuperacaoSenha({
+  para,
+  nomeCompleto,
+  resetUrl,
+}: EnviarEmailRecuperacaoSenhaProps) {
+  try {
+    const htmlContent = emailRecuperacaoSenha({
+      nomeCompleto,
+      resetUrl,
+    });
+
+    const { data, error } = await resend.emails.send({
+      from: 'Corrida App <onboarding@resend.dev>',
+      to: para,
+      subject: '🔐 Recuperação de Senha - Corrida Chris',
+      html: htmlContent,
+    });
+
+    if (error) {
+      console.error('Erro ao enviar email de recuperação:', error);
+      throw new Error(`Falha no envio: ${error.message}`);
+    }
+
     return { success: true, data };
 
   } catch (error) {

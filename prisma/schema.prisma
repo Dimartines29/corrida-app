@@ -17,6 +17,8 @@ model User {
   emailVerified DateTime?
   image         String?
   name          String?
+  resetToken         String?    @unique
+  resetTokenExpiry   DateTime?
   accounts      Account[]
   inscricao     Inscricao?
   sessions      Session[]
