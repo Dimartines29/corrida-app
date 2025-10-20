@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'
 import Link from 'next/link';
 import { Facebook, Instagram } from 'lucide-react';
+import { handleSignOut } from '@/app/actions/auth'
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const { data: session, status } = useSession()
@@ -20,9 +22,9 @@ export default function Home() {
             Painel Admin
           </Link>
 
-          <Link className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg pl-4" href="/api/auth/signout">
+          <Button onClick={async () => {await handleSignOut()}} className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent">
             Sair
-          </Link>
+          </Button>
         </div>
       );
     }
@@ -34,17 +36,24 @@ export default function Home() {
             Minha Área
           </Link>
 
-          <Link className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg pl-4" href="/api/auth/signout">
+          <Button onClick={async () => {await handleSignOut()}} className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent">
             Sair
-          </Link>
+          </Button>
         </div>
       );
     }
 
     return (
-      <button onClick={() => scrollToSection('inscricoes')} className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors">
-        INSCREVA-SE
-      </button>
+      <div>
+        <button onClick={() => scrollToSection('inscricoes')} className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors">
+          INSCREVA-SE
+        </button>
+
+        <Link href="/login" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg pl-6">
+          Entrar
+        </Link>
+      </div>
+
     );
   };
 
@@ -56,9 +65,9 @@ export default function Home() {
             Painel Admin
           </Link>
 
-          <Link className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg pl-4" href="/api/auth/signout">
+          <Button onClick={async () => {await handleSignOut()}} className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent">
             Sair
-          </Link>
+          </Button>
         </div>
       );
     }
@@ -70,18 +79,24 @@ export default function Home() {
             Minha área
           </Link>
 
-          <Link className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg pl-4" href="/api/auth/signout">
+          <Button onClick={async () => {await handleSignOut()}} className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent">
             Sair
-          </Link>
+          </Button>
         </div>
 
       );
     }
 
     return (
-      <button onClick={() => scrollToSection('inscricoes')} className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition">
-        INSCREVA-SE
-      </button>
+      <div>
+        <button onClick={() => scrollToSection('inscricoes')} className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition">
+          INSCREVA-SE
+        </button>
+
+        <Link href="/login" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg pl-6">
+          Entrar
+        </Link>
+      </div>
     );
   };
 
