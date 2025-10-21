@@ -20,17 +20,7 @@ const data = {
       title: "Inscrições",
       url: "/admin",
       icon: IconUser,
-    },
-    {
-      title: "Inscrição Manual",
-      url: "/admin/inscricao-manual",
-      icon: IconUserEdit,
-    },
-    {
-      title: "Lotes e Categorias",
-      url: "/admin/lotes-categorias",
-      icon: IconBookmarkEdit,
-    },
+    }
   ],
   navSecondary: [
     {
