@@ -85,10 +85,6 @@ export const step2Schema = z.object({
 });
 
 export const step3Schema = z.object({
-  kitId: z
-    .string()
-    .min(1, "Selecione um kit"),
-
   tamanhoCamisa: z
     .string()
     .refine(
