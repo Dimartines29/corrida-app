@@ -1,8 +1,7 @@
 "use client"
-
 import { IconDotsVertical, IconLogout } from "@tabler/icons-react"
+import { handleSignOut } from '@/app/actions/auth'
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
 
@@ -44,7 +43,7 @@ export function NavUser({user}: {user: { name: string, email: string }}) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={async () => {await handleSignOut()}}>
               <IconLogout />
               Sair
             </DropdownMenuItem>
