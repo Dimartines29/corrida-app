@@ -50,18 +50,6 @@ async function main() {
       inscricoesAbertas: true,
     },
   })
-
-  console.log('Configuração do site criada:', config.nomeEvento)
-
-  // 3. CRIAR USUÁRIO ADMIN
-  const hashedPassword = await bcrypt.hash('admin123', 10)
-  await prisma.user.create({
-    data: {
-      email: 'admin@corridachallenge.com',
-      password: hashedPassword,
-      role: 'ADMIN',
-    },
-  })
 }
 
 main()

@@ -7,7 +7,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Corrida Challenge 2025',
+  title: 'Todo mundo corre com o Chris',
   description: 'Sistema de inscrições para corrida',
 }
 

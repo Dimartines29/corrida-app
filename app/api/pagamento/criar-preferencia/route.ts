@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
           },
         },
         back_urls: backUrls,
-        //auto_return: 'approved' as const,
+        // auto_return: 'approved' as const,
         external_reference: inscricao.id,
         payment_methods: {
           excluded_payment_types: [{ id: 'ticket' }],

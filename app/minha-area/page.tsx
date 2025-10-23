@@ -4,7 +4,9 @@ import { getCurrentUser } from '@/lib/auth/get-session'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { User, Mail, Shield, LogOut, FileText, Calendar, Trophy, Settings } from 'lucide-react'
+import { User, Mail, Shield, LogOut, FileText, Calendar, Trophy, Settings, CreditCard, AlertCircle } from 'lucide-react'
+import { prisma } from '@/lib/prisma'
+import { PagamentoPendenteButton } from '@/components/PagamentoPendenteButton'
 
 export default async function MinhaAreaPage() {
   const user = await getCurrentUser()
@@ -12,6 +14,17 @@ export default async function MinhaAreaPage() {
   if (!user) {
     redirect('/login')
   }
+
+  // ==========================================
+  // BUSCAR INSCRIÇÃO DO USUÁRIO
+  // ==========================================
+  const inscricao = await prisma.inscricao.findUnique({
+    where: { userId: user.id },
+    include: {
+      lote: true,
+      pagamento: true,
+    },
+  })
 
   return (
     <div className="min-h-screen bg-[#FFE66D]">
@@ -94,6 +107,111 @@ export default async function MinhaAreaPage() {
             </p>
           </div>
 
+          {/* ==========================================
+              ALERTA DE PAGAMENTO PENDENTE
+          ========================================== */}
+          {inscricao && inscricao.status === 'PENDENTE' && (
+            <Card className="bg-gradient-to-r from-orange-500 to-orange-600 border-none shadow-2xl rounded-2xl overflow-hidden animate-pulse">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="bg-white p-3 rounded-lg flex-shrink-0">
+                    <AlertCircle className="w-8 h-8 text-orange-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-black text-white mb-2">
+                      ⚠️ PAGAMENTO PENDENTE
+                    </h3>
+                    <p className="text-white/90 mb-4 font-semibold">
+                      Sua inscrição <strong>{inscricao.codigo}</strong> está aguardando pagamento.
+                      <br />
+                      Finalize agora para garantir sua vaga!
+                    </p>
+                    
+                    <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 mb-4">
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                          <p className="text-white/80 font-semibold">Categoria</p>
+                          <p className="text-white font-bold">{inscricao.categoria}</p>
+                        </div>
+                        <div>
+                          <p className="text-white/80 font-semibold">Valor</p>
+                          <p className="text-white font-bold">R$ {Number(inscricao.valorPago).toFixed(2)}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <PagamentoPendenteButton inscricaoId={inscricao.id} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* ==========================================
+              CARD COM STATUS DA INSCRIÇÃO (se existir)
+          ========================================== */}
+          {inscricao && (
+            <Card className="bg-white border-none shadow-2xl rounded-2xl overflow-hidden">
+              <div className={`p-6 ${
+                inscricao.status === 'PAGO' 
+                  ? 'bg-gradient-to-r from-green-500 to-green-600'
+                  : inscricao.status === 'PENDENTE'
+                  ? 'bg-gradient-to-r from-yellow-500 to-yellow-600'
+                  : 'bg-gradient-to-r from-red-500 to-red-600'
+              }`}>
+                <div className="flex items-center gap-3">
+                  <div className="bg-white p-3 rounded-lg">
+                    <FileText className="w-6 h-6 text-gray-700" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-black text-white">SUA INSCRIÇÃO</h2>
+                    <p className="text-sm text-white/90">
+                      Código: {inscricao.codigo}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <CardContent className="p-6 space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-[#FFE66D] p-4 rounded-xl">
+                    <p className="text-xs font-bold text-gray-600 uppercase mb-1">Status</p>
+                    <p className="text-lg font-bold text-gray-800">
+                      {inscricao.status === 'PAGO' && '✅ Confirmada'}
+                      {inscricao.status === 'PENDENTE' && '⏳ Pendente'}
+                      {inscricao.status === 'CANCELADO' && '❌ Cancelada'}
+                    </p>
+                  </div>
+
+                  <div className="bg-[#FFE66D] p-4 rounded-xl">
+                    <p className="text-xs font-bold text-gray-600 uppercase mb-1">Categoria</p>
+                    <p className="text-lg font-bold text-gray-800">{inscricao.categoria}</p>
+                  </div>
+
+                  <div className="bg-[#FFE66D] p-4 rounded-xl">
+                    <p className="text-xs font-bold text-gray-600 uppercase mb-1">Lote</p>
+                    <p className="text-lg font-bold text-gray-800">{inscricao.lote.nome}</p>
+                  </div>
+
+                  <div className="bg-[#FFE66D] p-4 rounded-xl">
+                    <p className="text-xs font-bold text-gray-600 uppercase mb-1">Valor</p>
+                    <p className="text-lg font-bold text-gray-800">
+                      R$ {Number(inscricao.valorPago).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+
+                {inscricao.status === 'PAGO' && (
+                  <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4">
+                    <p className="text-green-800 font-bold text-center">
+                      🎉 Inscrição confirmada! Nos vemos na corrida!
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
           {/* Card de Informações do Usuário */}
           <Card className="bg-white border-none shadow-2xl rounded-2xl overflow-hidden">
             <div className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] p-6">
@@ -169,20 +287,22 @@ export default async function MinhaAreaPage() {
             </div>
 
             <CardContent className="p-6 space-y-4">
-              {/* Fazer Inscrição */}
-              <Link href="/inscricao">
-                <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-5 rounded-xl hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-white p-3 rounded-lg">
-                      <FileText className="w-6 h-6 text-[#E53935]" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-black text-gray-800 text-lg">Fazer sua inscrição na corrida</p>
-                      <p className="text-sm text-gray-700 font-semibold">Clique para se inscrever no evento</p>
+              {/* Fazer Inscrição (só mostra se NÃO tiver inscrição) */}
+              {!inscricao && (
+                <Link href="/inscricao">
+                  <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-5 rounded-xl hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-white p-3 rounded-lg">
+                        <FileText className="w-6 h-6 text-[#E53935]" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-black text-gray-800 text-lg">Fazer sua inscrição na corrida</p>
+                        <p className="text-sm text-gray-700 font-semibold">Clique para se inscrever no evento</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              )}
 
               {/* Ver Detalhes do Evento */}
               <Link href="/#informacoes">
@@ -199,18 +319,34 @@ export default async function MinhaAreaPage() {
                 </div>
               </Link>
 
-              {/* Baixar Comprovante */}
-              <div className="bg-gray-100 p-5 rounded-xl">
-                <div className="flex items-center gap-4">
-                  <div className="bg-white p-3 rounded-lg">
-                    <FileText className="w-6 h-6 text-gray-400" />
+              {/* Baixar Comprovante (só se PAGO) */}
+              {inscricao?.status === 'PAGO' ? (
+                <Link href={`/inscricao/${inscricao.id}/comprovante`}>
+                  <div className="bg-gradient-to-r from-green-400 to-green-500 p-5 rounded-xl hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-white p-3 rounded-lg">
+                        <FileText className="w-6 h-6 text-green-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-black text-white text-lg">Baixar comprovante de inscrição</p>
+                        <p className="text-sm text-white/90 font-semibold">PDF com todos os dados</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="font-black text-gray-600 text-lg">Baixar comprovante de inscrição</p>
-                    <p className="text-sm text-gray-500 font-semibold">Disponível após confirmação do pagamento</p>
+                </Link>
+              ) : (
+                <div className="bg-gray-100 p-5 rounded-xl">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-white p-3 rounded-lg">
+                      <FileText className="w-6 h-6 text-gray-400" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-black text-gray-600 text-lg">Baixar comprovante de inscrição</p>
+                      <p className="text-sm text-gray-500 font-semibold">Disponível após confirmação do pagamento</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Painel Admin (se for admin) */}
               {user.role === 'ADMIN' && (
