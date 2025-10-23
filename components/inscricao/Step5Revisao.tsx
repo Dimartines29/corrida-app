@@ -82,9 +82,9 @@ export function Step5Revisao({ form }: Step5Props) {
       </div>
 
       {/* Alerta Principal */}
-      <Alert className="bg-[#FFE66D] border-2 border-[#E53935]">
-        <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-[#E53935]" />
-        <AlertDescription className="text-sm sm:text-base text-gray-800 font-semibold">
+      <Alert className="bg-yellow-50 border-2 border-yellow-400">
+        <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-600" />
+        <AlertDescription className="text-sm sm:text-base text-yellow-800 font-semibold">
           ⚠️ Após confirmar, você será redirecionado para o pagamento. Certifique-se de que todos os dados estão corretos, pois não será possível alterá-los posteriormente.
         </AlertDescription>
       </Alert>
@@ -135,6 +135,9 @@ export function Step5Revisao({ form }: Step5Props) {
                   <p className="font-bold text-[#E53935] mb-1 sm:mb-2 text-sm sm:text-base">Endereço Completo</p>
                   <p className="text-gray-800 font-semibold text-xs sm:text-sm">
                     {formData.endereco}
+                  </p>
+                  <p className="text-gray-800 font-semibold text-xs sm:text-sm">
+                    {formData.bairro}  {/* ← ADICIONE ESTA LINHA */}
                   </p>
                   <p className="text-gray-800 font-semibold text-xs sm:text-sm">
                     {formData.cidade} - {formData.estado}
@@ -258,6 +261,7 @@ export function Step5Revisao({ form }: Step5Props) {
             </div>
 
             <div className="space-y-3 sm:space-y-4">
+              {/* Valor do Lote */}
               <div className="bg-white/20 p-3 sm:p-4 rounded-lg backdrop-blur">
                 <div className="flex justify-between items-center text-white mb-2">
                   <span className="font-semibold text-sm sm:text-base">Inscrição - {lote.nome}</span>
@@ -270,12 +274,32 @@ export function Step5Revisao({ form }: Step5Props) {
                 </p>
               </div>
 
+              {/* 🆕 TAXA DE INSCRIÇÃO */}
+              <div className="bg-white/20 p-3 sm:p-4 rounded-lg backdrop-blur border-2 border-white/30">
+                <div className="flex justify-between items-center text-white">
+                  <div>
+                    <span className="font-semibold text-sm sm:text-base block">Taxa de Inscrição</span>
+                    <span className="text-white/80 text-xs">Processamento e serviços</span>
+                  </div>
+                  <span className="font-bold text-lg sm:text-xl">
+                    R$ 4,00
+                  </span>
+                </div>
+              </div>
+
+              {/* Linha Divisória */}
+              <div className="border-t-2 border-white/30 my-2"></div>
+
+              {/* Total Final */}
               <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-center flex-col sm:flex-row gap-3 sm:gap-0">
                   <div>
                     <p className="text-xs sm:text-sm text-gray-600 font-semibold mb-1">VALOR TOTAL</p>
                     <p className="text-3xl sm:text-4xl font-black text-[#E53935]">
-                      R$ {lote.preco.toFixed(2)}
+                      R$ {lote.preco}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {lote.preco.toFixed(2)}
                     </p>
                   </div>
                   <Package className="w-10 h-10 sm:w-12 sm:h-12 text-[#00B8D4]" />
@@ -287,11 +311,9 @@ export function Step5Revisao({ form }: Step5Props) {
       )}
 
       {/* Aviso Final */}
-      <Alert className="bg-red-50 border-2 border-red-500">
-        <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-red-600" />
-        <AlertDescription className="text-sm sm:text-base text-red-800 font-semibold">
-          <strong className="text-red-900">⚠️ ATENÇÃO:</strong> Após a confirmação da inscrição, não será possível realizar alterações nos dados informados. Revise tudo cuidadosamente antes de prosseguir para o pagamento.
-        </AlertDescription>
+      <Alert className="bg-yellow-50 border-2 border-yellow-400">
+        <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-600" />
+        <AlertDescription className="text-sm sm:text-base text-yellow-800 font-semibold">⚠️ Após a confirmação da inscrição, não será possível realizar alterações nos dados informados. Revise tudo cuidadosamente antes de prosseguir para o pagamento.</AlertDescription>
       </Alert>
     </div>
   );

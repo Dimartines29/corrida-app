@@ -41,7 +41,7 @@ export function Step4FichaMedica({ form }: Step4Props) {
         <FormField control={form.control} name="possuiPlanoSaude" render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
               <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} className={`w-4 h-4 sm:w-5 sm:h-5 border-2 ${field.value ? "bg-white border-white data-[state=checked]:bg-white data-[state=checked]:text-[#00B8D4]" : ""}`}/>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} className={`w-4 h-4 sm:w-5 sm:h-5 border-2 ${field.value ? "bg-white border-white data-[state=checked]:bg-white data-[state=checked]:text-[#00B8D4]" : "border-gray-300 data-[state=unchecked]:border-gray-300"}`}/>
               </FormControl>
 
               <div className="space-y-1 leading-none">
@@ -149,7 +149,7 @@ export function Step4FichaMedica({ form }: Step4Props) {
               <FormField control={form.control} name="declaracaoSaude" render={({ field }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0 bg-white p-3 sm:p-4 rounded-lg border-2 border-gray-200">
                     <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} className="w-4 h-4 sm:w-5 sm:h-5 border-2"/>
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-gray-300 data-[state=unchecked]:border-gray-300"/>
                     </FormControl>
 
                     <div className="space-y-1 leading-none">
@@ -165,19 +165,20 @@ export function Step4FichaMedica({ form }: Step4Props) {
 
           {!declaracaoAceita && (
             <Alert className="mt-3 sm:mt-4 bg-white border-2 border-red-400">
-              <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
-
-              <AlertDescription className="text-xs sm:text-sm text-red-800 font-semibold">Você precisa aceitar a declaração de saúde para prosseguir com a inscrição.</AlertDescription>
+              <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5" style={{ color: '#dc2626' }} /> {/* Vermelho direto */}
+              <AlertDescription className="text-xs sm:text-sm text-red-800 font-semibold">
+                Você precisa aceitar a declaração de saúde para prosseguir com a inscrição.
+              </AlertDescription>
             </Alert>
           )}
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-to-r bg-[#FFE66D] border-none">
-        <CardContent className="pt-0">
-          <p className="text-xs sm:text-sm text-gray-800 font-semibold"><strong className="text-[#E53935]">Recomendação:</strong> Antes de qualquer evento esportivo, é importante passar por uma avaliação médica. Consulte seu médico e realize exames cardiológicos se necessário.</p>
-        </CardContent>
-      </Card>
+      <Alert className="bg-yellow-50 border-2 border-yellow-400">
+        <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-600" />
+        <AlertDescription className="text-sm sm:text-base text-yellow-800 font-semibold">⚠️ Antes de qualquer evento esportivo, é importante passar por uma avaliação médica. Consulte seu médico e realize exames cardiológicos se necessário.
+        </AlertDescription>
+      </Alert>
     </div>
   );
 }

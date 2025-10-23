@@ -60,6 +60,10 @@ export const step1Schema = z.object({
     .string()
     .min(5, "Endereço muito curto"),
 
+  bairro: z
+    .string()
+    .min(3, "Bairro obrigatório"),
+
   cidade: z
     .string()
     .min(2, "Cidade inválida"),

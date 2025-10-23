@@ -8,6 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { Flag, DollarSign, Calendar, Shirt } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
+// 💰 TAXA FIXA DE INSCRIÇÃO
+const TAXA_INSCRICAO = 4.00;
+
 interface Step2Props {
   form: UseFormReturn<InscricaoCompleta>;
 }
@@ -104,7 +107,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                 </SelectContent>
               </Select>
 
-              <FormDescription className="text-gray-600 text-xs sm:text-sm"> Escolha a distância que você deseja correr</FormDescription>
+              <FormDescription className="text-gray-600 text-xs sm:text-sm"> Escolha a distância desejada.</FormDescription>
 
               <FormMessage />
             </FormItem>
@@ -119,11 +122,27 @@ export function Step2CategoriaLote({ form }: Step2Props) {
           <div className="hidden xl:block fixed top-24 right-6 z-40 w-80">
             <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-2xl">
               <CardContent className="pt-6 sm:pt-8 pb-6 sm:pb-8 px-4 sm:px-6">
-                <div className="space-y-3 sm:space-y-4 text-white">
-                  <p className="text-xs sm:text-sm text-white/80 mb-2">Distância do percurso:</p>
-                  <p className="text-4xl sm:text-5xl font-black">{categoriaSelecionada}</p>
+                <div className="space-y-4 text-white">
+                  {/* Nome da Categoria */}
+                  <div className="text-center">
+                    <p className="text-3xl font-black leading-tight break-words">
+                      {categoriaSelecionada.split(' - ')[0]}
+                    </p>
+                    <p className="text-5xl font-black mt-1">
+                      {categoriaSelecionada.split(' - ')[1]}
+                    </p>
+                  </div>
 
-                  {categoriaSelecionada && (<div className="pt-3 sm:pt-4 border-t border-white/30"><p className="text-sm sm:text-base text-white/90 leading-relaxed">{categoriaSelecionada}</p></div>)}
+                  {/* Descrição */}
+                  <div className="pt-4 border-t border-white/30">
+                    <p className="text-sm text-white/90 leading-relaxed text-center">
+                      {categoriaSelecionada === 'Caminhada - 3km'
+                        ? 'Ideal para iniciantes e quem quer aproveitar o evento com tranquilidade.'
+                        : categoriaSelecionada === 'Corrida - 5km'
+                        ? 'Distância perfeita para corredores iniciantes e intermediários.'
+                        : 'Desafio para corredores experientes que buscam superar seus limites.'}
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -133,11 +152,35 @@ export function Step2CategoriaLote({ form }: Step2Props) {
           <div className="xl:hidden">
             <Card className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] border-none shadow-lg">
               <CardContent className="pt-6 pb-6 px-4">
-                <div className="space-y-3 text-white">
-                  <p className="text-xs text-white/80 mb-2">Distância do percurso:</p>
-                  <p className="text-3xl sm:text-4xl font-black">{categoriaSelecionada} KM</p>
+                <div className="space-y-4 text-white">
+                  {/* Ícone */}
+                  <div className="flex items-center justify-center">
+                    <div className="bg-white/20 p-3 rounded-full backdrop-blur">
+                      <Flag className="w-6 h-6" />
+                    </div>
+                  </div>
 
-                  {categoriaSelecionada && (<div className="pt-3 border-t border-white/30"><p className="text-sm text-white/90 leading-relaxed">{categoriaSelecionada}</p></div>)}
+                  {/* Nome da Categoria */}
+                  <div className="text-center">
+                    <p className="text-xs text-white/80 mb-2">Categoria Selecionada</p>
+                    <p className="text-2xl font-black leading-tight break-words">
+                      {categoriaSelecionada.split(' - ')[0]}
+                    </p>
+                    <p className="text-4xl font-black mt-1">
+                      {categoriaSelecionada.split(' - ')[1]}
+                    </p>
+                  </div>
+
+                  {/* Descrição */}
+                  <div className="pt-3 border-t border-white/30">
+                    <p className="text-xs text-white/90 leading-relaxed text-center">
+                      {categoriaSelecionada === 'Caminhada - 3km'
+                        ? 'Ideal para iniciantes e quem quer aproveitar o evento.'
+                        : categoriaSelecionada === 'Corrida - 5km'
+                        ? 'Distância perfeita para corredores iniciantes e intermediários.'
+                        : 'Desafio para corredores experientes.'}
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -145,37 +188,9 @@ export function Step2CategoriaLote({ form }: Step2Props) {
         </>
       )}
 
-      {/* Grid: Kit e Lote lado a lado em telas grandes, empilhados em mobile */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        {/* Escolha do Kit (sempre primeiro) */}
-        {/* <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#E53935] transition-all">
-          <FormField control={form.control} name="kitId" render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-[#E53935] font-bold text-base sm:text-lg flex items-center gap-2">
-                  <Shirt className="w-4 h-4 sm:w-5 sm:h-5" /> Escolha seu Kit *
-                </FormLabel>
-
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-2 border-[#00B8D4] h-10 sm:h-12 text-sm sm:text-base text-black">
-                      <SelectValue placeholder="Selecione o kit" />
-                    </SelectTrigger>
-                  </FormControl>
-
-                  <SelectContent>
-                    {Array.isArray(kits) && kits.length > 0 ? (kits.map((kit) => (<SelectItem key={kit.id} value={kit.id} className="text-sm sm:text-base">{kit.nome}</SelectItem>))) : (<SelectItem value="none" disabled>Nenhum kit disponível</SelectItem>)}
-                  </SelectContent>
-                </Select>
-
-                <FormDescription className="text-gray-600 text-xs sm:text-sm">Escolha o kit que deseja para a corrida</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div> */}
-
-        {/* Lote (sempre segundo) */}
-        <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#E53935] transition-all">
+      <div className="bg-white p-4 sm:p-1 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
+        {/* Lote */}
+        <div className="bg-white p-10 sm:p-6 rounded-xl border-gray-300 hover:border-[#E53935] transition-all">
           <FormField control={form.control} name="loteId" render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[#E53935] font-bold text-base sm:text-lg flex items-center gap-2">
@@ -194,7 +209,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                   </SelectContent>
                 </Select>
 
-                <FormDescription className="text-gray-600 text-xs sm:text-sm">O preço varia de acordo com o lote escolhido</FormDescription>
+                <FormDescription className="text-gray-600 text-xs sm:text-sm">O preço varia de acordo com o lote disponível.</FormDescription>
 
                 <FormMessage />
               </FormItem>
@@ -203,75 +218,107 @@ export function Step2CategoriaLote({ form }: Step2Props) {
         </div>
       </div>
 
-      {/* Cards do Kit e Lote lado a lado em mobile */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        {/* Card do Kit */}
-        {/* {kitSelecionado && (
-          <Card className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] border-none shadow-lg xl:hidden">
-            <CardContent className="pt-6 pb-6 px-4">
-              <div className="space-y-3">
-                <div className="flex items-start justify-between">
-                  <Badge variant="secondary" className="bg-[#E53935] text-white font-bold px-3 py-1.5 text-sm">
-                    {kitSelecionado.nome}
-                  </Badge>
+      {/* 🆕 CARD MOBILE - COM TAXA DE INSCRIÇÃO */}
+      {loteSelecionado && (
+        <Card className="bg-gradient-to-r from-[#E53935] to-[#c62828] border-none shadow-lg xl:hidden">
+          <CardContent className="pt-6 pb-6 px-4">
+            <div className="space-y-3 text-white">
+              {/* Badge do Lote */}
+              <div className="flex items-start justify-between flex-wrap gap-2">
+                <Badge variant="secondary" className="bg-white text-[#E53935] font-bold px-3 py-1.5 text-sm">
+                  {loteSelecionado.nome}
+                </Badge>
+              </div>
+
+              {/* Data de Validade */}
+              <div className="flex items-center gap-2 text-white/90">
+                <Calendar className="w-4 h-4" />
+                <p className="text-sm">Válido até {new Date(loteSelecionado.dataFim).toLocaleDateString("pt-BR")}</p>
+              </div>
+
+              {/* Breakdown de Valores */}
+              <div className="pt-3 border-t border-white/30 space-y-3">
+                {/* Valor do Lote */}
+                <div className="flex justify-between items-center">
+                  <p className="text-xs text-white/80">Valor do lote:</p>
+                  <p className="text-lg font-bold">R$ {loteSelecionado.preco.toFixed(2)}</p>
                 </div>
 
-                <div className="pt-3 border-t border-gray-300">
-                  <p className="text-xs text-gray-700 mb-2 font-bold">Itens inclusos:</p>
-                  <p className="text-base sm:text-lg font-bold text-gray-800 leading-relaxed">{kitSelecionado.itens}</p>
+                {/* Taxa de Inscrição */}
+                <div className="flex justify-between items-center">
+                  <p className="text-xs text-white/80">Taxa de inscrição:</p>
+                  <p className="text-lg font-bold">R$ {TAXA_INSCRICAO.toFixed(2)}</p>
+                </div>
+
+                {/* Linha Divisória */}
+                <div className="border-t border-white/30 my-2"></div>
+
+                {/* Total */}
+                <div className="flex justify-between items-center pt-2">
+                  <p className="text-3xl font-black">
+                    R$ {(loteSelecionado.preco + TAXA_INSCRICAO).toFixed(2)}
+                  </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        )} */}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
-        {/* Card de Lote */}
-        {loteSelecionado && (
-          <Card className="bg-gradient-to-r from-[#E53935] to-[#c62828] border-none shadow-lg xl:hidden">
-            <CardContent className="pt-6 pb-6 px-4">
-              <div className="space-y-3 text-white">
-                <div className="flex items-start justify-between flex-wrap gap-2">
-                  <Badge variant="secondary" className="bg-white text-[#E53935] font-bold px-3 py-1.5 text-sm">{loteSelecionado.nome}</Badge>
-                </div>
-
-                <div className="flex items-center gap-2 text-white/90">
-                  <Calendar className="w-4 h-4" />
-                  <p className="text-sm">Válido até {new Date(loteSelecionado.dataFim).toLocaleDateString("pt-BR")}</p>
-                </div>
-
-                <div className="pt-3 border-t border-white/30">
-                  <p className="text-xs text-white/80 mb-2">Valor da inscrição:</p>
-                  <p className="text-3xl sm:text-4xl font-black">R$ {loteSelecionado.preco.toFixed(2)}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </div>
-
-      {/* Card Flutuante Desktop - Lote com Badge do Kit */}
+      {/* 🆕 CARD DESKTOP FLUTUANTE - COM TAXA DE INSCRIÇÃO */}
       {loteSelecionado && (
         <div className="hidden xl:block fixed top-[400px] right-6 z-40 w-80">
           <Card className="bg-gradient-to-r from-[#E53935] to-[#c62828] border-none shadow-2xl">
             <CardContent className="pt-6 sm:pt-8 pb-6 sm:pb-8 px-4 sm:px-6">
               <div className="space-y-3 sm:space-y-4 text-white">
+                {/* Badges */}
                 <div className="flex items-start justify-between flex-wrap gap-2">
                   <Badge variant="secondary" className="bg-white text-[#E53935] font-bold px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base">
                     {loteSelecionado.nome}
                   </Badge>
                   <Badge variant="secondary" className="bg-[#FFE66D] text-gray-800 font-bold px-2 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base flex items-center gap-1">
-                    <Shirt className="w-3 h-3 sm:w-4 sm:h-4"/>Kit Oficial
+                    <Shirt className="w-3 h-3 sm:w-4 sm:h-4"/>
+                    Kit Oficial
                   </Badge>
                 </div>
 
+                {/* Data de Validade */}
                 <div className="flex items-center gap-2 text-white/90">
                   <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <p className="text-sm sm:text-base">Válido até {new Date(loteSelecionado.dataFim).toLocaleDateString("pt-BR")}</p>
+                  <p className="text-sm sm:text-base">
+                    Válido até {new Date(loteSelecionado.dataFim).toLocaleDateString("pt-BR")}
+                  </p>
                 </div>
 
-                <div className="pt-3 sm:pt-4 border-t border-white/30">
-                  <p className="text-xs sm:text-sm text-white/80 mb-2">Valor da inscrição:</p>
-                  <p className="text-4xl sm:text-5xl font-black">R$ {loteSelecionado.preco.toFixed(2)}</p>
+                {/* Breakdown de Valores */}
+                <div className="pt-3 sm:pt-4 border-t border-white/30 space-y-3">
+                  {/* Valor do Lote */}
+                  <div className="flex justify-between items-center">
+                    <p className="text-xs sm:text-sm text-white/80">Valor do lote:</p>
+                    <p className="text-xl sm:text-2xl font-bold">
+                      R$ {loteSelecionado.preco.toFixed(2)}
+                    </p>
+                  </div>
+
+                  {/* Taxa de Inscrição */}
+                  <div className="flex justify-between items-center pb-3 border-b border-white/30">
+                    <div>
+                      <p className="text-xs sm:text-sm text-white/80">Taxa de inscrição:</p>
+                      <p className="text-[10px] text-white/60">Processamento e serviços</p>
+                    </div>
+                    <p className="text-xl sm:text-2xl font-bold">
+                      R$ {TAXA_INSCRICAO.toFixed(2)}
+                    </p>
+                  </div>
+
+                  {/* Total */}
+                  <div className="bg-white/20 p-3 rounded-lg backdrop-blur">
+                    <div className="flex justify-between items-center">
+                      <p className="text-4xl sm:text-5xl font-black">
+                        R$ {(loteSelecionado.preco + TAXA_INSCRICAO).toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>

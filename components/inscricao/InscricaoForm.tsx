@@ -27,6 +27,7 @@ export function InscricaoForm() {
       dataNascimento: "",
       telefone: "",
       endereco: "",
+      bairro: "",
       cidade: "",
       estado: "",
       cep: "",

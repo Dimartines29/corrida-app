@@ -86,6 +86,21 @@ export function Step3Kit({ form }: Step3Props) {
         )}
       />
 
+      <Card className="bg-gradient-to-r from-[#E53935] to-[#d32f2f] border-none shadow-xl">
+        <CardContent className="pt-0 sm:pt-1">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="bg-white rounded-full p-1 sm:p-2 flex-shrink-0">
+              <AlertCircle className="w-3 h-3 sm:w-4 sm:h-4 text-[#E53935]" />
+            </div>
+            <div>
+              <p className="text-white font-bold text-[11px] sm:text-base">
+                O tamanho escolhido é definitivo e não poderá ser alterado!
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {tamanhoSelecionado && (
         <Card className="bg-gradient-to-r bg-[#FFE66D] border-none shadow-lg">
           <CardContent className="pt-4 sm:pt-6">
@@ -107,38 +122,29 @@ export function Step3Kit({ form }: Step3Props) {
                 <p className="font-bold mb-1 sm:mb-2 text-[#00B8D4] flex items-center gap-2 text-sm sm:text-base"><AlertCircle className="w-3 h-3 sm:w-4 sm:h-4" />Dica:</p>
                 <p className="text-gray-700 text-xs sm:text-sm">Se você estiver em dúvida entre dois tamanhos, recomendamos escolher o tamanho maior para maior conforto durante a corrida.</p>
               </div>
-            </div>
+            </div><br></br>
+
+            <h4 className="font-black text-[#E53935] mb-2 text-base sm:text-lg flex gap-2"><Shirt className="w-5 h-5 sm:w-6 sm:h-6" />Informações Importantes</h4>
+
+            <ul className="space-y-1.5 sm:space-y-2 text-gray-700">
+              <li className="flex items-start gap-2">
+                <span className="text-[#00B8D4] font-bold">•</span>
+                <span className="text-gray-700 font-semibold text-xs sm:text-sm">A camisa é de tecido tecnológico dry-fit</span>
+              </li>
+
+              <li className="flex items-start gap-2">
+                <span className="text-[#00B8D4] font-bold">•</span>
+                <span className="text-gray-700 font-semibold text-xs sm:text-sm">Escolha com atenção baseando-se nas medidas</span>
+              </li>
+
+              <li className="flex items-start gap-2">
+                <span className="text-[#00B8D4] font-bold">•</span>
+                <span className="text-gray-700 font-semibold text-xs sm:text-sm">Em caso de dúvida, entre em contato com a organização</span>
+              </li>
+            </ul>
           </CardContent>
         </Card>
       )}
-
-      <Card className="bg-[#FFE66D] border-2 border-gray-200">
-        <CardContent className="pt-4 sm:pt-6">
-          <h4 className="font-black text-[#E53935] mb-2 text-base sm:text-lg flex gap-2"><Shirt className="w-5 h-5 sm:w-6 sm:h-6" />Informações Importantes</h4>
-
-          <ul className="space-y-1.5 sm:space-y-2 text-gray-700">
-            <li className="flex items-start gap-2">
-              <span className="text-[#00B8D4] font-bold">•</span>
-              <span className="text-gray-700 font-semibold text-xs sm:text-sm">A camisa é de tecido tecnológico dry-fit</span>
-            </li>
-
-            <li className="flex items-start gap-2">
-              <span className="text-[#00B8D4] font-bold">•</span>
-              <span className="text-gray-700 font-semibold text-xs sm:text-sm">Não será possível trocar o tamanho após a inscrição</span>
-            </li>
-
-            <li className="flex items-start gap-2">
-              <span className="text-[#00B8D4] font-bold">•</span>
-              <span className="text-gray-700 font-semibold text-xs sm:text-sm">Escolha com atenção baseando-se nas medidas</span>
-            </li>
-
-            <li className="flex items-start gap-2">
-              <span className="text-[#00B8D4] font-bold">•</span>
-              <span className="text-gray-700 font-semibold text-xs sm:text-sm">Em caso de dúvida, entre em contato com a organização</span>
-            </li>
-          </ul>
-        </CardContent>
-      </Card>
     </div>
   );
 }

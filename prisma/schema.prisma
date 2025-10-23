@@ -82,6 +82,7 @@ model Inscricao {
   dataNascimento     DateTime
   telefone           String
   endereco           String
+  bairro             String
   cidade             String
   estado             String
   cep                String

@@ -221,69 +221,104 @@ export default function Home() {
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
 
-            {/* Card do Kit Oficial */}
-            <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-10 relative">
-              {/* Badge do Primeiro Lote - Degradê */}
-              <div className="absolute -top-4 -right-4 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-5 py-3 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform">
-                <div className="text-center">
-                  {/* <p className="text-xs font-bold uppercase">Últimas Vagas</p> */}
-                  <p className="text-xl font-black flex items-center gap-1">
-                    <span></span> 1º LOTE <span></span>
-                  </p>
+            {/* COLUNA ESQUERDA - Card do Kit Oficial + Aviso da Taxa */}
+            <div className="space-y-6">
+              {/* Card do Kit */}
+              <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-10 relative">
+                {/* Badge do Primeiro Lote - Degradê */}
+                <div className="absolute -top-4 -right-4 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-5 py-3 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform">
+                  <div className="text-center">
+                    <p className="text-xl font-black flex items-center gap-1">
+                      <span></span> 1º LOTE <span></span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-[#00B8D4] text-white py-3 sm:py-4 px-4 sm:px-6 rounded-xl text-center mb-6 -mt-10 sm:-mt-14 lg:-mt-16 shadow-lg">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black">KIT OFICIAL</h3>
+                </div>
+
+                <div className="text-center mb-6 sm:mb-8">
+                  <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#E53935] mb-2">R$ 100</div>
+                  <p className="text-sm sm:text-base text-gray-600">Por pessoa</p>
+                </div>
+
+                <div className="mb-6 sm:mb-8">
+                  <h4 className="text-lg sm:text-xl font-bold text-[#E53935] mb-3 sm:mb-4">O que está incluído:</h4>
+
+                  <ul className="space-y-2 sm:space-y-3">
+                    <li className="flex items-start">
+                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
+                      <span className="text-black text-sm sm:text-base">Camiseta oficial do evento</span>
+                    </li>
+
+                    <li className="flex items-start">
+                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
+                      <span className="text-black text-sm sm:text-base">Medalha de participação</span>
+                    </li>
+
+                    <li className="flex items-start">
+                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
+                      <span className="text-black text-sm sm:text-base">Número de peito</span>
+                    </li>
+
+                    <li className="flex items-start">
+                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
+                      <span className="text-black text-sm sm:text-base">Sacochila</span>
+                    </li>
+
+                    <li className="flex items-start">
+                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
+                      <span className="text-black text-sm sm:text-base">1 vale chopp</span>
+                    </li>
+
+                    <li className="flex items-start">
+                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
+                      <span className="text-black text-sm sm:text-base">Brindes exclusivos</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <Link href="/inscricao" className="block w-full bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg text-center">
+                  GARANTIR MEU KIT!
+                </Link>
+              </div>
+
+              {/* 🆕 AVISO DA TAXA - TEMÁTICO */}
+              <div className="bg-white border-2 border-[#E53935] rounded-xl shadow-lg p-4">
+                <div className="flex items-start gap-3">
+                  {/* Ícone */}
+                  <div className="flex-shrink-0">
+                    <div className="bg-[#E53935] p-2 rounded-full">
+                      <svg 
+                        className="w-4 h-4 text-white" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          strokeWidth={2} 
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Conteúdo */}
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-800 leading-relaxed">
+                      <span className="font-bold text-[#E53935]">"Ei você aí, que mora logo ali!"</span>
+                      <br />
+                      Será acrescida uma taxa de <span className="font-bold text-[#E53935]">R$ 4,00</span>.
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              <div className="bg-[#00B8D4] text-white py-3 sm:py-4 px-4 sm:px-6 rounded-xl text-center mb-6 -mt-10 sm:-mt-14 lg:-mt-16 shadow-lg">
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-black">KIT OFICIAL</h3>
-              </div>
-
-              <div className="text-center mb-6 sm:mb-8">
-                <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#E53935] mb-2">R$ 100</div>
-                <p className="text-sm sm:text-base text-gray-600">Por pessoa</p>
-              </div>
-
-              <div className="mb-6 sm:mb-8">
-                <h4 className="text-lg sm:text-xl font-bold text-[#E53935] mb-3 sm:mb-4">O que está incluído:</h4>
-
-                <ul className="space-y-2 sm:space-y-3">
-                  <li className="flex items-start">
-                    <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                    <span className="text-black text-sm sm:text-base">Camiseta oficial do evento</span>
-                  </li>
-
-                  <li className="flex items-start">
-                    <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                    <span className="text-black text-sm sm:text-base">Medalha de participação</span>
-                  </li>
-
-                  <li className="flex items-start">
-                    <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                    <span className="text-black text-sm sm:text-base">Número de peito</span>
-                  </li>
-
-                  <li className="flex items-start">
-                    <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                    <span className="text-black text-sm sm:text-base">Sacochila</span>
-                  </li>
-
-                  <li className="flex items-start">
-                    <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                    <span className="text-black text-sm sm:text-base">1 vale chopp</span>
-                  </li>
-
-                  <li className="flex items-start">
-                    <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                    <span className="text-black text-sm sm:text-base">Brindes exclusivos</span>
-                  </li>
-                </ul>
-              </div>
-
-              <Link href="/inscricao" className="block w-full bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg text-center">
-                GARANTIR MEU KIT!
-              </Link>
             </div>
 
-            {/* Coluna da direita - Informações adicionais */}
+            {/* COLUNA DIREITA - Informações adicionais */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-center mb-0">
                 <img src="/julius.png" alt="Julius" className="w-full max-w-xs sm:max-w-sm h-auto -mt-8 sm:-mt-14 lg:-mt-28"/>

@@ -156,7 +156,7 @@ export default function InscricaoDetalhesPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Data de Nascimento</p>
-                <p className="text-sm">{format(new Date(inscricao.dataNascimento), "dd/MM/yyyy")}</p>
+                <p className="text-sm">{format(new Date(inscricao.dataNascimento), "12/12/2012")}</p>
               </div>
             </div>
 
@@ -238,7 +238,7 @@ export default function InscricaoDetalhesPage() {
 
             <div>
               <p className="text-sm font-medium text-muted-foreground">Última atualização</p>
-              <p className="text-sm">{format(new Date(inscricao.updatedAt), "dd/MM/yyyy 'às' HH:mm")}</p>
+              <p className="text-sm">{format(new Date(inscricao.updatedAt), " 'às' HH:mm")}</p>
             </div>
           </CardContent>
         </Card>
