@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Facebook, Instagram } from 'lucide-react';
 import { handleSignOut } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button';
+import { RegulamentoModal } from '@/components/RegulamentoModal';
 
 export default function Home() {
   const { data: session, status } = useSession()
@@ -140,11 +141,23 @@ export default function Home() {
               <img src="/logo-chris.png" alt="Todo Mundo Corre com o Chris" className="h-10 sm:h-13 w-auto"/>
             </div>
 
+            {/* MENU DESKTOP */}
             <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
-              <button onClick={() => scrollToSection('inicio')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">Início</button>
-              <button onClick={() => scrollToSection('inscricoes')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">Inscrições</button>
-              <button onClick={() => scrollToSection('percurso')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">Percurso</button>
-              <button onClick={() => scrollToSection('informacoes')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">Informações</button>
+              <button onClick={() => scrollToSection('inicio')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+                Início
+              </button>
+              <button onClick={() => scrollToSection('inscricoes')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+                Inscrições
+              </button>
+              <button onClick={() => scrollToSection('percurso')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+                Percurso
+              </button>
+              <button onClick={() => scrollToSection('informacoes')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+                Informações
+              </button>
+
+              {/* BOTÃO REGULAMENTO */}
+              <RegulamentoModal />
             </div>
 
             <div className="hidden lg:block">
@@ -152,16 +165,39 @@ export default function Home() {
             </div>
 
             <div className="lg:hidden">
-              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-[#E53935] p-2"><svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> {mobileMenuOpen ? (<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />) : (<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />)}</svg></button>
+              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-[#E53935] p-2">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  {mobileMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
             </div>
           </div>
 
+          {/* MENU MOBILE */}
           {mobileMenuOpen && (
             <div className="lg:hidden pb-4 bg-gray-100">
-              <button onClick={() => scrollToSection('inicio')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Início</button>
-              <button onClick={() => scrollToSection('inscricoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Inscrições</button>
-              <button onClick={() => scrollToSection('percurso')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Percurso</button>
-              <button onClick={() => scrollToSection('informacoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">Informações</button>
+              <button onClick={() => scrollToSection('inicio')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
+                Início
+              </button>
+              <button onClick={() => scrollToSection('inscricoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
+                Inscrições
+              </button>
+              <button onClick={() => scrollToSection('percurso')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
+                Percurso
+              </button>
+              <button onClick={() => scrollToSection('informacoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
+                Informações
+              </button>
+
+              {/* BOTÃO REGULAMENTO MOBILE */}
+              <div className="px-4 py-3">
+                <RegulamentoModal />
+              </div>
+
               {renderMobileButton()}
             </div>
           )}
@@ -283,39 +319,6 @@ export default function Home() {
                   GARANTIR MEU KIT!
                 </Link>
               </div>
-
-              {/* 🆕 AVISO DA TAXA - TEMÁTICO */}
-              <div className="bg-white border-2 border-[#E53935] rounded-xl shadow-lg p-4">
-                <div className="flex items-start gap-3">
-                  {/* Ícone */}
-                  <div className="flex-shrink-0">
-                    <div className="bg-[#E53935] p-2 rounded-full">
-                      <svg 
-                        className="w-4 h-4 text-white" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round" 
-                          strokeWidth={2} 
-                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Conteúdo */}
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-800 leading-relaxed">
-                      <span className="font-bold text-[#E53935]">"Ei você aí, que mora logo ali!"</span>
-                      <br />
-                      Será acrescida uma taxa de <span className="font-bold text-[#E53935]">R$ 4,00</span>.
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* COLUNA DIREITA - Informações adicionais */}
@@ -326,7 +329,7 @@ export default function Home() {
 
               <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
                 <h4 className="text-xl sm:text-2xl font-bold text-[#E53935] mb-2">📍 Retirada do Kit</h4>
-                <p className="text-sm sm:text-base text-gray-700">Os kits poderão ser retirados no dia do evento a partir das <strong>06:30</strong> ou em local a ser divulgado nos dias anteriores.</p>
+                <p className="text-sm sm:text-base text-gray-700">O local e a data para retirada dos kits serão informados em data próxima ao evento.</p>
               </div>
 
               <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
@@ -390,7 +393,7 @@ export default function Home() {
 
             <div onClick={() => setSelectedDistance(6)}className={`p-4 sm:p-6 rounded-xl shadow-lg transform hover:scale-105 transition cursor-pointer border-4 ${selectedDistance === 5 ? 'bg-[#E53935] text-white border-[#E53935]' : 'bg-[#FFE66D] border-[#E53935]'}`}>
               <div className="text-center mb-3 sm:mb-4">
-                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 5 ? 'text-white' : 'text-[#E53935]'}`}>5KM</h3>
+                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 5 ? 'text-white' : 'text-[#E53935]'}`}>6KM</h3>
 
                 <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 5 ? 'text-white' : 'text-gray-700'}`}>CORRIDA</p>
               </div>
@@ -536,6 +539,60 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-8 sm:mb-12">INFORMAÇÕES DO EVENTO</h2>
 
+          {/* Cronograma */}
+          <div className="bg-gradient-to-br from-[#E53935] to-[#c62828] p-6 sm:p-8 rounded-2xl shadow-2xl text-white">
+            <h3 className="text-2xl sm:text-3xl font-black text-center mb-6 flex items-center justify-center gap-3">
+              <span className="text-3xl">🕐</span> CRONOGRAMA DO DIA
+            </h3>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">07:00</p>
+                <p className="text-sm">Abertura da Arena <strong>The Chris</strong></p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">07:30</p>
+                <p className="text-sm">Alongamento</p>
+              </div>
+
+              <div className="bg-[#FFE66D] text-[#E53935] p-4 rounded-xl border-2 border-white font-bold hover:scale-105 transition-transform">
+                <p className="font-black text-lg mb-1">07:45 🏃</p>
+                <p className="text-sm font-black">LARGADA CORRIDA 10KM</p>
+              </div>
+
+              <div className="bg-[#FFE66D] text-[#E53935] p-4 rounded-xl border-2 border-white font-bold hover:scale-105 transition-transform">
+                <p className="font-black text-lg mb-1">07:55 🏃</p>
+                <p className="text-sm font-black">LARGADA CORRIDA 6KM</p>
+              </div>
+
+              <div className="bg-[#FFE66D] text-[#E53935] p-4 rounded-xl border-2 border-white font-bold hover:scale-105 transition-transform">
+                <p className="font-black text-lg mb-1">08:05 🏃</p>
+                <p className="text-sm font-black">LARGADA CAMINHADA 3KM</p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">09:30</p>
+                <p className="text-sm">Início do Show</p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">10:30</p>
+                <p className="text-sm">Início da Cerimônia de Premiação</p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <p className="font-black text-lg mb-1">11:00</p>
+                <p className="text-sm">Sorteio de Brindes</p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all md:col-span-2 lg:col-span-1">
+                <p className="font-black text-lg mb-1">12:00</p>
+                <p className="text-sm">Término do Evento</p>
+              </div>
+            </div>
+          </div><br></br>
+
           {/* Percurso e Arena */}
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
 
@@ -547,22 +604,22 @@ export default function Home() {
               <div className="space-y-4">
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
                   <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🏁 Concentração</h4>
-                  <p className="text-sm sm:text-base text-gray-800">Rua de Minas no Shopping Monte Carmo em frente ao The Chris Gastrobar</p>
+                  <p className="text-sm sm:text-base text-gray-800">Estacionamento do Shopping Monte Carmo em frente ao <strong>The Chris</strong>.</p>
                 </div>
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
                   <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🚀 Largada e Chegada</h4>
-                  <p className="text-sm sm:text-base text-gray-800">Estacionamento Monte Carmo Shopping</p>
+                  <p className="text-sm sm:text-base text-gray-800">Estacionamento Monte Carmo Shopping.</p>
                 </div>
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
                   <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🏆 Premiação</h4>
-                  <p className="text-sm sm:text-base text-gray-800">Medalhas para todos! Troféus para os 3 primeiros colocados nas categorias 5km e 10km.</p>
+                  <p className="text-sm sm:text-base text-gray-800">Medalhas para todos os concluintes; troféus apenas aos 3 primeiros colocados masculino e aos 3 primeiros colocados feminino na prova de <strong>10 km</strong>.</p>
                 </div>
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
                   <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🎉 Pós-Corrida</h4>
-                  <p className="text-sm sm:text-base text-gray-800">Confraternização no The Chris Gastrobar</p>
+                  <p className="text-sm sm:text-base text-gray-800">Celebração no <strong>The Chris</strong></p>
                 </div>
               </div>
             </div>
@@ -625,61 +682,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Cronograma */}
-          <div className="bg-gradient-to-br from-[#E53935] to-[#c62828] p-6 sm:p-8 rounded-2xl shadow-2xl text-white">
-            <h3 className="text-2xl sm:text-3xl font-black text-center mb-6 flex items-center justify-center gap-3">
-              <span className="text-3xl">🕐</span> CRONOGRAMA DO DIA
-            </h3>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
-                <p className="font-black text-lg mb-1">07:00</p>
-                <p className="text-sm">Abertura da Arena The Chris</p>
-              </div>
-
-              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
-                <p className="font-black text-lg mb-1">07:15</p>
-                <p className="text-sm">Mesa de frutas e música ambiente</p>
-              </div>
-
-              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
-                <p className="font-black text-lg mb-1">07:45</p>
-                <p className="text-sm">Aquecimento</p>
-              </div>
-
-              <div className="bg-[#FFE66D] text-[#E53935] p-4 rounded-xl border-2 border-white font-bold hover:scale-105 transition-transform">
-                <p className="font-black text-lg mb-1">08:00 🏃</p>
-                <p className="text-sm font-black">LARGADA 10KM</p>
-              </div>
-
-              <div className="bg-[#FFE66D] text-[#E53935] p-4 rounded-xl border-2 border-white font-bold hover:scale-105 transition-transform">
-                <p className="font-black text-lg mb-1">08:15 🏃</p>
-                <p className="text-sm font-black">LARGADA 5KM</p>
-              </div>
-
-              <div className="bg-[#FFE66D] text-[#E53935] p-4 rounded-xl border-2 border-white font-bold hover:scale-105 transition-transform">
-                <p className="font-black text-lg mb-1">08:20 🚶</p>
-                <p className="text-sm font-black">LARGADA 3KM</p>
-              </div>
-
-              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
-                <p className="font-black text-lg mb-1">09:30 - 10:30</p>
-                <p className="text-sm">Show ao vivo 🎤</p>
-              </div>
-
-              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
-                <p className="font-black text-lg mb-1">10:40</p>
-                <p className="text-sm">Premiação e Sorteios 🏆</p>
-              </div>
-
-              <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all md:col-span-2 lg:col-span-1">
-                <p className="font-black text-lg mb-1">12:00</p>
-                <p className="text-sm">Encerramento</p>
-              </div>
-            </div>
-          </div>
-
         </div>
       </section>
 
@@ -726,52 +728,35 @@ export default function Home() {
             </div>
           </div>
 
-          {/* BOTÃO DE CONTATO */}
-          <div className="mt-8 sm:mt-12 text-center">
-            <p className="text-base sm:text-lg text-gray-600 mb-3 sm:mb-4">Quer ser um patrocinador?</p>
-            <button className="bg-[#E53935] text-white px-6 sm:px-8 py-2 sm:py-3 rounded-md font-bold hover:bg-[#e53935]/90 transition text-sm sm:text-base">ENTRE EM CONTATO</button>
-          </div>
         </div>
       </section>
 
       {/* FOOTER */}
       <footer className="bg-gray-900 text-white py-8 sm:py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-4 mb-8 sm:mb-8">
             <div>
-              <h3 className="text-xl sm:text-2xl font-bold text-[#FFE66D] mb-3 sm:mb-4">TODO MUNDO CORRE COM O CHRIS</h3>
+              <h3 className="text-xl sm:text-xl font-bold text-[#FFE66D] mb-4 sm:mb-5">TODO MUNDO CORRE COM O CHRIS</h3>
               <p className="text-sm sm:text-base text-gray-400">A corrida mais divertida e nostálgica do ano!</p>
             </div>
 
             <div>
               <h4 className="font-bold mb-3 sm:mb-4 text-base sm:text-lg">CONTATO</h4>
               <ul className="space-y-1 sm:space-y-2 text-gray-400 text-sm sm:text-base">
-                <li>📧 contato@corridachris.com.br</li>
-                <li>📱 (31) 99324-6370</li>
+                <li>📧 studiobravo0@gmail.com</li>
                 <li>📍 Betim, Minas Gerais</li>
               </ul>
             </div>
 
             <div className="sm:col-span-2 md:col-span-1">
-              <h4 className="font-bold mb-3 sm:mb-4 text-base sm:text-lg">REDES SOCIAIS</h4>
+              <h4 className="font-bold mb-3 sm:mb-4 text-base sm:text-lg">REDE SOCIAL</h4>
 
               <div className="flex gap-3 sm:gap-4">
-                {/* Facebook */}
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-[#E53935] w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center hover:bg-[#c62828] hover:scale-110 transition-all shadow-lg">
-                  <Facebook className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="white" />
-                </a>
-
                 {/* Instagram */}
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-[#E53935] w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center hover:bg-[#c62828] hover:scale-110 transition-all shadow-lg">
+                <a href="https://www.instagram.com/corridathechris?igsh=MWV0Y2I2NHhwYWZocA==" target="_blank" rel="noopener noreferrer" className="bg-[#E53935] w-10 h-10 sm:w-16 sm:h-16 rounded-full flex items-center justify-center hover:bg-[#c62828] hover:scale-110 transition-all shadow-lg">
                   <Instagram className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </a>
 
-                {/* X (Twitter) */}
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="bg-[#E53935] w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center hover:bg-[#c62828] hover:scale-110 transition-all shadow-lg">
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg>
-                </a>
               </div>
             </div>
           </div>

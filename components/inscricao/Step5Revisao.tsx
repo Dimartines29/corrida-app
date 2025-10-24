@@ -93,10 +93,10 @@ export function Step5Revisao({ form }: Step5Props) {
       <Card className="bg-white border-2 border-gray-200 shadow-lg">
         <CardContent className="pt-4 sm:pt-6">
           <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-            <div className="bg-[#00B8D4] p-2 sm:p-3 rounded-lg">
+            <div className="bg-[#E53935] p-2 sm:p-3 rounded-lg">
               <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
-            <h3 className="text-lg sm:text-xl font-black text-[#00B8D4]">Dados Pessoais</h3>
+            <h3 className="text-lg sm:text-xl font-black text-[#E53935]">Dados Pessoais</h3>
           </div>
 
           <div className="space-y-3 sm:space-y-4">
@@ -128,23 +128,53 @@ export function Step5Revisao({ form }: Step5Props) {
               />
             </div>
 
-            <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffe033] p-3 sm:p-4 rounded-lg">
-              <div className="flex items-start gap-2 sm:gap-3">
-                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#E53935] mt-1" />
-                <div>
-                  <p className="font-bold text-[#E53935] mb-1 sm:mb-2 text-sm sm:text-base">Endereço Completo</p>
-                  <p className="text-gray-800 font-semibold text-xs sm:text-sm">
-                    {formData.endereco}
+            <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 sm:p-6 rounded-xl border-2 border-gray-200">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="bg-white p-2 rounded-lg">
+                  <MapPin className="w-5 h-5 text-[#E53935]" />
+                </div>
+                <h3 className="font-black text-[#E53935] text-base sm:text-lg">ENDEREÇO COMPLETO</h3>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Rua/Endereço */}
+                <div className="bg-white p-3 rounded-lg">
+                  <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                    <MapPin className="w-3 h-3" /> Rua/Avenida
                   </p>
-                  <p className="text-gray-800 font-semibold text-xs sm:text-sm">
-                    {formData.bairro}  {/* ← ADICIONE ESTA LINHA */}
+                  <p className="text-sm font-bold text-gray-800">{formData.endereco}</p>
+                </div>
+
+                {/* Bairro */}
+                <div className="bg-white p-3 rounded-lg">
+                  <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                    <MapPin className="w-3 h-3" /> Bairro
                   </p>
-                  <p className="text-gray-800 font-semibold text-xs sm:text-sm">
-                    {formData.cidade} - {formData.estado}
+                  <p className="text-sm font-bold text-gray-800">{formData.bairro}</p>
+                </div>
+
+                {/* Cidade */}
+                <div className="bg-white p-3 rounded-lg">
+                  <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                    <MapPin className="w-3 h-3" /> Cidade
                   </p>
-                  <p className="text-gray-800 font-semibold text-xs sm:text-sm">
-                    CEP: {formData.cep}
+                  <p className="text-sm font-bold text-gray-800">{formData.cidade}</p>
+                </div>
+
+                {/* Estado */}
+                <div className="bg-white p-3 rounded-lg">
+                  <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                    <MapPin className="w-3 h-3" /> Estado
                   </p>
+                  <p className="text-sm font-bold text-gray-800">{formData.estado}</p>
+                </div>
+
+                {/* CEP */}
+                <div className="bg-white p-3 rounded-lg sm:col-span-2">
+                  <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                    <MapPin className="w-3 h-3" /> CEP
+                  </p>
+                  <p className="text-sm font-bold text-gray-800">{formData.cep}</p>
                 </div>
               </div>
             </div>
@@ -262,16 +292,14 @@ export function Step5Revisao({ form }: Step5Props) {
 
             <div className="space-y-3 sm:space-y-4">
               {/* Valor do Lote */}
-              <div className="bg-white/20 p-3 sm:p-4 rounded-lg backdrop-blur">
+              <div className="bg-white/20 p-3 sm:p-4 rounded-lg backdrop-blur border-2 border-white/30">
                 <div className="flex justify-between items-center text-white mb-2">
                   <span className="font-semibold text-sm sm:text-base">Inscrição - {lote.nome}</span>
                   <span className="font-bold text-lg sm:text-xl">
                     R$ {lote.preco.toFixed(2)}
                   </span>
                 </div>
-                <p className="text-white/80 text-xs sm:text-sm font-semibold">
-                  Inclui todos os itens do kit selecionado
-                </p>
+                <span className="text-white/80 text-xs">Inclui todos os itens do kit selecionado</span>
               </div>
 
               {/* 🆕 TAXA DE INSCRIÇÃO */}
@@ -296,10 +324,10 @@ export function Step5Revisao({ form }: Step5Props) {
                   <div>
                     <p className="text-xs sm:text-sm text-gray-600 font-semibold mb-1">VALOR TOTAL</p>
                     <p className="text-3xl sm:text-4xl font-black text-[#E53935]">
-                      R$ {lote.preco}
+                      R$ {(lote.preco + 4).toFixed(2)}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {lote.preco.toFixed(2)}
+                      Lote: R$ {lote.preco.toFixed(2)} + Taxa: R$ 4,00
                     </p>
                   </div>
                   <Package className="w-10 h-10 sm:w-12 sm:h-12 text-[#00B8D4]" />

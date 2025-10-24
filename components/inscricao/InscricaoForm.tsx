@@ -139,7 +139,13 @@ export function InscricaoForm() {
                   {currentStep < 5 ? (
                     <Button type="button" onClick={(e) => handleNext(e)} className="w-full sm:w-auto bg-[#E53935] hover:bg-[#c62828] text-white font-bold px-6 sm:px-8 transition-all transform hover:scale-105 sm:ml-auto order-1 sm:order-2">Próximo</Button>
                   ) : (
-                    <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto bg-[#00B8D4] hover:bg-[#00a0c0] text-white font-bold px-6 sm:px-8 transition-all transform hover:scale-105 sm:ml-auto order-1 sm:order-2"> {isSubmitting ? "Processando..." : "Confirmar Inscrição"}</Button>
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full sm:w-auto bg-[#E53935] hover:bg-[#c62828] text-white font-bold px-6 sm:px-8 transition-all transform hover:scale-105 sm:ml-auto order-1 sm:order-2"
+                    >
+                      {isSubmitting ? "Processando..." : "Confirmar Inscrição"}
+                    </Button>
                   )}
                 </div>
               </form>

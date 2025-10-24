@@ -4,9 +4,11 @@ import { getCurrentUser } from '@/lib/auth/get-session'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { User, Mail, Shield, LogOut, FileText, Calendar, Trophy, Settings, CreditCard, AlertCircle } from 'lucide-react'
+import { User, Mail, LogOut, FileText, Calendar, Trophy, Settings, AlertCircle, CreditCard, Phone, MapPin, Home, Shirt, Heart } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { PagamentoPendenteButton } from '@/components/PagamentoPendenteButton'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 export default async function MinhaAreaPage() {
   const user = await getCurrentUser()
@@ -15,9 +17,6 @@ export default async function MinhaAreaPage() {
     redirect('/login')
   }
 
-  // ==========================================
-  // BUSCAR INSCRIÇÃO DO USUÁRIO
-  // ==========================================
   const inscricao = await prisma.inscricao.findUnique({
     where: { userId: user.id },
     include: {
@@ -108,34 +107,46 @@ export default async function MinhaAreaPage() {
           </div>
 
           {/* ==========================================
-              ALERTA DE PAGAMENTO PENDENTE
+              ALERTA DE PAGAMENTO PENDENTE (REESTILIZADO)
           ========================================== */}
           {inscricao && inscricao.status === 'PENDENTE' && (
-            <Card className="bg-gradient-to-r from-orange-500 to-orange-600 border-none shadow-2xl rounded-2xl overflow-hidden animate-pulse">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-white p-3 rounded-lg flex-shrink-0">
-                    <AlertCircle className="w-8 h-8 text-orange-500" />
+            <Card className="relative bg-white border-4 border-[#E53935] shadow-2xl rounded-3xl overflow-hidden">
+              {/* Efeito de fundo animado */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#E53935]/10 via-transparent to-[#FFE66D]/10 animate-pulse"></div>
+
+              <CardContent className="relative p-8">
+                <div className="flex flex-col md:flex-row items-center gap-6">
+                  {/* Ícone grande com animação */}
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-[#E53935] rounded-full blur-xl opacity-30 animate-pulse"></div>
+                    <div className="relative bg-gradient-to-br from-[#E53935] to-[#c62828] p-6 rounded-full shadow-xl">
+                      <CreditCard className="w-16 h-16 text-white" />
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-black text-white mb-2">
-                      ⚠️ PAGAMENTO PENDENTE
-                    </h3>
-                    <p className="text-white/90 mb-4 font-semibold">
-                      Sua inscrição <strong>{inscricao.codigo}</strong> está aguardando pagamento.
+
+                  <div className="flex-1 text-center md:text-left">
+                    <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
+                      <AlertCircle className="w-6 h-6 text-[#E53935]" />
+                      <h3 className="text-3xl font-black text-[#E53935]">
+                        ATENÇÃO: PAGAMENTO PENDENTE
+                      </h3>
+                    </div>
+
+                    <p className="text-gray-700 mb-4 font-bold text-lg">
+                      Sua inscrição <span className="text-[#E53935]">{inscricao.codigo}</span> está quase pronta!
                       <br />
-                      Finalize agora para garantir sua vaga!
+                      <span className="text-[#00B8D4]">Complete o pagamento agora</span> e garanta sua vaga na corrida! 🏃‍♂️
                     </p>
-                    
-                    <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 mb-4">
-                      <div className="grid grid-cols-2 gap-3 text-sm">
-                        <div>
-                          <p className="text-white/80 font-semibold">Categoria</p>
-                          <p className="text-white font-bold">{inscricao.categoria}</p>
+
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] rounded-2xl p-5 mb-5 shadow-lg">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="text-center">
+                          <p className="text-gray-600 font-bold text-sm mb-1">📋 CATEGORIA</p>
+                          <p className="text-[#E53935] font-black text-xl">{inscricao.categoria}</p>
                         </div>
-                        <div>
-                          <p className="text-white/80 font-semibold">Valor</p>
-                          <p className="text-white font-bold">R$ {Number(inscricao.valorPago).toFixed(2)}</p>
+                        <div className="text-center">
+                          <p className="text-gray-600 font-bold text-sm mb-1">💰 VALOR</p>
+                          <p className="text-[#E53935] font-black text-xl">R$ {Number(inscricao.valorPago).toFixed(2)}</p>
                         </div>
                       </div>
                     </div>
@@ -148,12 +159,12 @@ export default async function MinhaAreaPage() {
           )}
 
           {/* ==========================================
-              CARD COM STATUS DA INSCRIÇÃO (se existir)
+              CARD DA INSCRIÇÃO (SE EXISTIR)
           ========================================== */}
           {inscricao && (
             <Card className="bg-white border-none shadow-2xl rounded-2xl overflow-hidden">
               <div className={`p-6 ${
-                inscricao.status === 'PAGO' 
+                inscricao.status === 'PAGO'
                   ? 'bg-gradient-to-r from-green-500 to-green-600'
                   : inscricao.status === 'PENDENTE'
                   ? 'bg-gradient-to-r from-yellow-500 to-yellow-600'
@@ -172,7 +183,8 @@ export default async function MinhaAreaPage() {
                 </div>
               </div>
 
-              <CardContent className="p-6 space-y-4">
+              <CardContent className="p-6 space-y-6">
+                {/* Status e Info Básica */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-[#FFE66D] p-4 rounded-xl">
                     <p className="text-xs font-bold text-gray-600 uppercase mb-1">Status</p>
@@ -201,6 +213,148 @@ export default async function MinhaAreaPage() {
                   </div>
                 </div>
 
+                {/* TODOS OS DADOS DA INSCRIÇÃO */}
+                <div className="border-t-2 border-gray-200 pt-6">
+                  <h3 className="text-xl font-black text-[#E53935] mb-4 flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    DADOS PESSOAIS
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Nome Completo */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <User className="w-3 h-3" /> Nome Completo
+                      </p>
+                      <p className="text-base font-bold text-gray-800">{inscricao.nomeCompleto}</p>
+                    </div>
+
+                    {/* CPF */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <FileText className="w-3 h-3" /> CPF
+                      </p>
+                      <p className="text-base font-bold text-gray-800">{inscricao.cpf}</p>
+                    </div>
+
+                    {/* RG */}
+                    {inscricao.rg && (
+                      <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                        <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                          <FileText className="w-3 h-3" /> RG
+                        </p>
+                        <p className="text-base font-bold text-gray-800">{inscricao.rg}</p>
+                      </div>
+                    )}
+
+                    {/* Data de Nascimento */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <Calendar className="w-3 h-3" /> Data de Nascimento
+                      </p>
+                      <p className="text-base font-bold text-gray-800">
+                        {format(new Date(inscricao.dataNascimento), "dd/MM/yyyy", { locale: ptBR })}
+                      </p>
+                    </div>
+
+                    {/* Telefone */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <Phone className="w-3 h-3" /> Telefone
+                      </p>
+                      <p className="text-base font-bold text-gray-800">{inscricao.telefone}</p>
+                    </div>
+
+                    {/* Tamanho da Camisa */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <Shirt className="w-3 h-3" /> Tamanho da Camisa
+                      </p>
+                      <p className="text-base font-bold text-gray-800">{inscricao.tamanhoCamisa}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ENDEREÇO */}
+                <div className="border-t-2 border-gray-200 pt-6">
+                  <h3 className="text-xl font-black text-[#E53935] mb-4 flex items-center gap-2">
+                    <MapPin className="w-5 h-5" />
+                    ENDEREÇO
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* CEP */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> CEP
+                      </p>
+                      <p className="text-base font-bold text-gray-800">{inscricao.cep}</p>
+                    </div>
+
+                    {/* Endereço */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <Home className="w-3 h-3" /> Endereço
+                      </p>
+                      <p className="text-base font-bold text-gray-800">{inscricao.endereco}</p>
+                    </div>
+
+                    {/* Cidade */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> Cidade
+                      </p>
+                      <p className="text-base font-bold text-gray-800">{inscricao.cidade}</p>
+                    </div>
+
+                    {/* Estado */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> Estado
+                      </p>
+                      <p className="text-base font-bold text-gray-800">{inscricao.estado}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* INFORMAÇÕES MÉDICAS / EMERGÊNCIA */}
+                <div className="border-t-2 border-gray-200 pt-6">
+                  <h3 className="text-xl font-black text-[#E53935] mb-4 flex items-center gap-2">
+                    <Heart className="w-5 h-5" />
+                    INFORMAÇÕES DE EMERGÊNCIA
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Contato de Emergência */}
+                    {inscricao.contatoEmergencia && (
+                      <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                        <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                          <User className="w-3 h-3" /> Contato de Emergência
+                        </p>
+                        <p className="text-base font-bold text-gray-800">{inscricao.contatoEmergencia}</p>
+                      </div>
+                    )}
+
+                    {/* Telefone de Emergência */}
+                    {inscricao.telefoneEmergencia && (
+                      <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                        <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                          <Phone className="w-3 h-3" /> Telefone de Emergência
+                        </p>
+                        <p className="text-base font-bold text-gray-800">{inscricao.telefoneEmergencia}</p>
+                      </div>
+                    )}
+
+                    {/* Possui Plano de Saúde */}
+                    <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-4 rounded-xl">
+                      <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
+                        <Heart className="w-3 h-3" /> Possui Plano de Saúde
+                      </p>
+                      <p className="text-base font-bold text-gray-800">
+                        {inscricao.possuiPlanoSaude ? '✅ Sim' : '❌ Não'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mensagem de Confirmação (se PAGO) */}
                 {inscricao.status === 'PAGO' && (
                   <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4">
                     <p className="text-green-800 font-bold text-center">
@@ -220,15 +374,15 @@ export default async function MinhaAreaPage() {
                   <User className="w-6 h-6 text-[#00B8D4]" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-black text-white">SEUS DADOS</h2>
+                  <h2 className="text-2xl font-black text-white">DADOS DA CONTA</h2>
                   <p className="text-sm text-white/90">
-                    Informações da sua conta
+                    Informações do seu login
                   </p>
                 </div>
               </div>
             </div>
 
-            <CardContent className="p-6 space-y-6">
+            <CardContent className="p-6 space-y-4">
               {/* Nome */}
               <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-5 rounded-xl">
                 <div className="flex items-center gap-3">
@@ -252,23 +406,6 @@ export default async function MinhaAreaPage() {
                   </div>
                 </div>
               </div>
-
-              {/* Tipo de Conta */}
-              <div className={`p-5 rounded-xl ${
-                user.role === 'ADMIN'
-                  ? 'bg-gradient-to-r from-[#E53935] to-[#c62828]'
-                  : 'bg-gradient-to-r from-[#00B8D4] to-[#00a0c0]'
-              }`}>
-                <div className="flex items-center gap-3">
-                  <Shield className="w-5 h-5 text-white" />
-                  <div className="flex-1">
-                    <p className="text-xs font-bold text-white/80 uppercase mb-1">Tipo de Conta</p>
-                    <p className="text-lg font-bold text-white">
-                      {user.role === 'ADMIN' ? '⭐ Administrador' : '✓ Usuário'}
-                    </p>
-                  </div>
-                </div>
-              </div>
             </CardContent>
           </Card>
 
@@ -286,7 +423,7 @@ export default async function MinhaAreaPage() {
               </div>
             </div>
 
-            <CardContent className="p-6 space-y-4">
+            <CardContent className="p-6 space-y-6">
               {/* Fazer Inscrição (só mostra se NÃO tiver inscrição) */}
               {!inscricao && (
                 <Link href="/inscricao">
@@ -302,7 +439,7 @@ export default async function MinhaAreaPage() {
                     </div>
                   </div>
                 </Link>
-              )}
+              )}<br></br>
 
               {/* Ver Detalhes do Evento */}
               <Link href="/#informacoes">
@@ -316,37 +453,8 @@ export default async function MinhaAreaPage() {
                       <p className="text-sm text-gray-700 font-semibold">Informações sobre data, local e percurso</p>
                     </div>
                   </div>
-                </div>
+                </div><br></br>
               </Link>
-
-              {/* Baixar Comprovante (só se PAGO) */}
-              {inscricao?.status === 'PAGO' ? (
-                <Link href={`/inscricao/${inscricao.id}/comprovante`}>
-                  <div className="bg-gradient-to-r from-green-400 to-green-500 p-5 rounded-xl hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer">
-                    <div className="flex items-center gap-4">
-                      <div className="bg-white p-3 rounded-lg">
-                        <FileText className="w-6 h-6 text-green-600" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-black text-white text-lg">Baixar comprovante de inscrição</p>
-                        <p className="text-sm text-white/90 font-semibold">PDF com todos os dados</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ) : (
-                <div className="bg-gray-100 p-5 rounded-xl">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-white p-3 rounded-lg">
-                      <FileText className="w-6 h-6 text-gray-400" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-black text-gray-600 text-lg">Baixar comprovante de inscrição</p>
-                      <p className="text-sm text-gray-500 font-semibold">Disponível após confirmação do pagamento</p>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               {/* Painel Admin (se for admin) */}
               {user.role === 'ADMIN' && (
