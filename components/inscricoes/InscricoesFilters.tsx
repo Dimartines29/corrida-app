@@ -31,6 +31,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
     if (filters.category && filters.category !== 'todos') count++
     if (filters.status && filters.status !== 'todos') count++
     if (filters.tier && filters.tier !== 'todos') count++
+    if (filters.shirtSize && filters.shirtSize !== 'todos') count++
     if (filters.code) count++
     if (filters.fullname) count++
     if (filters.cpf) count++
@@ -47,6 +48,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
       status: 'todos',
       category: 'todos',
       tier: 'todos',
+      shirtSize: 'todos',
       code: '',
       fullname: '',
       cpf: '',
@@ -141,7 +143,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
                     <SelectContent>
-                    <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
+                    <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
                       {metadata.status?.map(sts => (
                         <SelectItem className="text-sm md:text-xs" key={sts} value={sts}>{sts}</SelectItem>
                       ))}
