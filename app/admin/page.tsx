@@ -13,7 +13,7 @@ import MobileButton from "@/components/mobile/MobileButton"
 import Paginator from "@/components/pagination/Paginator"
 import { InscricoesFilters } from "@/components/inscricoes/InscricoesFilters"
 
-export function createDefaultInscricaoFilters(): InscricaoConsolidatedFilters {
+function createDefaultInscricaoFilters(): InscricaoConsolidatedFilters {
   return {
     code: "",
     search: "",

@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Todo mundo corre com o Chris',
-  description: 'Sistema de inscrições para corrida',
+  description: 'Todo mundo odeia o Chris, mas todo mundo vai amar essa corrida!',
 }
 
 export default function RootLayout({

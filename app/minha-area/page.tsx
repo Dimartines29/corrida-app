@@ -1,5 +1,6 @@
 // app/minha-area/page.tsx
 import { redirect } from 'next/navigation'
+import Image from 'next/image';
 import { getCurrentUser } from '@/lib/auth/get-session'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -33,11 +34,7 @@ export default async function MinhaAreaPage() {
           <div className="flex justify-between items-center h-16 sm:h-20">
             <div className="flex-shrink-0">
               <Link href="/">
-                <img
-                  src="/logo-chris.png"
-                  alt="Todo Mundo Corre com o Chris"
-                  className="h-10 sm:h-13 w-auto cursor-pointer"
-                />
+                <Image src={"/logo-chris.png"} alt="Todo Mundo Corre com o Chris" width={150} height={50} className="h-10 sm:h-13 w-auto"/>
               </Link>
             </div>
 
@@ -106,17 +103,12 @@ export default async function MinhaAreaPage() {
             </p>
           </div>
 
-          {/* ==========================================
-              ALERTA DE PAGAMENTO PENDENTE (REESTILIZADO)
-          ========================================== */}
           {inscricao && inscricao.status === 'PENDENTE' && (
             <Card className="relative bg-white border-4 border-[#E53935] shadow-2xl rounded-3xl overflow-hidden">
-              {/* Efeito de fundo animado */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#E53935]/10 via-transparent to-[#FFE66D]/10 animate-pulse"></div>
 
               <CardContent className="relative p-8">
                 <div className="flex flex-col md:flex-row items-center gap-6">
-                  {/* Ícone grande com animação */}
                   <div className="relative">
                     <div className="absolute inset-0 bg-[#E53935] rounded-full blur-xl opacity-30 animate-pulse"></div>
                     <div className="relative bg-gradient-to-br from-[#E53935] to-[#c62828] p-6 rounded-full shadow-xl">
@@ -158,9 +150,6 @@ export default async function MinhaAreaPage() {
             </Card>
           )}
 
-          {/* ==========================================
-              CARD DA INSCRIÇÃO (SE EXISTIR)
-          ========================================== */}
           {inscricao && (
             <Card className="bg-white border-none shadow-2xl rounded-2xl overflow-hidden">
               <div className={`p-6 ${
