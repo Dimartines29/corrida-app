@@ -253,14 +253,14 @@ export default function Home() {
       {/* INSCRIÇÕES E KIT DE PARTICIPAÇÃO */}
       <section id="inscricoes" className="py-12 sm:py-16 lg:py-20 bg-[#FFE66D]">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-6 sm:mb-8 lg:mb-4">INSCRIÇÃO</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-6 sm:mb-8 lg:mb-4">INSCRIÇÃO</h2><br></br>
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
 
             {/* COLUNA ESQUERDA - Card do Kit Oficial + Aviso da Taxa */}
             <div className="space-y-6">
               {/* Card do Kit */}
-              <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-10 relative">
+              <div className="bg-[url('/kit.png')] bg-cover bg-center rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-10 relative">
                 {/* Badge do Primeiro Lote - Degradê */}
                 <div className="absolute -top-4 -right-4 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-5 py-3 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform">
                   <div className="text-center">
@@ -274,45 +274,9 @@ export default function Home() {
                   <h3 className="text-xl sm:text-2xl lg:text-3xl font-black">KIT OFICIAL</h3>
                 </div>
 
-                <div className="text-center mb-6 sm:mb-8">
+                <div className="text-center mb-32 sm:mb-120">
                   <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#E53935] mb-2">R$ 100</div>
                   <p className="text-sm sm:text-base text-gray-600">Por pessoa</p>
-                </div>
-
-                <div className="mb-6 sm:mb-8">
-                  <h4 className="text-lg sm:text-xl font-bold text-[#E53935] mb-3 sm:mb-4">O que está incluído:</h4>
-
-                  <ul className="space-y-2 sm:space-y-3">
-                    <li className="flex items-start">
-                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                      <span className="text-black text-sm sm:text-base">Camiseta oficial do evento</span>
-                    </li>
-
-                    <li className="flex items-start">
-                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                      <span className="text-black text-sm sm:text-base">Medalha de participação</span>
-                    </li>
-
-                    <li className="flex items-start">
-                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                      <span className="text-black text-sm sm:text-base">Número de peito</span>
-                    </li>
-
-                    <li className="flex items-start">
-                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                      <span className="text-black text-sm sm:text-base">Sacochila</span>
-                    </li>
-
-                    <li className="flex items-start">
-                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                      <span className="text-black text-sm sm:text-base">1 vale chopp</span>
-                    </li>
-
-                    <li className="flex items-start">
-                      <span className="text-[#00B8D4] mr-2 sm:mr-3 text-lg sm:text-xl">✓</span>
-                      <span className="text-black text-sm sm:text-base">Brindes exclusivos</span>
-                    </li>
-                  </ul>
                 </div>
 
                 <Link href="/inscricao" className="block w-full bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg text-center">
@@ -366,80 +330,28 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
 
-            <div onClick={() => setSelectedDistance(10)}className={`p-4 sm:p-6 rounded-xl shadow-lg transform hover:scale-105 transition cursor-pointer sm:col-span-2 md:col-span-1 ${selectedDistance === 10 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'}`}>
+            <div onClick={() => setSelectedDistance(6)}className={`p-4 sm:p-6 rounded-xl shadow-lg transition cursor-pointer sm:col-span-2 md:col-span-1 ${selectedDistance === 6 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'}`}>
+              <div className="text-center mb-3 sm:mb-4">
+                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 6 ? 'text-white' : 'text-[#E53935]'}`}>6KM</h3>
+
+                <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 6 ? 'text-white' : 'text-gray-700'}`}>CORRIDA</p>
+              </div>
+            </div>
+
+            <div onClick={() => setSelectedDistance(10)}className={`p-4 sm:p-6 rounded-xl shadow-lg transition cursor-pointer border-4 ${selectedDistance === 10 ? 'bg-[#E53935] text-white border-[#E53935]' : 'bg-[#FFE66D] border-[#E53935]'}`}>
               <div className="text-center mb-3 sm:mb-4">
                 <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 10 ? 'text-white' : 'text-[#E53935]'}`}>10KM</h3>
 
                 <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 10 ? 'text-white' : 'text-gray-700'}`}>CORRIDA</p>
               </div>
-
-              <ul className={`space-y-2 text-sm sm:text-base ${selectedDistance === 10 ? 'text-white' : 'text-gray-800'}`}>
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Largada às 08:00</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Para corredores experientes</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Desafio completo</span>
-                </li>
-              </ul>
             </div>
 
-            <div onClick={() => setSelectedDistance(6)}className={`p-4 sm:p-6 rounded-xl shadow-lg transform hover:scale-105 transition cursor-pointer border-4 ${selectedDistance === 5 ? 'bg-[#E53935] text-white border-[#E53935]' : 'bg-[#FFE66D] border-[#E53935]'}`}>
-              <div className="text-center mb-3 sm:mb-4">
-                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 5 ? 'text-white' : 'text-[#E53935]'}`}>6KM</h3>
-
-                <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 5 ? 'text-white' : 'text-gray-700'}`}>CORRIDA</p>
-              </div>
-
-              <ul className={`space-y-2 text-sm sm:text-base ${selectedDistance === 5 ? 'text-white' : 'text-gray-800'}`}>
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Largada às 08:15</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Percurso predominantemente plano</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Cronometragem oficial</span>
-                </li>
-              </ul>
-            </div>
-
-            <div onClick={() => setSelectedDistance(3)}className={`p-4 sm:p-6 rounded-xl shadow-lg transform hover:scale-105 transition cursor-pointer ${selectedDistance === 3 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'}`}>
-
+            <div onClick={() => setSelectedDistance(3)}className={`p-4 sm:p-6 rounded-xl shadow-lg transition cursor-pointer ${selectedDistance === 3 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'}`}>
               <div className="text-center mb-3 sm:mb-4">
                 <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 3 ? 'text-white' : 'text-[#E53935]'}`}>3KM</h3>
 
                 <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 3 ? 'text-white' : 'text-gray-700'}`}>CAMINHADA</p>
               </div>
-
-              <ul className={`space-y-2 text-sm sm:text-base ${selectedDistance === 3 ? 'text-white' : 'text-gray-800'}`}>
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Largada às 08:20</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Ritmo tranquilo</span>
-                </li>
-
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Ideal para iniciantes e famílias</span>
-                </li>
-              </ul>
             </div>
           </div>
 
@@ -452,7 +364,7 @@ export default function Home() {
               <div className="bg-white rounded-lg overflow-hidden shadow-lg">
                 {selectedDistance === 3 && (
                   <iframe
-                    src="https://www.google.com/maps/d/embed?mid=1ACPm3ryBciDXEEChV9_p8kIypKNedQY&ehbc=2E312F"
+                    src="https://www.google.com/maps/d/embed?mid=1PEluBiryiQz5Kzdn7mafCsDLrA_seyU&ehbc=2E312F"
                     width="100%"
                     height="550"
                     style={{ border: 0 }}
@@ -465,7 +377,7 @@ export default function Home() {
 
                 {selectedDistance === 6 && (
                   <iframe
-                    src="COLE_AQUI_O_LINK_DO_MAPA_5KM"
+                    src="https://www.google.com/maps/d/embed?mid=16nh29YpGSp54KyTTUTsTT3OsVLzeYfc&ehbc=2E312F"
                     width="100%"
                     height="550"
                     style={{ border: 0 }}
@@ -478,7 +390,7 @@ export default function Home() {
 
                 {selectedDistance === 10 && (
                   <iframe
-                    src="COLE_AQUI_O_LINK_DO_MAPA_10KM"
+                    src="https://www.google.com/maps/d/embed?mid=1lp8bVHygfECY7qsVV6fhgh6bQ7FsTpY&ehbc=2E312F"
                     width="100%"
                     height="550"
                     style={{ border: 0 }}
@@ -734,10 +646,10 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="bg-gray-900 text-white py-8 sm:py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-4 mb-8 sm:mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr] gap-6 sm:gap-4 mb-8 sm:mb-8">
             <div>
               <h3 className="text-xl sm:text-xl font-bold text-[#FFE66D] mb-4 sm:mb-5">TODO MUNDO CORRE COM O CHRIS</h3>
-              <p className="text-sm sm:text-base text-gray-400">A corrida mais divertida e nostálgica do ano!</p>
+              <p className="text-sm sm:text-base text-gray-400">Todo Mundo Odeia o Chris mas vai amar essa corrida!</p>
             </div>
 
             <div>
