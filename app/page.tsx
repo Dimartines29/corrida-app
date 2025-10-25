@@ -7,9 +7,10 @@ import { Facebook, Instagram } from 'lucide-react';
 import { handleSignOut } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button';
 import { RegulamentoModal } from '@/components/RegulamentoModal';
+import Image from 'next/image';
 
 export default function Home() {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const [timeLeft, setTimeLeft] = useState({days: 0, hours: 0, minutes: 0, seconds: 0});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isAdmin = session?.user?.role === 'ADMIN'
@@ -138,7 +139,7 @@ export default function Home() {
           <div className="flex justify-between items-center h-16 sm:h-20">
 
             <div className="flex-shrink-0">
-              <img src="/logo-chris.png" alt="Todo Mundo Corre com o Chris" className="h-10 sm:h-13 w-auto"/>
+              <Image src={"/logo-chris.png"} alt="Todo Mundo Corre com o Chris" width={150} height={50} className="h-10 sm:h-13 w-auto"/>
             </div>
 
             {/* MENU DESKTOP */}
@@ -213,7 +214,7 @@ export default function Home() {
             <div className="mb-6 sm:mb-8 w-full mt-0 lg:mt-18">
 
               <div className="mb-6 sm:mb-8 flex justify-center">
-                <img src="/teste2.png" alt="Todo Mundo Corre com o Chris" className="w-full max-w-xs sm:max-w-md h-auto -mt-8 sm:-mt-14 lg:-mt-24"/>
+                <Image src={"/logo-chris.png"} alt="Todo Mundo Corre com o Chris" width={250} height={80} className="w-full max-w-xs sm:max-w-md h-auto -mt-8 sm:-mt-14 lg:-mt-24"/>
               </div>
 
               <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">FALTAM:</p>
@@ -245,7 +246,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-start justify-center order-1 lg:order-2 lg:-mt-4">
-            <img src="/chris-pendurado.png" alt="Chris pendurado" className="w-full max-w-sm sm:max-w-lg lg:max-w-2xl -mt-0 lg:-mt-28"/>
+            <Image src={"/chris-pendurado.png"} alt="Chris pendurado" width={500} height={500} className="w-full max-w-sm sm:max-w-lg lg:max-w-2xl -mt-0 lg:-mt-28"/>
           </div>
         </div>
       </section>
@@ -288,7 +289,7 @@ export default function Home() {
             {/* COLUNA DIREITA - Informações adicionais */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-center mb-0">
-                <img src="/julius.png" alt="Julius" className="w-full max-w-xs sm:max-w-sm h-auto -mt-8 sm:-mt-14 lg:-mt-28"/>
+                <Image src={"/julius.png"} alt="Julius" width={300} height={300} className="w-full max-w-xs sm:max-w-sm h-auto -mt-8 sm:-mt-14 lg:-mt-28"/>
               </div>
 
               <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
@@ -607,7 +608,7 @@ export default function Home() {
             <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-4 sm:mb-4">PATROCÍNIO MASTER</h3>
             <div className="flex justify-center">
               <div className="bg-gray-100 w-48 sm:w-96 h-36 sm:h-74 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
-                <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
+                <Image src="/logo_bravo.png" alt="Logo Patrocinador Bravo" width={384} height={144} className="w-full h-full object-contain p-0"/>
               </div>
             </div>
           </div>
@@ -619,7 +620,7 @@ export default function Home() {
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 justify-items-center">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="bg-gray-100 sm:w-64 sm:h-48 rounded-lg flex items-center justify-center shadow">
-                    <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
+                    <Image src="/logo_bravo.png" alt="Logo Patrocinador Bravo" width={256} height={192} className="w-full h-full object-contain p-0"/>
                   </div>
                 ))}
               </div>
@@ -633,7 +634,7 @@ export default function Home() {
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 justify-items-center">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <div key={i} className="bg-gray-100 sm:w-44 sm:h-28 rounded-lg flex items-center justify-center shadow">
-                    <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
+                    <Image src="/logo_bravo.png" alt="Logo Patrocinador Bravo" width={176} height={112} className="w-full h-full object-contain p-0"/>
                   </div>
                 ))}
               </div>

@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image';
 import Link from 'next/link'
 import { InscricaoForm } from '@/components/inscricao/InscricaoForm'
 import { handleSignOut } from '@/app/actions/auth'
@@ -10,7 +11,7 @@ import { Button } from '@/components/ui/button'
 
 /**
  * Página de Inscrição
- * 
+ *
  * NOTA IMPORTANTE:
  * - Esta página é protegida pelo layout.tsx (Server-Side)
  * - Só é acessível para usuários autenticados
@@ -20,7 +21,6 @@ import { Button } from '@/components/ui/button'
 export default function InscricaoPage() {
   const { data: session } = useSession()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  
   const isAdmin = session?.user?.role === 'ADMIN'
   const user = session?.user
 
@@ -37,8 +37,8 @@ export default function InscricaoPage() {
           <Link href="/admin" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
             Painel Admin
           </Link>
-          <Button 
-            onClick={async () => { await handleSignOut() }} 
+          <Button
+            onClick={async () => { await handleSignOut() }}
             className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent"
           >
             Sair
@@ -53,8 +53,8 @@ export default function InscricaoPage() {
           <Link href="/minha-area" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
             Minha Área
           </Link>
-          <Button 
-            onClick={async () => { await handleSignOut() }} 
+          <Button
+            onClick={async () => { await handleSignOut() }}
             className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent"
           >
             Sair
@@ -74,8 +74,8 @@ export default function InscricaoPage() {
           <Link href="/admin" className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
             Painel Admin
           </Link>
-          <Button 
-            onClick={async () => { await handleSignOut() }} 
+          <Button
+            onClick={async () => { await handleSignOut() }}
             className="w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded bg-transparent"
           >
             Sair
@@ -90,8 +90,8 @@ export default function InscricaoPage() {
           <Link href="/minha-area" className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
             Minha Área
           </Link>
-          <Button 
-            onClick={async () => { await handleSignOut() }} 
+          <Button
+            onClick={async () => { await handleSignOut() }}
             className="w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded bg-transparent"
           >
             Sair
@@ -112,11 +112,7 @@ export default function InscricaoPage() {
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link href="/">
-                <img
-                  src="/logo-chris.png"
-                  alt="Todo Mundo Corre com o Chris"
-                  className="h-10 sm:h-13 w-auto cursor-pointer"
-                />
+                <Image src={"/logo-chris.png"} alt="Todo Mundo Corre com o Chris" width={150} height={50} className="h-10 sm:h-13 w-auto"/>
               </Link>
             </div>
 

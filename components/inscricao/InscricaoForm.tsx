@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import Image from 'next/image';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -114,7 +115,7 @@ export function InscricaoForm() {
         <div className="shadow-2xl rounded-xl sm:rounded-2xl overflow-hidden bg-white">
           <div className="bg-[#E53935] text-white py-6 sm:py-8 px-4 sm:px-6 relative">
             {/* Logo à esquerda - Responsivo */}
-            <img src="/logo-chris.png" alt="Todo Mundo Corre com o Chris" className="h-10 sm:h-12 md:h-16 w-auto absolute left-3 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 hidden sm:block"/>
+            <Image src={"/logo-chris.png"} alt="Todo Mundo Corre com o Chris" width={64} height={64} className="h-10 sm:h-12 md:h-16 w-auto absolute left-3 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 hidden sm:block"/>
 
             {/* Título centralizado - Responsivo */}
             <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-black text-white text-center px-2 sm:px-0"> FORMULÁRIO DE INSCRIÇÃO</h2>
