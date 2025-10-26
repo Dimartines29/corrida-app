@@ -34,7 +34,7 @@ export async function enviarEmailInscricaoPendente({
     });
 
     const { data, error } = await resend.emails.send({
-      from: 'Corrida App <onboarding@resend.dev>',
+      from: 'Corrida The Chris <contato@corridathechris.com.br>',
       to: para,
       subject: `⏳ Inscrição Recebida - Pagamento Pendente (${codigo})`,
       html: htmlContent,
@@ -72,7 +72,7 @@ export async function enviarEmailRecuperacaoSenha({
     });
 
     const { data, error } = await resend.emails.send({
-      from: 'Corrida App <onboarding@resend.dev>',
+      from: 'Corrida The Chris <contato@corridathechris.com.br>',
       to: para,
       subject: '🔐 Recuperação de Senha - Corrida Chris',
       html: htmlContent,
