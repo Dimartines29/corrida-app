@@ -15,7 +15,7 @@ interface InscricoesFiltersProps {
   onFiltersChange: (filters: InscricaoConsolidatedFilters) => void
   metadata: {
     status: ['PAGO', 'PENDENTE', 'CANCELADO']
-    category: ['Caminhada - 3km', 'Corrida - 5km', 'Corrida - 10km']
+    category: ['Caminhada - 3km', 'Corrida - 6km', 'Corrida - 10km']
     shirtSize: ['PP', 'P', 'M', 'G', 'GG', 'XG'],
     tier: ['1º Lote', '2º Lote', '3º Lote', '4º Lote', '5º Lote'],
     isLoading?: boolean

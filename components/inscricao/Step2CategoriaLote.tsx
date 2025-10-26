@@ -51,7 +51,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
 
   const categorias = [
     'Caminhada - 3km',
-    'Corrida - 5km',
+    'Corrida - 6km',
     'Corrida - 10km',
   ]
 
@@ -138,7 +138,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                     <p className="text-sm text-white/90 leading-relaxed text-center">
                       {categoriaSelecionada === 'Caminhada - 3km'
                         ? 'Ideal para iniciantes e quem quer aproveitar o evento com tranquilidade.'
-                        : categoriaSelecionada === 'Corrida - 5km'
+                        : categoriaSelecionada === 'Corrida - 6km'
                         ? 'Distância perfeita para corredores iniciantes e intermediários.'
                         : 'Desafio para corredores experientes que buscam superar seus limites.'}
                     </p>
@@ -176,7 +176,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                     <p className="text-xs text-white/90 leading-relaxed text-center">
                       {categoriaSelecionada === 'Caminhada - 3km'
                         ? 'Ideal para iniciantes e quem quer aproveitar o evento.'
-                        : categoriaSelecionada === 'Corrida - 5km'
+                        : categoriaSelecionada === 'Corrida - 6km'
                         ? 'Distância perfeita para corredores iniciantes e intermediários.'
                         : 'Desafio para corredores experientes.'}
                     </p>

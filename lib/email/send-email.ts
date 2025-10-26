@@ -4,7 +4,7 @@ import { emailInscricaoPendente, emailRecuperacaoSenha } from './templates';
 interface EnviarEmailInscricaoPendenteProps {
   para: string;
   nomeCompleto: string;
-  codigo: string;
+  codigo: number;
   categoria: string;
   valorPago: number;
   dataEvento: string;

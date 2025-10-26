@@ -57,13 +57,13 @@ export async function POST(request: NextRequest) {
       body: {
         items: [
           {
-            id: inscricao.codigo,
+            id: String(inscricao.codigo),
             title: `Inscrição ${inscricao.categoria} - ${inscricao.codigo}`,
             description: `Corrida ${inscricao.categoria}km - ${inscricao.lote.nome}`,
             category_id: 'sports',
             quantity: 1,
             currency_id: 'BRL',
-            unit_price: Number(inscricao.valorPago + 4.00), // Adiciona taxa fixa de R$4,00
+            unit_price: Number(inscricao.valorPago),
           },
         ],
         payer: {
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
           excluded_payment_types: [{ id: 'ticket' }],
           installments: 12,
         },
-        statement_descriptor: 'CORRIDA 2025',
+        statement_descriptor: 'Corrida The Chris',
         notification_url: process.env.MERCADOPAGO_WEBHOOK_URL,
         metadata: {
           inscricao_id: inscricao.id,

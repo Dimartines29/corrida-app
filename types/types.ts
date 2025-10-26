@@ -12,7 +12,7 @@ export interface Lote {
 
 export interface Inscricao {
   id: number;
-  codigo: string;
+  codigo: number;
   createdAt: string;
   nomeCompleto: string;
   cpf: string;
@@ -54,7 +54,7 @@ export interface DateRangePickerProps {
 
 export interface InscricaoDetalhada {
   id: string
-  codigo: string
+  codigo: number
   nomeCompleto: string
   cpf: string
   rg: string

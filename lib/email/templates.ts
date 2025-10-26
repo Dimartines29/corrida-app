@@ -1,6 +1,6 @@
 interface EmailInscricaoPendenteProps {
   nomeCompleto: string;
-  codigo: string;
+  codigo: number;
   categoria: string;
   valorPago: number;
   dataEvento: string;

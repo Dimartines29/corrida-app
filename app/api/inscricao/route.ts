@@ -4,13 +4,24 @@ import { prisma } from "@/lib/prisma";
 import { inscricaoCompletaSchema } from "@/lib/validations/inscricao";
 import { auth } from "@/auth";
 
-// Função para gerar código único de inscrição
-function gerarCodigoInscricao(): string {
-  const ano = new Date().getFullYear();
-  const numero = Math.floor(Math.random() * 10000)
-    .toString()
-    .padStart(4, "0");
-  return `COR${ano}-${numero}`;
+// Função para gerar código numérico sequencial de inscrição
+async function gerarCodigoInscricao(): Promise<number> {
+  const ultimaInscricao = await prisma.inscricao.findFirst({
+    orderBy: {
+      codigo: 'desc'
+    },
+    select: {
+      codigo: true
+    }
+  });
+
+  if (!ultimaInscricao) {
+    return 1001;
+  }
+
+  const proximoCodigo = Number(ultimaInscricao.codigo) + 1;
+
+  return proximoCodigo;
 }
 
 export async function POST(request: NextRequest) {
@@ -99,27 +110,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 8. Gera código único (tenta até 5 vezes se houver duplicação)
-    let codigoInscricao = "";
-    let tentativas = 0;
-    let codigoUnico = false;
-
-    while (!codigoUnico && tentativas < 5) {
-      codigoInscricao = gerarCodigoInscricao();
-      const codigoExiste = await prisma.inscricao.findUnique({
-        where: { codigo: codigoInscricao },
-      });
-      if (!codigoExiste) {
-        codigoUnico = true;
-      }
-      tentativas++;
-    }
-
-    if (!codigoUnico) {
-      return NextResponse.json(
-        { error: "Erro ao gerar código de inscrição. Tente novamente." },
-        { status: 500 }
-      );
-    }
+    const codigoInscricao = await gerarCodigoInscricao();
 
     // 9. Cria a inscrição no banco (transação para garantir consistência)
     const inscricao = await prisma.$transaction(async (tx) => {
@@ -144,7 +135,7 @@ export async function POST(request: NextRequest) {
           contatoEmergencia: data.contatoEmergencia,
           telefoneEmergencia: data.telefoneEmergencia,
           declaracaoSaude: data.declaracaoSaude,
-          valorPago: lote.preco,
+          valorPago: (lote.preco + 4.00), // Adiciona taxa fixa de R$4,00
           status: "PENDENTE",
         },
         include: {

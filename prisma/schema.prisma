@@ -72,7 +72,7 @@ model Lote {
 
 model Inscricao {
   id                 String          @id @default(cuid())
-  codigo             String          @unique
+  codigo             Int             @unique
   userId             String          @unique
   categoria          String
   loteId             String
