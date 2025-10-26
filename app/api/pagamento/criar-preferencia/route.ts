@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
             category_id: 'sports',
             quantity: 1,
             currency_id: 'BRL',
-            unit_price: Number(inscricao.valorPago),
+            unit_price: Number(inscricao.valorPago + 4.00), // Adiciona taxa fixa de R$4,00
           },
         ],
         payer: {
