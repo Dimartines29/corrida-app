@@ -89,7 +89,6 @@ export async function POST(request: NextRequest) {
         // auto_return: 'approved' as const,
         external_reference: inscricao.id,
         payment_methods: {
-          excluded_payment_types: [{ id: 'ticket' }],
           installments: 12,
         },
         statement_descriptor: 'Corrida The Chris',

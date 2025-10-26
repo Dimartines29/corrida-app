@@ -113,13 +113,14 @@ export default function InscricaoDetalhesPage() {
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className="flex flex-col gap-4 pt-4 md:flex-row md:items-center md:justify-between">
+        <h1><ArrowLeft className="h-6 w-6 cursor-pointer" onClick={() => router.back()} /></h1>
         <div className="flex items-center gap-4">
           <div>
             <h1 className="text-2xl font-bold text-foreground">
               {inscricao.nomeCompleto}
             </h1>
-            <p className="text-sm text-muted-foreground">
-              {inscricao.codigo}
+            <p className="text-md text-muted-foreground">
+              Código - {inscricao.codigo}
             </p>
           </div>
         </div>
@@ -230,15 +231,14 @@ export default function InscricaoDetalhesPage() {
             </div>
 
             <Separator />
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Código/Número de peito</p>
+              <p className="text-sm">{inscricao.codigo}</p>
+            </div>
 
             <div>
               <p className="text-sm font-medium text-muted-foreground">Inscrição criada em</p>
               <p className="text-sm">{format(new Date(inscricao.createdAt), "dd/MM/yyyy 'às' HH:mm")}</p>
-            </div>
-
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Última atualização</p>
-              <p className="text-sm">{format(new Date(inscricao.updatedAt), " 'às' HH:mm")}</p>
             </div>
           </CardContent>
         </Card>

@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo, useEffect } from "react"
 import { format } from "date-fns"
 import type { Inscricao, InscricaoConsolidatedFilters } from "@/types/types"
-import { ArrowDown, ArrowUp, ArrowUpDown, BadgeAlert, User, Users } from "lucide-react"
+import { ArrowDown, ArrowUp, ArrowUpDown, BadgeAlert, CircleDollarSign, Tags, User } from "lucide-react"
 import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
@@ -135,7 +135,7 @@ export default function Inscricoes() {
     if (!registrations) return null
 
     const income = registrations.filter((registration) => {
-      return registration.valorPago || 0
+      return registration.valorPago && registration.status === 'PAGO' || 0
     })
 
     const totalIncome = income.reduce((sum, registration) => sum + (registration.valorPago || 0), 0)
@@ -324,7 +324,7 @@ export default function Inscricoes() {
         <Card className={`border hover:shadow-md transition-all duration-200 cursor-pointer ${activeCardFilter === 'renda' ? 'bg-primary/10 border-primary/20 shadow-md' : 'bg-muted/50 hover:bg-muted/70'}`} onClick={() => handleCardFilter('renda')}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm md:text-lg font-medium text-muted-foreground">Renda</CardTitle>
-                <BadgeAlert className="h-4 w-4 text-muted-foreground" />
+                <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
                 <div className="text-2xl md:text-4xl font-bold text-foreground">R${statistics?.income ?? 0}</div>
@@ -340,7 +340,7 @@ export default function Inscricoes() {
         <Card className={`border hover:shadow-md transition-all duration-200 ${activeCardFilter === 'status' ? 'bg-primary/10 border-primary/20 shadow-md' : 'bg-muted/50'}`}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm md:text-lg font-medium text-muted-foreground">Status</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <BadgeAlert className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div>
@@ -362,7 +362,7 @@ export default function Inscricoes() {
         <Card className={`border hover:shadow-md transition-all duration-200 ${activeCardFilter === 'categoria' ? 'bg-primary/10 border-primary/20 shadow-md' : 'bg-muted/50'}`}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm md:text-lg font-medium text-muted-foreground">Categorias</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Tags className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div>
@@ -500,54 +500,56 @@ export default function Inscricoes() {
 
       <div className="md:hidden space-y-3">
         {paginatedRegistrations.map((registration, index) => (
-          <Card key={registration.id} className="border-b border-border/30 hover:bg-muted/20 transition-colors duration-150 group animate-fade-in" style={{animationDelay: `${index * 50}ms`}}>
-            <CardContent className="p-2">
-              <div className="space-y-3">
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-medium text-sm text-foreground line-clamp-1 hover:text-primary transition-colors">
-                    {registration.nomeCompleto}
-                  </h3>
-                  {registration.status === 'PAGO' ? (
-                    <Badge className="bg-green-100 text-green-600 border-green-300 px-2 py-1 w-22 text-xs md:text-sm">Pago</Badge>
-                  ) : registration.status === 'PENDENTE' ? (
-                    <Badge className="bg-yellow-100 text-yellow-600 border-yellow-300 px-2 py-1 w-22 text-xs md:text-sm">Pendente</Badge>
-                  ) : registration.status === 'CANCELADO' ? (
-                    <Badge className="bg-red-100 text-red-600 border-red-300 px-2 py-1 w-22 text-xs md:text-sm">Cancelado</Badge>
-                  ) : (
-                    <Badge className="bg-gray-100 text-gray-600 border-gray-300 px-2 py-1 text-xs md:text-sm">Desconhecido</Badge>
-                  )}
-                </div>
+          <Link key={registration.id} href={`/admin/inscricoes/${registration.id}`} className="flex items-center gap-1 hover:bg-muted/50 rounded p-2 transition-colors group">
+            <Card className="border-b border-border/30 hover:bg-muted/20 transition-colors duration-150 group animate-fade-in" style={{animationDelay: `${index * 50}ms`}}>
+              <CardContent className="p-2">
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-medium text-sm text-foreground line-clamp-1 hover:text-primary transition-colors">
+                      {registration.nomeCompleto}
+                    </h3>
+                    {registration.status === 'PAGO' ? (
+                      <Badge className="bg-green-100 text-green-600 border-green-300 px-2 py-1 w-22 text-xs md:text-sm">Pago</Badge>
+                    ) : registration.status === 'PENDENTE' ? (
+                      <Badge className="bg-yellow-100 text-yellow-600 border-yellow-300 px-2 py-1 w-22 text-xs md:text-sm">Pendente</Badge>
+                    ) : registration.status === 'CANCELADO' ? (
+                      <Badge className="bg-red-100 text-red-600 border-red-300 px-2 py-1 w-22 text-xs md:text-sm">Cancelado</Badge>
+                    ) : (
+                      <Badge className="bg-gray-100 text-gray-600 border-gray-300 px-2 py-1 text-xs md:text-sm">Desconhecido</Badge>
+                    )}
+                  </div>
 
-                <div className="text-xs text-muted-foreground grid grid-cols-3 gap-2">
-                  <div className="font-medium text-foreground mb-1">
-                    <p>Código</p>
-                    {registration.codigo}
+                  <div className="text-xs text-muted-foreground grid grid-cols-3 gap-2">
+                    <div className="font-medium text-foreground mb-1">
+                      <p>Código</p>
+                      {registration.codigo}
+                    </div>
+                    <div className="font-medium text-foreground mb-1">
+                      <p>CPF</p>
+                      {registration.cpf}
+                    </div>
+                    <div className="font-medium text-foreground mb-1">
+                      <p>Tam. camisa</p>
+                      {registration.tamanhoCamisa}
+                    </div>
                   </div>
-                  <div className="font-medium text-foreground mb-1">
-                    <p>CPF</p>
-                    {registration.cpf}
-                  </div>
-                  <div className="font-medium text-foreground mb-1">
-                    <p>Tam. camisa</p>
-                    {registration.tamanhoCamisa}
-                  </div>
-                </div>
 
-                <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/30">
-                  <div className="flex items-center gap-1">
-                    <User className="h-3 w-3" />
-                    <span className="font-medium truncate max-w-[120px]">{registration.categoria}</span>
-                  </div>
-                  <div className="text-right">
-                    <div>Data da inscrição</div>
-                    <div className="font-medium text-foreground">
-                      {format(registration.createdAt, "dd/MM/yyyy")}
+                  <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/30">
+                    <div className="flex items-center gap-1">
+                      <User className="h-3 w-3" />
+                      <span className="font-medium truncate max-w-[120px]">{registration.categoria}</span>
+                    </div>
+                    <div className="text-right">
+                      <div>Data da inscrição</div>
+                      <div className="font-medium text-foreground">
+                        {format(registration.createdAt, "dd/MM/yyyy")}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
 
