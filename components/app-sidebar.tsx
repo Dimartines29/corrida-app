@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { IconInnerShadowTop, IconHome, IconUser, IconUserEdit, IconBookmarkEdit } from "@tabler/icons-react"
+import { IconInnerShadowTop, IconHome, IconUsers, IconUserEdit, IconBookmarkEdit } from "@tabler/icons-react"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
@@ -19,8 +19,13 @@ const data = {
     {
       title: "Inscrições",
       url: "/admin",
-      icon: IconUser,
-    }
+      icon: IconUsers,
+    },
+    {
+      title: "Inscrição Manual",
+      url: "/admin/inscricao-manual",
+      icon: IconUserEdit,
+    },
   ],
   navSecondary: [
     {

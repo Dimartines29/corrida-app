@@ -128,6 +128,7 @@ export async function POST(request: NextRequest) {
           telefone: data.telefone,
           endereco: data.endereco,
           cidade: data.cidade,
+          bairro: data.bairro,
           estado: data.estado,
           cep: data.cep,
           tamanhoCamisa: data.tamanhoCamisa,

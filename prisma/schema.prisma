@@ -82,7 +82,7 @@ model Inscricao {
   dataNascimento     DateTime
   telefone           String
   endereco           String
-  bairro             String          @default("teste")
+  bairro             String
   cidade             String
   estado             String
   cep                String

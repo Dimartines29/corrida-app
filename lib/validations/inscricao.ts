@@ -124,6 +124,41 @@ export const inscricaoCompletaSchema = z.object({
   ...step4Schema.shape,
 });
 
+// Schema específico para inscrição manual (admin)
+export const inscricaoManualSchema = inscricaoCompletaSchema.extend({
+  statusInscricao: z
+    .enum(["PENDENTE", "PAGO", "CANCELADO"])
+    .default("PENDENTE"),
+
+  statusPagamento: z
+    .enum(["PENDENTE", "APROVADO", "RECUSADO", "REEMBOLSADO"])
+    .default("PENDENTE"),
+
+  metodoPagamento: z
+    .string()
+    .min(1, "Método de pagamento é obrigatório")
+    .default("manual"),
+
+  valorPago: z
+  .string()
+  .optional()
+  .transform((val) => {
+    if (!val || val === "") return undefined;
+
+    const num = parseFloat(val);
+
+    return isNaN(num) ? undefined : num;
+  })
+  .refine((val) => val === undefined || val > 0, {
+    message: "Valor deve ser positivo"
+  }),
+
+  enviarEmail: z
+    .boolean()
+    .default(true),
+});
+
+export type InscricaoManual = z.infer<typeof inscricaoManualSchema>;
 export type Step1Data = z.infer<typeof step1Schema>;
 export type Step2Data = z.infer<typeof step2Schema>;
 export type Step3Data = z.infer<typeof step3Schema>;
