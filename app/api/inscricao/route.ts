@@ -109,8 +109,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 8. Gera código único (tenta até 5 vezes se houver duplicação)
+    // 8. Gera código único
     const codigoInscricao = await gerarCodigoInscricao();
+
+    // Ajusta o valor pago de acordo com o lote e vale-almoço
+    const valorFinal = data.valeAlmoco ? lote.preco + 4.00 + 35 : lote.preco + 4.00;
 
     // 9. Cria a inscrição no banco (transação para garantir consistência)
     const inscricao = await prisma.$transaction(async (tx) => {
@@ -136,8 +139,9 @@ export async function POST(request: NextRequest) {
           contatoEmergencia: data.contatoEmergencia,
           telefoneEmergencia: data.telefoneEmergencia,
           declaracaoSaude: data.declaracaoSaude,
-          valorPago: (lote.preco + 4.00), // Adiciona taxa fixa de R$4,00
+          valorPago: valorFinal,
           status: "PENDENTE",
+          valeAlmoco: data.valeAlmoco || false,
         },
         include: {
           lote: true,
