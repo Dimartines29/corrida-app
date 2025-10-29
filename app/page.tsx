@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'
 import Link from 'next/link';
-import { Facebook, Instagram } from 'lucide-react';
+import { Instagram } from 'lucide-react';
 import { handleSignOut } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button';
 import { RegulamentoModal } from '@/components/RegulamentoModal';
-import Image from 'next/image';
+import ModalChurrasco from '@/components/ModalChurrasco';
 
 export default function Home() {
   const { data: session } = useSession()
@@ -47,9 +47,11 @@ export default function Home() {
 
     return (
       <div>
-        <button onClick={() => scrollToSection('inscricoes')} className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors">
-          INSCREVA-SE
-        </button>
+        <Link href="/register">
+          <button className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors">
+            INSCREVA-SE
+          </button>
+        </Link>
 
         <Link href="/login" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg pl-6">
           Entrar
@@ -91,9 +93,11 @@ export default function Home() {
 
     return (
       <div>
-        <button onClick={() => scrollToSection('inscricoes')} className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition">
-          INSCREVA-SE
-        </button>
+        <Link href="/register">
+          <button className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition">
+            INSCREVA-SE
+          </button>
+        </Link>
 
         <Link href="/login" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg pl-6">
           Entrar
@@ -103,7 +107,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const targetDate = new Date('2026-01-25T08:00:00').getTime();
+    const targetDate = new Date('2026-01-25T07:00:00').getTime();
 
     const timer = setInterval(() => {
       const now = new Date().getTime();
@@ -139,7 +143,7 @@ export default function Home() {
           <div className="flex justify-between items-center h-16 sm:h-20">
 
             <div className="flex-shrink-0">
-              <Image src={"/logo-chris.png"} alt="Todo Mundo Corre com o Chris" width={150} height={50} className="h-10 sm:h-13 w-auto"/>
+              <img src="/logo-chris.png" alt="Todo Mundo Corre com o Chris" className="h-10 sm:h-13 w-auto"/>
             </div>
 
             {/* MENU DESKTOP */}
@@ -214,7 +218,7 @@ export default function Home() {
             <div className="mb-6 sm:mb-8 w-full mt-0 lg:mt-18">
 
               <div className="mb-6 sm:mb-8 flex justify-center">
-                <Image src={"/logo-chris.png"} alt="Todo Mundo Corre com o Chris" width={250} height={80} className="w-full max-w-xs sm:max-w-md h-auto -mt-8 sm:-mt-14 lg:-mt-24"/>
+                <img src="/logo-principal.png" alt="Todo Mundo Corre com o Chris" className="w-full max-w-xs sm:max-w-md h-auto -mt-8 sm:-mt-14 lg:-mt-24"/>
               </div>
 
               <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">FALTAM:</p>
@@ -246,7 +250,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-start justify-center order-1 lg:order-2 lg:-mt-4">
-            <Image src={"/chris-pendurado.png"} alt="Chris pendurado" width={500} height={500} className="w-full max-w-sm sm:max-w-lg lg:max-w-2xl -mt-0 lg:-mt-28"/>
+            <img src="/chris-pendurado.png" alt="Chris pendurado" className="w-full max-w-sm sm:max-w-lg lg:max-w-2xl -mt-14 lg:-mt-18"/>
           </div>
         </div>
       </section>
@@ -258,11 +262,10 @@ export default function Home() {
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
 
-            {/* COLUNA ESQUERDA - Card do Kit Oficial + Aviso da Taxa */}
+            {/* COLUNA ESQUERDA - Card do Kit Oficial */}
             <div className="space-y-6">
-              {/* Card do Kit */}
-              <div className="bg-[url('/kit.png')] bg-cover bg-center rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-10 relative">
-                {/* Badge do Primeiro Lote - Degradê */}
+              <div className="bg-[url('/kit.png')] bg-cover bg-center rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-20 relative min-h-[500px] sm:min-h-[500px]">
+                {/* Badge do Primeiro Lote */}
                 <div className="absolute -top-4 -right-4 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-5 py-3 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform">
                   <div className="text-center">
                     <p className="text-xl font-black flex items-center gap-1">
@@ -280,7 +283,7 @@ export default function Home() {
                   <p className="text-sm sm:text-base text-gray-600">Por pessoa</p>
                 </div>
 
-                <Link href="/inscricao" className="block w-full bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg text-center">
+                <Link href="/register" className="block w-full absolute bottom-6 left-1/2 -translate-x-1/2 max-w-xs sm:max-w-sm lg:max-w-md bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg text-center">
                   GARANTIR MEU KIT!
                 </Link>
               </div>
@@ -289,31 +292,12 @@ export default function Home() {
             {/* COLUNA DIREITA - Informações adicionais */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-center mb-0">
-                <Image src={"/julius.png"} alt="Julius" width={300} height={300} className="w-full max-w-xs sm:max-w-sm h-auto -mt-8 sm:-mt-14 lg:-mt-28"/>
+                <img src="/julius.png" alt="Julius" className="w-full max-w-xs sm:max-w-sm h-auto -mt-8 sm:-mt-14 lg:-mt-28"/>
               </div>
 
-              <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
-                <h4 className="text-xl sm:text-2xl font-bold text-[#E53935] mb-2">📍 Retirada do Kit</h4>
-                <p className="text-sm sm:text-base text-gray-700">O local e a data para retirada dos kits serão informados em data próxima ao evento.</p>
-              </div>
+              {/* 🆕 COMPONENTE MODAL DO CHURRASCO */}
+              <ModalChurrasco />
 
-              <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
-                <h4 className="text-xl sm:text-2xl font-bold text-[#E53935] mb-2">👕 Tamanhos Disponíveis</h4>
-                <p className="text-sm sm:text-base text-gray-700 mb-2 sm:mb-1">Camisetas disponíveis nos tamanhos:</p>
-
-                <div className="flex flex-wrap gap-2">
-                  <span className="bg-[#FFE66D] px-3 sm:px-4 py-1 sm:py-2 rounded-full font-semibold text-sm sm:text-base">P</span>
-                  <span className="bg-[#FFE66D] px-3 sm:px-4 py-1 sm:py-2 rounded-full font-semibold text-sm sm:text-base">M</span>
-                  <span className="bg-[#FFE66D] px-3 sm:px-4 py-1 sm:py-2 rounded-full font-semibold text-sm sm:text-base">G</span>
-                  <span className="bg-[#FFE66D] px-3 sm:px-4 py-1 sm:py-2 rounded-full font-semibold text-sm sm:text-base">GG</span>
-                  <span className="bg-[#FFE66D] px-3 sm:px-4 py-1 sm:py-2 rounded-full font-semibold text-sm sm:text-base">XG</span>
-                </div>
-              </div>
-
-              <div className="bg-[#00B8D4] p-4 sm:p-6 rounded-xl shadow-lg text-white">
-                <h4 className="text-xl sm:text-2xl font-bold mb-2">⚡ Vagas Limitadas!</h4>
-                <p className="text-sm sm:text-base">As inscrições são limitadas. Garanta sua vaga o quanto antes para não ficar de fora dessa experiência incrível!</p>
-              </div>
             </div>
 
           </div>
@@ -325,7 +309,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-3 sm:mb-4">PERCURSO</h2>
 
-          <p className="text-center text-gray-700 text-base sm:text-lg mb-8 sm:mb-12 max-w-3xl mx-auto px-4">Circuito seguro e acessível para todos os níveis de condicionamento físico</p>
+          <p className="text-center text-gray-700 text-base sm:text-lg mb-8 sm:mb-12 max-w-3xl mx-auto px-4">Circuito seguro, plano e sem o Caruso jogando você pra fora da pista.</p>
 
           <h3 className="text-2xl sm:text-3xl font-bold text-center text-[#E53935] mb-6 sm:mb-8">ESCOLHA SUA DISTÂNCIA</h3>
 
@@ -506,6 +490,60 @@ export default function Home() {
             </div>
           </div><br></br>
 
+          <div className="mb-6 sm:mb-8">
+            {/* Card Principal */}
+            <div className="bg-gradient-to-br from-[#00B8D4] via-[#0099b8] to-[#00B8D4] p-6 sm:p-8 rounded-2xl shadow-2xl text-white">
+              <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+                {/* DJ */}
+                <div>
+                  <div className="flex flex-col items-center">
+                    {/* Foto do DJ */}
+                    <div className="w-48 h-48 sm:w-80 sm:h-80 rounded-2xl overflow-hidden border-4 border-[#FFE66D] shadow-2xl mb-4 bg-gray-300">
+                      <img
+                        src="/dj.jpeg"
+                        alt="DJ do Evento"
+                        className="w-full h-full object-cover"
+                        style={{ objectPosition: 'center 30%' }}
+                      />
+                    </div>
+
+                    {/* Nome e Descrição */}
+                    <div className="text-center">
+                      <h4 className="text-2xl sm:text-3xl font-black mb-2">DJ IVAN</h4>
+                      <p className="text-sm sm:text-base text-white/90 leading-relaxed">
+                        Comanda o som da arena com um set cheio de hits energia lá em cima no pós-corrida!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* LOCUTOR */}
+                <div>
+                  <div className="flex flex-col items-center">
+                    {/* Foto do Locutor */}
+                    <div className="w-48 h-48 sm:w-80 sm:h-80 rounded-2xl overflow-hidden border-4 border-[#FFE66D] shadow-2xl mb-4 bg-gray-300">
+                      <img
+                        src="/locutor.jpeg"
+                        alt="Locutor do Evento"
+                        className="w-full h-full object-cover"
+                        style={{ objectPosition: 'center 40%' }}
+                      />
+                    </div>
+
+                    {/* Nome e Descrição */}
+                    <div className="text-center">
+                      <h4 className="text-2xl sm:text-3xl font-black mb-2">BRENO COUTO</h4>
+                      <p className="text-sm sm:text-base text-white/90 leading-relaxed">
+                        Vai narrar cada momento da corrida e comandar as atividades com muita energia e animação!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
           {/* Percurso e Arena */}
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
 
@@ -527,7 +565,7 @@ export default function Home() {
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
                   <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🏆 Premiação</h4>
-                  <p className="text-sm sm:text-base text-gray-800">Medalhas para todos os concluintes; troféus apenas aos 3 primeiros colocados masculino e aos 3 primeiros colocados feminino na prova de <strong>10 km</strong>.</p>
+                  <p className="text-sm sm:text-base text-gray-800">Medalhas para todos os concluintes, troféus apenas aos 3 primeiros colocados masculino e aos 3 primeiros colocados feminino na prova de <strong>10 km</strong>.</p>
                 </div>
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
@@ -547,50 +585,42 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">🚑</div>
-
-                  <p className="font-semibold text-xs sm:text-sm">Ambulância</p>
+                  <p className="font-semibold text-xs sm:text-sm">Ambulância<br></br> (Não vai precisar, mas tem).</p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">👨‍⚕️</div>
-
-                  <p className="font-semibold text-xs sm:text-sm">Equipe Médica</p>
+                  <p className="font-semibold text-xs sm:text-sm">Equipe Médica<br></br>(mais atenta que a Rochelle)</p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">🍽️</div>
-
-                  <p className="font-semibold text-xs sm:text-sm">Praça de Alimentação</p>
+                  <p className="font-semibold text-xs sm:text-sm">Praça de Alimentação<br></br>(preço aprovado pelo Julius)</p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">🎒</div>
-
-                  <p className="font-semibold text-xs sm:text-sm">Guarda Volumes</p>
+                  <p className="font-semibold text-xs sm:text-sm">Guarda Volumes<br></br>(Tonya não mexe aqui)</p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">👟</div>
-
                   <p className="font-semibold text-xs sm:text-sm">Espaço Atleta</p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">🚻</div>
-
-                  <p className="font-semibold text-xs sm:text-sm">Banheiros</p>
+                  <p className="font-semibold text-xs sm:text-sm">Banheiros<br></br></p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">🅿️</div>
-
-                  <p className="font-semibold text-xs sm:text-sm">Estacionamento</p>
+                  <p className="font-semibold text-xs sm:text-sm">Estacionamento<br></br></p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">💧</div>
-
-                  <p className="font-semibold text-xs sm:text-sm">Postos de Hidratação</p>
+                  <p className="font-semibold text-xs sm:text-sm">Postos de Hidratação<br></br></p>
                 </div>
               </div>
             </div>
@@ -608,7 +638,7 @@ export default function Home() {
             <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-4 sm:mb-4">PATROCÍNIO MASTER</h3>
             <div className="flex justify-center">
               <div className="bg-gray-100 w-48 sm:w-96 h-36 sm:h-74 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
-                <Image src="/logo_bravo.png" alt="Logo Patrocinador Bravo" width={384} height={144} className="w-full h-full object-contain p-0"/>
+                <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
               </div>
             </div>
           </div>
@@ -620,7 +650,7 @@ export default function Home() {
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 justify-items-center">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="bg-gray-100 sm:w-64 sm:h-48 rounded-lg flex items-center justify-center shadow">
-                    <Image src="/logo_bravo.png" alt="Logo Patrocinador Bravo" width={256} height={192} className="w-full h-full object-contain p-0"/>
+                    <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
                   </div>
                 ))}
               </div>
@@ -634,7 +664,7 @@ export default function Home() {
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 justify-items-center">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <div key={i} className="bg-gray-100 sm:w-44 sm:h-28 rounded-lg flex items-center justify-center shadow">
-                    <Image src="/logo_bravo.png" alt="Logo Patrocinador Bravo" width={176} height={112} className="w-full h-full object-contain p-0"/>
+                    <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
                   </div>
                 ))}
               </div>
@@ -645,7 +675,7 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-gray-900 text-white py-8 sm:py-12">
+      <footer className="bg-gray-900 text-white py-8 sm:py-6">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr] gap-6 sm:gap-4 mb-8 sm:mb-8">
             <div>
@@ -665,17 +695,22 @@ export default function Home() {
               <h4 className="font-bold mb-3 sm:mb-4 text-base sm:text-lg">REDE SOCIAL</h4>
 
               <div className="flex gap-3 sm:gap-4">
-                {/* Instagram */}
                 <a href="https://www.instagram.com/corridathechris?igsh=MWV0Y2I2NHhwYWZocA==" target="_blank" rel="noopener noreferrer" className="bg-[#E53935] w-10 h-10 sm:w-16 sm:h-16 rounded-full flex items-center justify-center hover:bg-[#c62828] hover:scale-110 transition-all shadow-lg">
                   <Instagram className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </a>
-
               </div>
             </div>
           </div>
 
           <div className="border-t border-gray-700 pt-6 sm:pt-8 text-center text-gray-400">
-            <p className="text-xs sm:text-sm">&copy; 2025 Todo Mundo Corre com o Chris. Todos os direitos reservados.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+              <p className="text-xs sm:text-sm">&copy; Copyright © 2025 All Rights Reserved. Desenvolvido e mantido por</p>
+              <img
+                src="/logo-branco.png"
+                alt="Logo da empresa"
+                className="h-6 sm:h-48 "
+              />
+            </div>
           </div>
         </div>
       </footer>

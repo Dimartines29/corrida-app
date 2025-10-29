@@ -4,6 +4,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescripti
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Shirt, Ruler, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 interface Step3Props {
@@ -12,34 +13,40 @@ interface Step3Props {
 
 const tamanhos = [
   {
+    value: "PP",
+    label: "PP",
+    nome: "Extra Pequeno",
+    medidas: "Largura: 46cm | Comprimento: 64cm",
+  },
+  {
     value: "P",
     label: "P",
     nome: "Pequeno",
-    medidas: "Largura: 50cm | Comprimento: 68cm",
+    medidas: "Largura: 48cm | Comprimento: 67cm",
   },
   {
     value: "M",
     label: "M",
     nome: "Médio",
-    medidas: "Largura: 54cm | Comprimento: 71cm",
+    medidas: "Largura: 50cm | Comprimento: 70cm",
   },
   {
     value: "G",
     label: "G",
     nome: "Grande",
-    medidas: "Largura: 58cm | Comprimento: 74cm",
+    medidas: "Largura: 52cm | Comprimento: 73cm",
   },
   {
     value: "GG",
-    label: "GG",
+    label: "G",
     nome: "Extra Grande",
-    medidas: "Largura: 62cm | Comprimento: 77cm",
+    medidas: "Largura: 54cm | Comprimento: 76cm",
   },
   {
     value: "XG",
     label: "XG",
     nome: "Extra Extra Grande",
-    medidas: "Largura: 66cm | Comprimento: 80cm",
+    medidas: "Largura: 56cm | Comprimento: 79cm",
   },
 ];
 
@@ -61,7 +68,7 @@ export function Step3Kit({ form }: Step3Props) {
       <FormField control={form.control} name="tamanhoCamisa" render={({ field }) => (
           <FormItem>
             <FormControl>
-              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 gap-2 mt-2">
+              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-2 mt-2">
                 {tamanhos.map((tamanho) => {
                   const isSelected = field.value === tamanho.value;
 
@@ -85,21 +92,12 @@ export function Step3Kit({ form }: Step3Props) {
           </FormItem>
         )}
       />
-
-      <Card className="bg-gradient-to-r from-[#E53935] to-[#d32f2f] border-none shadow-xl">
-        <CardContent className="pt-0 sm:pt-1">
-          <div className="flex items-center gap-2 sm:gap-4">
-            <div className="bg-white rounded-full p-1 sm:p-2 flex-shrink-0">
-              <AlertCircle className="w-3 h-3 sm:w-4 sm:h-4 text-[#E53935]" />
-            </div>
-            <div>
-              <p className="text-white font-bold text-[11px] sm:text-base">
-                O tamanho escolhido é definitivo e não poderá ser alterado!
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+  
+      <Alert className="bg-yellow-50 border-2 border-yellow-400">
+        <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-600" />
+        <AlertDescription className="text-sm sm:text-base text-yellow-800 font-semibold">⚠️ O tamanho escolhido é definitivo e não poderá ser alterado!
+        </AlertDescription>
+      </Alert>
 
       {tamanhoSelecionado && (
         <Card className="bg-gradient-to-r bg-[#FFE66D] border-none shadow-lg">
