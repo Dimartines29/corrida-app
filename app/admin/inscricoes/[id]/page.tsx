@@ -240,6 +240,11 @@ export default function InscricaoDetalhesPage() {
               <p className="text-sm font-medium text-muted-foreground">Inscrição criada em</p>
               <p className="text-sm">{format(new Date(inscricao.createdAt), "dd/MM/yyyy 'às' HH:mm")}</p>
             </div>
+
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Vale almoço</p>
+              <p className="text-sm">{inscricao.valeAlmoco ? 'Sim' : 'Não'}</p>
+            </div>
           </CardContent>
         </Card>
 

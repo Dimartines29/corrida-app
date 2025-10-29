@@ -99,8 +99,8 @@ export async function POST(request: NextRequest) {
     // 5. Validações dos campos extras (status, método, valor)
     const statusInscricao = body.statusInscricao || "PENDENTE";
     const metodoPagamento = body.metodoPagamento || "manual";
-    const valorPago = body.valorPago ? parseFloat(body.valorPago) : lote.preco + 4.00;
     const statusPagamento = body.statusPagamento || "PENDENTE";
+    const valorPago = body.valeAlmoco ? lote.preco + 4.00 + 35 : lote.preco + 4.00;
 
     // Valida status da inscrição
     if (!["PENDENTE", "PAGO", "CANCELADO"].includes(statusInscricao)) {
@@ -157,6 +157,7 @@ export async function POST(request: NextRequest) {
           declaracaoSaude: data.declaracaoSaude,
           valorPago: valorPago,
           status: statusInscricao,
+          valeAlmoco: data.valeAlmoco || false,
         },
         include: {
           lote: true,
@@ -189,6 +190,7 @@ export async function POST(request: NextRequest) {
           categoria: resultado.novaInscricao.categoria,
           valor: resultado.novaInscricao.valorPago,
           status: resultado.novaInscricao.status,
+          valeAlmoco: resultado.novaInscricao.valeAlmoco,
         },
       },
       { status: 201 }

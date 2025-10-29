@@ -86,6 +86,9 @@ export const step2Schema = z.object({
   loteId: z
     .string()
     .min(1, "Selecione um lote"),
+
+  valeAlmoco: z
+    .boolean(),
 });
 
 export const step3Schema = z.object({
@@ -138,20 +141,6 @@ export const inscricaoManualSchema = inscricaoCompletaSchema.extend({
     .string()
     .min(1, "Método de pagamento é obrigatório")
     .default("manual"),
-
-  valorPago: z
-  .string()
-  .optional()
-  .transform((val) => {
-    if (!val || val === "") return undefined;
-
-    const num = parseFloat(val);
-
-    return isNaN(num) ? undefined : num;
-  })
-  .refine((val) => val === undefined || val > 0, {
-    message: "Valor deve ser positivo"
-  }),
 
   enviarEmail: z
     .boolean()

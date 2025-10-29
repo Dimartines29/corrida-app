@@ -25,6 +25,7 @@ export interface Inscricao {
   valorPago: number;
   tamanhoCamisa: string;
   status: string;
+  valeAlmoco: boolean;
 }
 
 export interface InscricaoConsolidatedFilters {
@@ -39,6 +40,7 @@ export interface InscricaoConsolidatedFilters {
     shirtSize: string;
     healthPlan: string;
     status: string;
+    lunch: string;
     category: string;
     tier: string;
 }
@@ -72,6 +74,7 @@ export interface InscricaoDetalhada {
   declaracaoSaude: boolean
   valorPago: number
   status: string
+  valeAlmoco: boolean
   createdAt: string
   updatedAt: string
   user: {

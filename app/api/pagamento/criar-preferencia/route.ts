@@ -51,8 +51,6 @@ export async function POST(request: NextRequest) {
       pending: `${baseUrl}/pagamento/pendente?inscricaoId=${inscricao.id}`,
     };
 
-    console.log('🔗 Back URLs montadas:', JSON.stringify(backUrls, null, 2));
-
     const preferenceData = {
       body: {
         items: [

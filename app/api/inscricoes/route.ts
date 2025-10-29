@@ -12,6 +12,7 @@ export async function GET() {
         categoria: true,
         tamanhoCamisa: true,
         status: true,
+        valeAlmoco: true,
         valorPago: true,
         createdAt: true,
         cidade: true,

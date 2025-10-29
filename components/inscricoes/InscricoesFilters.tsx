@@ -30,6 +30,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
     if (filters.search) count++
     if (filters.category && filters.category !== 'todos') count++
     if (filters.status && filters.status !== 'todos') count++
+    if (filters.lunch && filters.lunch !== 'todos') count++
     if (filters.tier && filters.tier !== 'todos') count++
     if (filters.shirtSize && filters.shirtSize !== 'todos') count++
     if (filters.code) count++
@@ -46,6 +47,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
       createdAt: undefined,
       search: '',
       status: 'todos',
+      lunch: 'todos',
       category: 'todos',
       tier: 'todos',
       shirtSize: 'todos',
@@ -135,11 +137,11 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
             </div>
 
             <div className="space-y-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 justify-items-center">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3 justify-items-center">
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Status</label>
                   <Select value={filters.status} onValueChange={(value) => onFiltersChange({ ...filters, status: value })}>
-                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-40">
+                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
                     <SelectContent>
@@ -154,7 +156,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Categoria</label>
                   <Select value={filters.category} onValueChange={(value) => onFiltersChange({ ...filters, category: value })}>
-                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-40">
+                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
                       <SelectValue placeholder="Todas" />
                     </SelectTrigger>
                     <SelectContent>
@@ -169,7 +171,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Camisa</label>
                   <Select value={filters.shirtSize} onValueChange={(value) => onFiltersChange({ ...filters, shirtSize: value })}>
-                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-40">
+                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
                       <SelectValue placeholder="Todas" />
                     </SelectTrigger>
                     <SelectContent>
@@ -184,7 +186,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Lote</label>
                   <Select value={filters.tier} onValueChange={(value) => onFiltersChange({ ...filters, tier: value })}>
-                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-40">
+                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
                     <SelectContent>
@@ -192,6 +194,20 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                       {metadata.tier?.map(tier => (
                         <SelectItem className="text-sm md:text-xs" key={tier} value={tier}>{tier}</SelectItem>
                       ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm md:text-xs block mb-1">Vale almoço</label>
+                  <Select value={filters.lunch} onValueChange={(value) => onFiltersChange({ ...filters, lunch: value })}>
+                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
+                      <SelectValue placeholder="Todos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                    <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
+                    <SelectItem className="text-sm md:text-xs" value="sim">Sim</SelectItem>
+                    <SelectItem className="text-sm md:text-xs" value="nao">Não</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

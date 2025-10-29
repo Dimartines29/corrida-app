@@ -93,6 +93,7 @@ model Inscricao {
   declaracaoSaude    Boolean
   valorPago          Float
   status             StatusInscricao @default(PENDENTE)
+  valeAlmoco         Boolean         @default(false)
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
   lote               Lote            @relation(fields: [loteId], references: [id])

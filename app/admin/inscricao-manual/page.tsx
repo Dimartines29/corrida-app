@@ -27,14 +27,12 @@ export default function InscricaoManualPage() {
   const [loading, setLoading] = useState(false)
   const [lotes, setLotes] = useState<Lote[]>([]);
   const [loadingLotes, setLoadingLotes] = useState(true)
-  const [precoLoteSelecionado, setPrecoLoteSelecionado] = useState<number>(0)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm({
     resolver: zodResolver(inscricaoManualSchema),
     defaultValues: {
@@ -64,17 +62,6 @@ export default function InscricaoManualPage() {
 
     fetchLotes()
   }, [])
-
-  // Atualizar preço quando lote é selecionado
-  const loteIdWatch = watch("loteId")
-  useEffect(() => {
-    if (loteIdWatch) {
-      const lote = lotes.find(l => l.id === loteIdWatch)
-      if (lote) {
-        setPrecoLoteSelecionado(lote.preco + 4.00) // Preço + taxa
-      }
-    }
-  }, [loteIdWatch, lotes])
 
   const onSubmit = async (data: InscricaoManual) => {
     setLoading(true)
@@ -281,7 +268,7 @@ export default function InscricaoManualPage() {
             <CardTitle>Categoria e Kit</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="categoria">Categoria *</Label>
                 <Select onValueChange={(value) => setValue("categoria", value)}>
@@ -341,6 +328,16 @@ export default function InscricaoManualPage() {
                 {errors.tamanhoCamisa && (
                   <p className="text-sm text-red-500">{errors.tamanhoCamisa.message}</p>
                 )}
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="valeAlmoco"
+                  onCheckedChange={(checked) => setValue("valeAlmoco", checked as boolean)}
+                />
+                <Label htmlFor="valeAlmoco" className="font-normal cursor-pointer">
+                  Vale almoço
+                </Label>
               </div>
             </div>
           </CardContent>
@@ -410,7 +407,7 @@ export default function InscricaoManualPage() {
             <CardDescription>Configure o status e valor da inscrição</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="statusInscricao">Status da Inscrição *</Label>
                 <Select
@@ -462,21 +459,6 @@ export default function InscricaoManualPage() {
                     <SelectItem value="manual">Manual/Outro</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="valorPago">Valor (R$)</Label>
-                <Input
-                  id="valorPago"
-                  type="number"
-                  step="0.01"
-                  {...register("valorPago")}
-                  placeholder={`${precoLoteSelecionado.toFixed(2)}`}
-                  className="text-muted-foreground"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Valor sugerido: R$ {precoLoteSelecionado.toFixed(2)} (deixe vazio para usar o padrão)
-                </p>
               </div>
             </div>
           </CardContent>

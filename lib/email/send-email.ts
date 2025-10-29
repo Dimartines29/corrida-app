@@ -45,7 +45,6 @@ export async function enviarEmailInscricaoPendente({
       throw new Error(`Falha no envio: ${error.message}`);
     }
 
-    console.log('Email de inscrição pendente enviado:', data);
     return { success: true, data };
 
   } catch (error) {
