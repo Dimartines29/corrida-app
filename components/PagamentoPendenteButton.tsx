@@ -31,7 +31,7 @@ export function PagamentoPendenteButton({ inscricaoId }: PagamentoPendenteButton
       }
 
       // Redirecionar para checkout do Mercado Pago
-      const checkoutUrl = result.sandboxInitPoint || result.initPoint;
+      const checkoutUrl = result.initPoint;
 
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
