@@ -10,6 +10,9 @@ interface WebhookBody {
   data?: {
     id?: string | number;
   };
+  id?: string | number; // merchant_order também tem ID aqui
+  resource?: string;
+  topic?: string;
   type?: string;
   action?: string;
 }
@@ -29,11 +32,9 @@ export function validateMercadoPagoSignature(
   const requestId = headers['x-request-id'];
 
   console.log('====== DEBUG VALIDAÇÃO ======');
-  console.log('Secret (primeiros 10 chars):', secret.substring(0, 10) + '...');
-  console.log('x-signature completo:', signature);
+  console.log('x-signature:', signature);
   console.log('x-request-id:', requestId);
-  console.log('Body completo:', JSON.stringify(body, null, 2));
-  console.log('============================');
+  console.log('Body:', JSON.stringify(body, null, 2));
 
   if (!signature) {
     console.error('❌ x-signature não encontrado');
@@ -47,8 +48,6 @@ export function validateMercadoPagoSignature(
     let ts = '';
     let receivedHash = '';
     
-    console.log('📦 Parts da signature:', parts);
-    
     for (const part of parts) {
       const trimmed = part.trim();
       if (trimmed.startsWith('ts=')) {
@@ -59,25 +58,36 @@ export function validateMercadoPagoSignature(
       }
     }
 
-    console.log('🔢 Valores extraídos:');
-    console.log('  ts:', ts);
-    console.log('  receivedHash:', receivedHash);
-
     if (!ts || !receivedHash) {
-      console.error('❌ Formato inválido - ts ou v1 não encontrados');
+      console.error('❌ Formato inválido');
       return false;
     }
 
-    // Construir template EXATAMENTE como a documentação
-    const dataId = body?.data?.id ? String(body.data.id) : '';
+    // 🎯 DETERMINAR O ID CORRETO baseado no tipo de notificação
+    let dataId = '';
     
-    // IMPORTANTE: Sem espaços, com ponto-e-vírgula no final
+    if (body.topic === 'merchant_order' && body.resource) {
+      // Para merchant_order, extrair ID da URL do resource
+      // Formato: "https://api.mercadolibre.com/merchant_orders/35146656933"
+      const matches = body.resource.match(/\/merchant_orders\/(\d+)/);
+      dataId = matches ? matches[1] : '';
+      console.log('📦 merchant_order ID extraído:', dataId);
+      
+    } else if (body.type === 'payment' && body.data?.id) {
+      // Para payment, usar data.id
+      dataId = String(body.data.id);
+      console.log('💳 payment ID:', dataId);
+      
+    } else if (body.id) {
+      // Fallback: usar ID direto do body
+      dataId = String(body.id);
+      console.log('🔢 ID direto do body:', dataId);
+    }
+
+    // Construir template
     const template = `id:${dataId};request-id:${requestId};ts:${ts};`;
     
-    console.log('📝 Template construído:');
-    console.log('  Template:', JSON.stringify(template));
-    console.log('  Template length:', template.length);
-    console.log('  Template bytes:', Buffer.from(template).toString('hex'));
+    console.log('📝 Template:', template);
 
     // Calcular hash
     const calculatedHash = crypto
@@ -85,10 +95,10 @@ export function validateMercadoPagoSignature(
       .update(template)
       .digest('hex');
 
-    console.log('🔐 Comparação de hashes:');
-    console.log('  Recebido  :', receivedHash);
-    console.log('  Calculado :', calculatedHash);
-    console.log('  Match?    :', receivedHash === calculatedHash);
+    console.log('🔐 Hashes:');
+    console.log('  Recebido :', receivedHash);
+    console.log('  Calculado:', calculatedHash);
+    console.log('  Match?   :', receivedHash === calculatedHash);
     console.log('============================');
 
     return receivedHash === calculatedHash;
