@@ -1,3 +1,4 @@
+// app/api/pagamento/webhook/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MercadoPagoConfig, Payment } from "mercadopago";
@@ -8,11 +9,12 @@ const mercadoPagoClient = new MercadoPagoConfig({
 });
 
 const paymentClient = new Payment(mercadoPagoClient);
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { type, data, action } = body;
+    const { type, data } = body;
 
     if (type !== "payment") {
       return NextResponse.json({ received: true });
@@ -22,34 +24,33 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "ID não encontrado" }, { status: 400 });
     }
 
-    const paymentId = data.id;
-    let payment;
-    let inscricaoId;
+    const paymentId = String(data.id);
 
-    // Tenta buscar o pagamento no Mercado Pago
-    try {
-      payment = await paymentClient.get({ id: Number(paymentId) });
-      inscricaoId = payment.external_reference;
+    // Aguardar processamento do MP
+    await sleep(1000);
 
-    } catch (error) {
-
-      const inscricao = await prisma.inscricao.findUnique({
-        where: { id: paymentId },
-      });
-
-      if (!inscricao) {
-        return NextResponse.json({ error: "Inscrição não encontrada" }, { status: 404 });
+    // Buscar pagamentos recentes
+    const searchResult = await paymentClient.search({
+      options: {
+        criteria: "desc",
+        limit: 50,
       }
+    });
 
-      inscricaoId = inscricao.id;
+    if (!searchResult.results || searchResult.results.length === 0) {
+      return NextResponse.json({ received: true });
     }
 
-    if (!inscricaoId) {
-      return NextResponse.json({ error: "Inscrição não identificada" }, { status: 400 });
+    // Encontrar o pagamento específico
+    const payment = searchResult.results.find(p => String(p.id) === paymentId);
+
+    if (!payment || !payment.external_reference) {
+      return NextResponse.json({ received: true });
     }
 
+    // Buscar inscrição
     const inscricao = await prisma.inscricao.findUnique({
-      where: { id: inscricaoId },
+      where: { id: payment.external_reference },
       include: { pagamento: true },
     });
 
@@ -57,71 +58,71 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Inscrição não encontrada" }, { status: 404 });
     }
 
-    let novoStatusInscricao: "PENDENTE" | "PAGO" | "CANCELADO" = "PENDENTE";
-    let novoStatusPagamento: "PENDENTE" | "APROVADO" | "RECUSADO" | "REEMBOLSADO" = "PENDENTE";
-    const metodoPagamento = payment?.payment_type_id || "unknown";
+    // Verificar idempotência
+    if (inscricao.status === "PAGO" && inscricao.pagamento?.status === "APROVADO") {
+      return NextResponse.json({ success: true, message: "Já processado" });
+    }
 
-    switch (payment?.status) {
+    // Determinar status
+    let novoStatusInscricao: "PENDENTE" | "PAGO" | "CANCELADO";
+    let novoStatusPagamento: "PENDENTE" | "APROVADO" | "RECUSADO" | "REEMBOLSADO";
+
+    switch (payment.status) {
       case "approved":
         novoStatusInscricao = "PAGO";
         novoStatusPagamento = "APROVADO";
         break;
-
       case "pending":
       case "in_process":
+      case "in_mediation":
         novoStatusInscricao = "PENDENTE";
         novoStatusPagamento = "PENDENTE";
         break;
-
       case "rejected":
       case "cancelled":
         novoStatusInscricao = "CANCELADO";
         novoStatusPagamento = "RECUSADO";
         break;
-
       case "refunded":
+      case "charged_back":
         novoStatusInscricao = "CANCELADO";
         novoStatusPagamento = "REEMBOLSADO";
         break;
-
       default:
         novoStatusInscricao = "PENDENTE";
         novoStatusPagamento = "PENDENTE";
     }
 
-    const resultado = await prisma.$transaction(async (tx) => {
-      const inscricaoAtualizada = await tx.inscricao.update({
-        where: { id: inscricaoId },
+    // Atualizar banco
+    await prisma.$transaction(async (tx) => {
+      await tx.inscricao.update({
+        where: { id: inscricao.id },
         data: { status: novoStatusInscricao },
       });
 
-      const pagamentoAtualizado = await tx.pagamento.update({
-        where: { inscricaoId: inscricaoId },
+      await tx.pagamento.update({
+        where: { inscricaoId: inscricao.id },
         data: {
-          transacaoId: String(paymentId),
+          transacaoId: paymentId,
           status: novoStatusPagamento,
-          metodoPagamento: metodoPagamento,
+          metodoPagamento: payment.payment_type_id || "unknown",
         },
       });
-
-      return { inscricaoAtualizada, pagamentoAtualizado };
     });
+
+    // TODO: Enviar email de confirmação se aprovado
 
     return NextResponse.json({
       success: true,
-      inscricaoId: inscricaoId,
-      status: novoStatusInscricao,
+      inscricaoId: inscricao.id,
+      statusInscricao: novoStatusInscricao,
+      statusPagamento: novoStatusPagamento,
     });
 
   } catch (error) {
-    console.error("ERRO NO WEBHOOK:");
-    console.error(error);
-
+    console.error("Erro no webhook:", error);
     return NextResponse.json(
-      {
-        error: "Erro ao processar webhook",
-        message: error instanceof Error ? error.message : "Erro desconhecido",
-      },
+      { error: "Erro ao processar webhook" },
       { status: 200 }
     );
   }

@@ -45,11 +45,6 @@ export async function POST(request: NextRequest) {
     }
 
     const baseUrl = process.env.APP_URL || 'http://localhost:3000';
-    const backUrls = {
-      success: `${baseUrl}/pagamento/sucesso?inscricaoId=${inscricao.id}`,
-      failure: `${baseUrl}/pagamento/falha?inscricaoId=${inscricao.id}`,
-      pending: `${baseUrl}/pagamento/pendente?inscricaoId=${inscricao.id}`,
-    };
 
     const preferenceData = {
       body: {
@@ -83,8 +78,11 @@ export async function POST(request: NextRequest) {
             federal_unit: inscricao.estado,
           },
         },
-        back_urls: backUrls,
-        // auto_return: 'approved' as const,
+        back_urls: {
+          success: `${baseUrl}/pagamento/sucesso?inscricaoId=${inscricao.id}`,
+          failure: `${baseUrl}/pagamento/falha?inscricaoId=${inscricao.id}`,
+          pending: `${baseUrl}/pagamento/pendente?inscricaoId=${inscricao.id}`,
+        },
         external_reference: inscricao.id,
         payment_methods: {
           installments: 12,
@@ -112,9 +110,14 @@ export async function POST(request: NextRequest) {
       preferenceId: response.id,
       initPoint: response.init_point,
       sandboxInitPoint: response.sandbox_init_point,
+      inscricaoId: inscricao.id,
+      codigo: inscricao.codigo,
     });
 
   } catch (error) {
+    console.error("ERRO ao criar preferência:");
+    console.error(error);
+
     return NextResponse.json(
       {
         error: 'Erro ao criar preferência de pagamento',
