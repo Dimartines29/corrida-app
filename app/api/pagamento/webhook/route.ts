@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MercadoPagoConfig, Payment } from "mercadopago";
+import { validateMercadoPagoSignature } from "@/lib/mercadopago/validate-webhook";
 
 const mercadoPagoClient = new MercadoPagoConfig({
   accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN!,
@@ -13,7 +14,27 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export async function POST(request: NextRequest) {
   try {
+    const signature = request.headers.get('x-signature');
+    const requestId = request.headers.get('x-request-id');
     const body = await request.json();
+
+    // Validar se o webhook é legítimo
+    const isValid = validateMercadoPagoSignature(
+      {
+        'x-signature': signature,
+        'x-request-id': requestId
+      },
+      body
+    );
+
+    if (!isValid) {
+      console.error('Tentativa de webhook inválido bloqueada!');
+      return NextResponse.json(
+        { error: "Assinatura inválida" },
+        { status: 401 }
+      );
+    }
+
     const { type, data } = body;
 
     if (type !== "payment") {
@@ -26,10 +47,8 @@ export async function POST(request: NextRequest) {
 
     const paymentId = String(data.id);
 
-    // Aguardar processamento do MP
     await sleep(1000);
 
-    // Buscar pagamentos recentes
     const searchResult = await paymentClient.search({
       options: {
         criteria: "desc",
@@ -41,14 +60,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ received: true });
     }
 
-    // Encontrar o pagamento específico
     const payment = searchResult.results.find(p => String(p.id) === paymentId);
 
     if (!payment || !payment.external_reference) {
       return NextResponse.json({ received: true });
     }
 
-    // Buscar inscrição
     const inscricao = await prisma.inscricao.findUnique({
       where: { id: payment.external_reference },
       include: { pagamento: true },
@@ -58,12 +75,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Inscrição não encontrada" }, { status: 404 });
     }
 
-    // Verificar idempotência
     if (inscricao.status === "PAGO" && inscricao.pagamento?.status === "APROVADO") {
       return NextResponse.json({ success: true, message: "Já processado" });
     }
 
-    // Determinar status
     let novoStatusInscricao: "PENDENTE" | "PAGO" | "CANCELADO";
     let novoStatusPagamento: "PENDENTE" | "APROVADO" | "RECUSADO" | "REEMBOLSADO";
 
@@ -93,7 +108,6 @@ export async function POST(request: NextRequest) {
         novoStatusPagamento = "PENDENTE";
     }
 
-    // Atualizar banco
     await prisma.$transaction(async (tx) => {
       await tx.inscricao.update({
         where: { id: inscricao.id },
@@ -109,8 +123,6 @@ export async function POST(request: NextRequest) {
         },
       });
     });
-
-    // TODO: Enviar email de confirmação se aprovado
 
     return NextResponse.json({
       success: true,
