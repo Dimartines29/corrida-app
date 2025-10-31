@@ -10,7 +10,7 @@ interface WebhookBody {
   data?: {
     id?: string | number;
   };
-  id?: string | number; // merchant_order também tem ID aqui
+  id?: string | number;
   resource?: string;
   topic?: string;
   type?: string;
@@ -22,7 +22,7 @@ export function validateMercadoPagoSignature(
   body: WebhookBody
 ): boolean {
   const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
-  
+
   if (!secret) {
     console.error('❌ MERCADOPAGO_WEBHOOK_SECRET não configurado!');
     return false;
@@ -44,10 +44,10 @@ export function validateMercadoPagoSignature(
   try {
     // Extrair partes
     const parts = signature.split(',');
-    
+
     let ts = '';
     let receivedHash = '';
-    
+
     for (const part of parts) {
       const trimmed = part.trim();
       if (trimmed.startsWith('ts=')) {
@@ -65,29 +65,39 @@ export function validateMercadoPagoSignature(
 
     // 🎯 DETERMINAR O ID CORRETO baseado no tipo de notificação
     let dataId = '';
-    
-    if (body.topic === 'merchant_order' && body.resource) {
-      // Para merchant_order, extrair ID da URL do resource
-      // Formato: "https://api.mercadolibre.com/merchant_orders/35146656933"
+
+    if (body.topic === 'payment' && body.resource) {
+      // Para payment com topic, o ID vem direto no resource como string
+      dataId = String(body.resource);
+      console.log('💳 payment ID (topic):', dataId);
+
+    } else if (body.topic === 'merchant_order' && body.resource) {
+      // Para merchant_order, extrair ID da URL
       const matches = body.resource.match(/\/merchant_orders\/(\d+)/);
-      dataId = matches ? matches[1] : '';
-      console.log('📦 merchant_order ID extraído:', dataId);
-      
+      dataId = matches ? matches[1] : String(body.resource);
+      console.log('📦 merchant_order ID:', dataId);
+
     } else if (body.type === 'payment' && body.data?.id) {
-      // Para payment, usar data.id
+      // Para payment com type, usar data.id
       dataId = String(body.data.id);
-      console.log('💳 payment ID:', dataId);
-      
+      console.log('💳 payment ID (type):', dataId);
+
     } else if (body.id) {
-      // Fallback: usar ID direto do body
+      // Fallback: usar ID direto
       dataId = String(body.id);
-      console.log('🔢 ID direto do body:', dataId);
+      console.log('🔢 ID direto:', dataId);
+    }
+
+    if (!dataId) {
+      console.error('❌ Não foi possível extrair o ID do webhook');
+      return false;
     }
 
     // Construir template
     const template = `id:${dataId};request-id:${requestId};ts:${ts};`;
-    
+
     console.log('📝 Template:', template);
+    console.log('📝 Template length:', template.length);
 
     // Calcular hash
     const calculatedHash = crypto
