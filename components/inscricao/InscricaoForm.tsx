@@ -90,7 +90,7 @@ export function InscricaoForm() {
 
       const pagamentoResult = await pagamentoResponse.json();
 
-      if (!pagamentoResponse.ok) {alert(`Inscrição criada, mas erro ao gerar pagamento: ${pagamentoResult.error}`); window.location.href = `/dashboard`; return;}
+      if (!pagamentoResponse.ok) {alert(`Inscrição criada, mas erro ao gerar pagamento: ${pagamentoResult.error}`); window.location.href = `/minha-area`; return;}
 
       const checkoutUrl = pagamentoResult.initPoint;
 
@@ -99,7 +99,7 @@ export function InscricaoForm() {
         window.location.href = checkoutUrl;
       }
 
-      else {alert("Erro: Link de pagamento não foi gerado"); window.location.href = `/dashboard`;}
+      else {alert("Erro: Link de pagamento não foi gerado"); window.location.href = `/minha-area`;}
     }
 
     catch (error) {alert("Erro ao processar inscrição. " + "Verifique sua conexão e tente novamente.");
