@@ -80,6 +80,7 @@ model Inscricao {
   cpf                String          @unique
   rg                 String
   dataNascimento     DateTime
+  sexo               String
   telefone           String
   endereco           String
   bairro             String
@@ -87,6 +88,7 @@ model Inscricao {
   estado             String
   cep                String
   tamanhoCamisa      String
+  retiradaKit        String
   possuiPlanoSaude   Boolean
   contatoEmergencia  String
   telefoneEmergencia String

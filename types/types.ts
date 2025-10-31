@@ -16,11 +16,13 @@ export interface Inscricao {
   createdAt: string;
   nomeCompleto: string;
   cpf: string;
+  sexo: string;
   telefone: string;
   endereco: string;
   cidade: string;
   estado: string;
-  categoria: string
+  categoria: string;
+  retiradaKit: string;
   lote: Lote;
   valorPago: number;
   tamanhoCamisa: string;
@@ -59,6 +61,7 @@ export interface InscricaoDetalhada {
   codigo: number
   nomeCompleto: string
   cpf: string
+  sexo: string
   rg: string
   dataNascimento: string
   telefone: string
@@ -67,6 +70,7 @@ export interface InscricaoDetalhada {
   estado: string
   cep: string
   categoria: string
+  retiradaKit: string
   tamanhoCamisa: string
   possuiPlanoSaude: boolean
   contatoEmergencia: string

@@ -1,3 +1,4 @@
+import { se } from "date-fns/locale";
 import { z } from "zod";
 
 const validarCPF = (cpf: string) => {
@@ -35,6 +36,13 @@ export const step1Schema = z.object({
     .string()
     .min(11, "CPF inválido")
     .refine(validarCPF, "CPF inválido"),
+
+  sexo: z
+    .string()
+    .refine(
+      (val) => ["Masculino", "Feminino", "Outro"].includes(val),
+      { message: "Selecione uma opção válida para sexo" }
+    ),
 
   rg: z
     .string()
@@ -86,6 +94,13 @@ export const step2Schema = z.object({
   loteId: z
     .string()
     .min(1, "Selecione um lote"),
+
+  retiradaKit: z
+    .string()
+    .refine(
+      (val) => ["The Chris - Shopping do avião", "The Chris - Monte Carmo Shopping"].includes(val),
+      { message: "Selecione uma opção válida para retirada do kit" }
+    ),
 
   valeAlmoco: z
     .boolean(),
