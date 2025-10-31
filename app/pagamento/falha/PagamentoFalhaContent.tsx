@@ -181,7 +181,7 @@ export default function PagamentoFalhaContent() {
               <Button
                 variant="outline"
                 asChild
-                className="flex-1 border-2 border-[#E53935] text-[#E53935] hover:bg-[#E53935] hover:text-white font-bold text-base sm:text-lg py-6 sm:py-7 rounded-xl shadow-lg hover:scale-105 transition-all"
+                className="flex-1 border-2 border-[#E53935] text-[#E53935] font-bold text-base sm:text-lg py-6 sm:py-7 rounded-xl shadow-lg hover:scale-105 transition-all"
               >
                 <Link href="/minha-area">
                   <Home className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />

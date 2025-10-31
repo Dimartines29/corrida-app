@@ -217,8 +217,8 @@ export default function Home() {
 
             <div className="mb-6 sm:mb-8 w-full mt-0 lg:mt-18">
 
-              <div className="mb-6 sm:mb-8 flex justify-center">
-                <img src="/logo-principal.png" alt="Todo Mundo Corre com o Chris" className="w-full max-w-xs sm:max-w-md h-auto -mt-8 sm:-mt-14 lg:-mt-24"/>
+              <div className="mb-6 sm:mb-6 flex justify-center">
+                <img src="/logo-principal.png" alt="Todo Mundo Corre com o Chris" className="w-full max-w-xs sm:max-w-md h-auto -mt-20 sm:-mt-24 lg:-mt-28"/>
               </div>
 
               <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">FALTAM:</p>
@@ -631,46 +631,53 @@ export default function Home() {
       {/* PATROCINADORES */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-8 sm:mb-12">PATROCINADORES</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-12 sm:mb-16">
+            PATROCINADORES
+          </h2>
 
-          {/* PATROCÍNIO MASTER */}
-          <div className="mb-8 sm:mb-6">
-            <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-4 sm:mb-4">PATROCÍNIO MASTER</h3>
+          {/* OURO */}
+          <div className="mb-12 sm:mb-16">
             <div className="flex justify-center">
-              <div className="bg-gray-100 w-48 sm:w-96 h-36 sm:h-74 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
-                <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
-              </div>
-            </div>
-          </div>
-
-          {/* PATROCÍNIO OURO */}
-          <div className="mb-8 sm:mb-6">
-            <h3 className="text-lg sm:text-xl font-bold text-center text-[#00B8D4] mb-4 sm:mb-4">PATROCÍNIO OURO</h3>
-            <div className="flex justify-center">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 justify-items-center">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="bg-gray-100 sm:w-64 sm:h-48 rounded-lg flex items-center justify-center shadow">
-                    <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
-                  </div>
-                ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 max-w-4xl">
+                <div className="bg-white w-full sm:w-80 h-56 sm:h-64 rounded-xl flex items-center justify-center shadow-xl mx-auto border-2 border-gray-100">
+                  <img
+                    src="/logo-elitelab.png"
+                    alt="Patrocinador Ouro - Elite Lab"
+                    className="w-full h-full object-contain p-4 sm:p-6"
+                  />
+                </div>
+                <div className="bg-white w-full sm:w-80 h-56 sm:h-64 rounded-xl flex items-center justify-center shadow-xl mx-auto border-2 border-gray-100">
+                  <img
+                    src="/logo-power.png"
+                    alt="Patrocinador Ouro - Power"
+                    className="w-full h-full object-contain p-4 sm:p-6"
+                  />
+                </div>
               </div>
             </div>
           </div>
 
           {/* APOIO */}
           <div>
-            <h3 className="text-lg sm:text-xl font-bold text-center text-[#00B8D4] mb-4 sm:mb-4">APOIO</h3>
             <div className="flex justify-center">
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 justify-items-center">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div key={i} className="bg-gray-100 sm:w-44 sm:h-28 rounded-lg flex items-center justify-center shadow">
-                    <img src="/logo_bravo.png" alt="Logo Patrocinador Bravo" className="w-full h-full object-contain p-0"/>
-                  </div>
-                ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl">
+                <div className="bg-white w-full sm:w-64 h-40 sm:h-44 rounded-lg flex items-center justify-center shadow-lg mx-auto border border-gray-200">
+                  <img
+                    src="/logo-rafacar.jpeg"
+                    alt="Apoio - Rafacar"
+                    className="w-full h-full object-contain p-3 sm:p-4"
+                  />
+                </div>
+                <div className="bg-white w-full sm:w-64 h-40 sm:h-44 rounded-lg flex items-center justify-center shadow-lg mx-auto border border-gray-200">
+                  <img
+                    src="/logo-brenda.jpeg"
+                    alt="Apoio - Brenda"
+                    className="w-full h-full object-contain p-3 sm:p-4"
+                  />
+                </div>
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
