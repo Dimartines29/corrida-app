@@ -2,7 +2,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MercadoPagoConfig, Payment } from "mercadopago";
-import { validateMercadoPagoSignature } from "@/lib/mercadopago/validate-webhook";
 
 const mercadoPagoClient = new MercadoPagoConfig({
   accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN!,
@@ -14,46 +13,29 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export async function POST(request: NextRequest) {
   try {
-    const signature = request.headers.get('x-signature');
-    const requestId = request.headers.get('x-request-id');
     const body = await request.json();
+    const { type, topic, resource, data } = body;
 
-    // Validar se o webhook é legítimo
-    const isValid = validateMercadoPagoSignature(
-      {
-        'x-signature': signature,
-        'x-request-id': requestId
-      },
-      body
-    );
-
-    if (!isValid) {
-      console.error('Tentativa de webhook inválido bloqueada!');
-      return NextResponse.json(
-        { error: "Assinatura inválida" },
-        { status: 401 }
-      );
-    }
-
-    const { type, data } = body;
-
-    if (type !== "payment") {
+    if (type !== "payment" && topic !== "payment") {
       return NextResponse.json({ received: true });
     }
 
-    if (!data?.id) {
-      return NextResponse.json({ error: "ID não encontrado" }, { status: 400 });
+    let paymentId: string | null = null;
+
+    if (topic === "payment" && resource) {
+      paymentId = String(resource);
+    } else if (data?.id) {
+      paymentId = String(data.id);
     }
 
-    const paymentId = String(data.id);
+    if (!paymentId) {
+      return NextResponse.json({ error: "Payment ID não encontrado" }, { status: 400 });
+    }
 
     await sleep(1000);
 
     const searchResult = await paymentClient.search({
-      options: {
-        criteria: "desc",
-        limit: 50,
-      }
+      options: { criteria: "desc", limit: 50 }
     });
 
     if (!searchResult.results || searchResult.results.length === 0) {
@@ -133,9 +115,6 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error("Erro no webhook:", error);
-    return NextResponse.json(
-      { error: "Erro ao processar webhook" },
-      { status: 200 }
-    );
+    return NextResponse.json({ error: "Erro ao processar webhook" }, { status: 200 });
   }
 }

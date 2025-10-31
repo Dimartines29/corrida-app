@@ -1,5 +1,4 @@
 // app/api/pagamento/criar-preferencia/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { prisma } from '@/lib/prisma';
@@ -14,22 +13,21 @@ const preference = new Preference(mercadoPagoClient);
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth()
+    const session = await auth();
 
-    if (!session || !session.user) {
+    if (!session?.user) {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
     }
 
-    const body = await request.json();
-    const { inscricaoId } = body;
+    const { inscricaoId } = await request.json();
 
     if (!inscricaoId) {
-      return NextResponse.json({ error: 'inscricaoId é obrigatório' }, { status: 400 });
+      return NextResponse.json({ error: 'inscricaoId obrigatório' }, { status: 400 });
     }
 
     const inscricao = await prisma.inscricao.findUnique({
       where: { id: inscricaoId },
-      include: {lote: true, user: true, pagamento: true },
+      include: { lote: true, user: true, pagamento: true },
     });
 
     if (!inscricao) {
@@ -37,28 +35,26 @@ export async function POST(request: NextRequest) {
     }
 
     if (inscricao.userId !== session.user.id) {
-      return NextResponse.json({ error: 'Esta inscrição não pertence a você' }, { status: 403 });
+      return NextResponse.json({ error: 'Não autorizado' }, { status: 403 });
     }
 
     if (inscricao.status === 'PAGO') {
-      return NextResponse.json({ error: 'Esta inscrição já foi paga' }, { status: 400 });
+      return NextResponse.json({ error: 'Já foi paga' }, { status: 400 });
     }
 
-    const baseUrl = process.env.APP_URL || 'http://localhost:3000';
+    const baseUrl = process.env.APP_URL!;
 
     const preferenceData = {
       body: {
-        items: [
-          {
-            id: String(inscricao.codigo),
-            title: `Inscrição ${inscricao.categoria} - ${inscricao.codigo}`,
-            description: `Corrida ${inscricao.categoria}km - ${inscricao.lote.nome}`,
-            category_id: 'sports',
-            quantity: 1,
-            currency_id: 'BRL',
-            unit_price: Number(inscricao.valorPago),
-          },
-        ],
+        items: [{
+          id: String(inscricao.codigo),
+          title: `Inscrição ${inscricao.categoria} - ${inscricao.codigo}`,
+          description: `Corrida ${inscricao.categoria}km - ${inscricao.lote.nome}`,
+          category_id: 'sports',
+          quantity: 1,
+          currency_id: 'BRL',
+          unit_price: Number(inscricao.valorPago),
+        }],
         payer: {
           name: inscricao.nomeCompleto,
           email: inscricao.user.email,
@@ -84,16 +80,13 @@ export async function POST(request: NextRequest) {
           pending: `${baseUrl}/pagamento/pendente?inscricaoId=${inscricao.id}`,
         },
         external_reference: inscricao.id,
-        payment_methods: {
-          installments: 12,
-        },
+        payment_methods: { installments: 12 },
         statement_descriptor: 'Corrida The Chris',
         notification_url: process.env.MERCADOPAGO_WEBHOOK_URL,
         metadata: {
           inscricao_id: inscricao.id,
           codigo: inscricao.codigo,
           categoria: inscricao.categoria,
-          usuario_email: inscricao.user.email,
         },
       },
     };
@@ -110,19 +103,12 @@ export async function POST(request: NextRequest) {
       preferenceId: response.id,
       initPoint: response.init_point,
       sandboxInitPoint: response.sandbox_init_point,
-      inscricaoId: inscricao.id,
-      codigo: inscricao.codigo,
     });
 
   } catch (error) {
-    console.error("ERRO ao criar preferência:");
-    console.error(error);
-
+    console.error("Erro ao criar preferência:", error);
     return NextResponse.json(
-      {
-        error: 'Erro ao criar preferência de pagamento',
-        details: error instanceof Error ? error.message : 'Erro desconhecido'
-      },
+      { error: 'Erro ao criar preferência' },
       { status: 500 }
     );
   }
