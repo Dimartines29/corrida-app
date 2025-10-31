@@ -92,7 +92,7 @@ export function InscricaoForm() {
 
       if (!pagamentoResponse.ok) {alert(`Inscrição criada, mas erro ao gerar pagamento: ${pagamentoResult.error}`); window.location.href = `/dashboard`; return;}
 
-      const checkoutUrl = pagamentoResult.InitPoint;
+      const checkoutUrl = pagamentoResult.initPoint;
 
       if (checkoutUrl) {alert( `✅ Inscrição criada com sucesso!\n\n` + `Código: ${inscricaoResult.inscricao.codigo}\n` + `Categoria: ${inscricaoResult.inscricao.categoria}\n` + `Valor: R$ ${inscricaoResult.inscricao.valor.toFixed(2)}\n\n` + `Você será redirecionado para o pagamento...`);
 
