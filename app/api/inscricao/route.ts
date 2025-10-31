@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
     const codigoInscricao = await gerarCodigoInscricao();
 
     // Ajusta o valor pago de acordo com o lote e vale-almoço
-    const valorFinal = data.valeAlmoco ? lote.preco + 4.00 + 35 : lote.preco + 4.00;
+    const valorFinal = data.valeAlmoco ? lote.preco + 4.00 + 35.90 : lote.preco + 4.00;
 
     // 9. Cria a inscrição no banco (transação para garantir consistência)
     const inscricao = await prisma.$transaction(async (tx) => {
