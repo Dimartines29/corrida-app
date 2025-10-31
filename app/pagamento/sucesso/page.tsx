@@ -3,10 +3,15 @@ import PagamentoSucessoContent from "./PagamentoSucessoContent";
 
 function LoadingFallback() {
   return (
-    <div className="container mx-auto py-16 px-4 flex items-center justify-center min-h-screen">
+    <div className="min-h-screen bg-[#FFE66D] flex items-center justify-center py-12 px-4">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-        <p className="text-muted-foreground">Carregando...</p>
+        <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-[#00B8D4] border-t-transparent mb-4 shadow-lg"></div>
+        <p className="text-gray-700 font-bold text-lg sm:text-xl">
+          Carregando informações...
+        </p>
+        <p className="text-gray-600 text-sm sm:text-base mt-2">
+          Por favor, aguarde um momento
+        </p>
       </div>
     </div>
   );
