@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image';
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -59,7 +58,6 @@ export default function LoginPage() {
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link href="/">
-                <Image src={"/logo-chris.png"} alt="Todo Mundo Corre com o Chris" width={150} height={50} className="h-10 sm:h-13 w-auto"/>
               </Link>
             </div>
 

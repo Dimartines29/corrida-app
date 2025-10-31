@@ -1,6 +1,5 @@
 // app/minha-area/page.tsx
 import { redirect } from 'next/navigation'
-import Image from 'next/image';
 import { getCurrentUser } from '@/lib/auth/get-session'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -34,7 +33,11 @@ export default async function MinhaAreaPage() {
           <div className="flex justify-between items-center h-16 sm:h-20">
             <div className="flex-shrink-0">
               <Link href="/">
-                <Image src={"/logo-chris.png"} alt="Todo Mundo Corre com o Chris" width={150} height={50} className="h-10 sm:h-13 w-auto"/>
+                <img
+                  src="/logo-chris.png"
+                  alt="Todo Mundo Corre com o Chris"
+                  className="h-10 sm:h-13 w-auto cursor-pointer"
+                />
               </Link>
             </div>
 
@@ -375,10 +378,10 @@ export default async function MinhaAreaPage() {
               {/* Nome */}
               <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-5 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <User className="w-5 h-5 text-[#E53935]" />
-                  <div className="flex-1">
+                  <User className="w-5 h-5 text-[#E53935] flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
                     <p className="text-xs font-bold text-gray-600 uppercase mb-1">Nome</p>
-                    <p className="text-lg font-bold text-gray-800">
+                    <p className="text-lg font-bold text-gray-800 break-words">
                       {user.name || 'Não informado'}
                     </p>
                   </div>
@@ -388,10 +391,12 @@ export default async function MinhaAreaPage() {
               {/* Email */}
               <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd93d] p-5 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-[#E53935]" />
-                  <div className="flex-1">
+                  <Mail className="w-5 h-5 text-[#E53935] flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
                     <p className="text-xs font-bold text-gray-600 uppercase mb-1">Email</p>
-                    <p className="text-lg font-bold text-gray-800">{user.email}</p>
+                    <p className="text-lg font-bold text-gray-800 break-all">
+                      {user.email}
+                    </p>
                   </div>
                 </div>
               </div>
