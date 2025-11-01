@@ -121,9 +121,9 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
 
           {/* MENU DESKTOP */}
           <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
-            <Button onClick={() => scrollToSection('inicio')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
+            <Link href="/" className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg hover:bg-gray-200 px-2 py-1 rounded-md">
               Início
-            </Button>
+            </Link>
             <Button onClick={() => scrollToSection('inscricoes')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
               Inscrições
             </Button>
@@ -159,9 +159,9 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
             <div className="lg:hidden pb-4 bg-gray-100 flex flex-col space-y-2 items-center">
                 {renderMobileButton()}
 
-                <Button onClick={() => scrollToSection('inicio')} className=" w-full text-[#E53935] font-semibold">
+                <Link href="/" className=" w-full text-[#E53935] font-semibold bg-gray-200 px-4 py-2 rounded-md text-center">
                     Início
-                </Button>
+                </Link>
 
                 <Button onClick={() => scrollToSection('inscricoes')} className=" w-full text-[#E53935] font-semibold">
                     Inscrições
