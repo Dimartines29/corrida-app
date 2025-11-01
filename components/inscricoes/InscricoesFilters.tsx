@@ -14,11 +14,13 @@ interface InscricoesFiltersProps {
   filters: InscricaoConsolidatedFilters
   onFiltersChange: (filters: InscricaoConsolidatedFilters) => void
   metadata: {
-    status: ['PAGO', 'PENDENTE', 'CANCELADO']
-    category: ['Caminhada - 3km', 'Corrida - 6km', 'Corrida - 10km']
+    status: ['PAGO', 'PENDENTE', 'CANCELADO'],
+    category: ['Caminhada - 3km', 'Corrida - 6km', 'Corrida - 10km'],
     shirtSize: ['PP', 'P', 'M', 'G', 'GG', 'XG'],
-    tier: ['1º Lote', '2º Lote', '3º Lote', '4º Lote', '5º Lote'],
-    isLoading?: boolean
+    tier: ['1º Lote', '2º Lote', '3º Lote'],
+    sexo: ['Masculino', 'Feminino', 'Outro'],
+    retiradaKit: ['The Chris - Shopping do avião', 'The Chris - Monte Carmo Shopping'],
+    isLoading?: boolean,
   }
 }
 
@@ -33,6 +35,8 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
     if (filters.lunch && filters.lunch !== 'todos') count++
     if (filters.tier && filters.tier !== 'todos') count++
     if (filters.shirtSize && filters.shirtSize !== 'todos') count++
+    if (filters.sex && filters.sex !== 'todos') count++
+    if (filters.kit && filters.kit !== 'todos') count++
     if (filters.code) count++
     if (filters.fullname) count++
     if (filters.cpf) count++
@@ -51,6 +55,8 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
       category: 'todos',
       tier: 'todos',
       shirtSize: 'todos',
+      sex: 'todos',
+      kit: 'todos',
       code: '',
       fullname: '',
       cpf: '',
@@ -137,7 +143,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
             </div>
 
             <div className="space-y-4">
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-3 justify-items-center">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 justify-items-center">
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Status</label>
                   <Select value={filters.status} onValueChange={(value) => onFiltersChange({ ...filters, status: value })}>
@@ -145,7 +151,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
                     <SelectContent>
-                    <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
+                      <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
                       {metadata.status?.map(sts => (
                         <SelectItem className="text-sm md:text-xs" key={sts} value={sts}>{sts}</SelectItem>
                       ))}
@@ -160,7 +166,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                       <SelectValue placeholder="Todas" />
                     </SelectTrigger>
                     <SelectContent>
-                    <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
+                      <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
                       {metadata.category?.map(ctg => (
                         <SelectItem className="text-sm md:text-xs" key={ctg} value={ctg}>{ctg}</SelectItem>
                       ))}
@@ -175,7 +181,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                       <SelectValue placeholder="Todas" />
                     </SelectTrigger>
                     <SelectContent>
-                    <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
+                      <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
                       {metadata.shirtSize?.map(ss => (
                         <SelectItem className="text-sm md:text-xs" key={ss} value={ss}>{ss}</SelectItem>
                       ))}
@@ -190,7 +196,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
                     <SelectContent>
-                    <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
+                      <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
                       {metadata.tier?.map(tier => (
                         <SelectItem className="text-sm md:text-xs" key={tier} value={tier}>{tier}</SelectItem>
                       ))}
@@ -205,9 +211,39 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
                     <SelectContent>
-                    <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
-                    <SelectItem className="text-sm md:text-xs" value="sim">Sim</SelectItem>
-                    <SelectItem className="text-sm md:text-xs" value="nao">Não</SelectItem>
+                      <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
+                      <SelectItem className="text-sm md:text-xs" value="sim">Sim</SelectItem>
+                      <SelectItem className="text-sm md:text-xs" value="nao">Não</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm md:text-xs block mb-1">Sexo</label>
+                  <Select value={filters.sex} onValueChange={(value) => onFiltersChange({ ...filters, sex: value })}>
+                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
+                      <SelectValue placeholder="Todos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
+                      {metadata.sexo?.map(sex => (
+                        <SelectItem className="text-sm md:text-xs" key={sex} value={sex}>{sex}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm md:text-xs block mb-1">Retirada Kit</label>
+                  <Select value={filters.kit} onValueChange={(value) => onFiltersChange({ ...filters, kit: value })}>
+                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
+                      <SelectValue placeholder="Todos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
+                      {metadata.retiradaKit?.map(local => (
+                        <SelectItem className="text-sm md:text-xs" key={local} value={local}>{local}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>

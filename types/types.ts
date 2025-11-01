@@ -45,6 +45,8 @@ export interface InscricaoConsolidatedFilters {
     lunch: string;
     category: string;
     tier: string;
+    sex: string;
+    kit: string;
 }
 
 export interface DateRangePickerProps {

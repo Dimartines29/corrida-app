@@ -1,3 +1,5 @@
+// app/api/inscricao/manual/route.ts
+
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { inscricaoCompletaSchema } from "@/lib/validations/inscricao";
@@ -129,11 +131,10 @@ export async function POST(request: NextRequest) {
           email: `inscricao-${codigoInscricao}@manual.local`,
           name: data.nomeCompleto,
           role: "USER",
-          emailVerified: new Date(), // Marca como verificado para inscrições manuais
+          emailVerified: new Date(),
         },
       });
 
-      // Cria a inscrição
       const novaInscricao = await tx.inscricao.create({
         data: {
           codigo: codigoInscricao,

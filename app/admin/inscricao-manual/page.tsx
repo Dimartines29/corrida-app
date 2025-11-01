@@ -1,3 +1,5 @@
+// app/admin/inscricao-manual/page.tsx
+
 'use client'
 
 import { useState, useEffect } from "react"
@@ -38,6 +40,7 @@ export default function InscricaoManualPage() {
     defaultValues: {
       possuiPlanoSaude: false,
       declaracaoSaude: false,
+      valeAlmoco: false,
       statusInscricao: "PENDENTE",
       statusPagamento: "PENDENTE",
       metodoPagamento: "manual",
@@ -101,7 +104,6 @@ export default function InscricaoManualPage() {
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className="flex items-center justify-between pt-4">
-
         <div className="flex">
           <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -142,6 +144,23 @@ export default function InscricaoManualPage() {
                 />
                 {errors.cpf && (
                   <p className="text-sm text-red-500">{errors.cpf.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="sexo">Sexo *</Label>
+                <Select onValueChange={(value) => setValue("sexo", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Masculino">Masculino</SelectItem>
+                    <SelectItem value="Feminino">Feminino</SelectItem>
+                    <SelectItem value="Outro">Outro</SelectItem>
+                  </SelectContent>
+                </Select>
+                {errors.sexo && (
+                  <p className="text-sm text-red-500">{errors.sexo.message}</p>
                 )}
               </div>
 
@@ -268,7 +287,7 @@ export default function InscricaoManualPage() {
             <CardTitle>Categoria e Kit</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="categoria">Categoria *</Label>
                 <Select onValueChange={(value) => setValue("categoria", value)}>
@@ -308,6 +327,22 @@ export default function InscricaoManualPage() {
                 )}
                 {errors.loteId && (
                   <p className="text-sm text-red-500">{errors.loteId.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="retiradaKit">Local de Retirada do Kit *</Label>
+                <Select onValueChange={(value) => setValue("retiradaKit", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="The Chris - Shopping do avião">The Chris - Shopping do avião</SelectItem>
+                    <SelectItem value="The Chris - Monte Carmo Shopping">The Chris - Monte Carmo Shopping</SelectItem>
+                  </SelectContent>
+                </Select>
+                {errors.retiradaKit && (
+                  <p className="text-sm text-red-500">{errors.retiradaKit.message}</p>
                 )}
               </div>
 

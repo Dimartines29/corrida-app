@@ -29,6 +29,8 @@ function createDefaultInscricaoFilters(): InscricaoConsolidatedFilters {
     lunch: "",
     category: "",
     tier: "",
+    sex: "",
+    kit: "",
   }
 }
 
@@ -244,6 +246,14 @@ export default function Inscricoes() {
         if (registration.tamanhoCamisa !== filters.shirtSize) return false
       }
 
+      if (filters.sex && filters.sex !== "todos") {
+        if (registration.sexo !== filters.sex) return false
+      }
+
+      if (filters.kit && filters.kit !== "todos") {
+        if (registration.retiradaKit !== filters.kit) return false
+      }
+
       if (filters.code) {
         const codeStr = registration.codigo.toString()
         if (!codeStr.includes(filters.code)) return false
@@ -276,6 +286,8 @@ export default function Inscricoes() {
     filters.shirtSize,
     filters.status,
     filters.lunch,
+    filters.sex,
+    filters.kit,
     selectedCategory,
   ])
 
@@ -397,7 +409,9 @@ export default function Inscricoes() {
             status: ['PAGO', 'PENDENTE', 'CANCELADO'],
             category: ['Caminhada - 3km', 'Corrida - 6km', 'Corrida - 10km'],
             shirtSize: ['PP', 'P', 'M', 'G', 'GG', 'XG'],
-            tier: ['1º Lote', '2º Lote', '3º Lote', '4º Lote', '5º Lote'],
+            tier: ['1º Lote', '2º Lote', '3º Lote'],
+            sexo: ['Masculino', 'Feminino', 'Outro'],
+            retiradaKit: ['The Chris - Shopping do avião', 'The Chris - Monte Carmo Shopping'],
           }}
         />
       </div>
