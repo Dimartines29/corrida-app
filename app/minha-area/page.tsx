@@ -9,6 +9,7 @@ import { prisma } from '@/lib/prisma'
 import { PagamentoPendenteButton } from '@/components/PagamentoPendenteButton'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { MainHeader } from '@/components/MainHeader';
 
 export default async function MinhaAreaPage() {
   const user = await getCurrentUser()
@@ -27,71 +28,7 @@ export default async function MinhaAreaPage() {
 
   return (
     <div className="min-h-screen bg-[#FFE66D]">
-      {/* HEADER */}
-      <header className="fixed top-0 w-full bg-gray-100 shadow-md z-50">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 sm:h-20">
-            <div className="flex-shrink-0">
-              <Link href="/">
-                <img
-                  src="/logo-chris.png"
-                  alt="Todo Mundo Corre com o Chris"
-                  className="h-10 sm:h-13 w-auto cursor-pointer"
-                />
-              </Link>
-            </div>
-
-            {/* Menu Desktop */}
-            <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
-              <Link href="/#inicio">
-                <button className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
-                  Início
-                </button>
-              </Link>
-              <Link href="/#inscricoes">
-                <button className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
-                  Inscrições
-                </button>
-              </Link>
-              <Link href="/#informacoes">
-                <button className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
-                  Informações
-                </button>
-              </Link>
-              <Link href="/#percurso">
-                <button className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
-                  Percurso
-                </button>
-              </Link>
-            </div>
-
-            {/* Botões Desktop */}
-            <div className="hidden lg:flex items-center gap-4">
-              {user.role === 'ADMIN' && (
-                <Link href="/admin">
-                  <button className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
-                    Painel Admin
-                  </button>
-                </Link>
-              )}
-              <Link href="/api/auth/signout">
-                <button className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors">
-                  SAIR
-                </button>
-              </Link>
-            </div>
-
-            {/* Menu Mobile Toggle */}
-            <div className="lg:hidden">
-              <button className="text-[#E53935] p-2">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </nav>
-      </header>
+      <MainHeader isAdmin={false} isAuthenticated={true} />
 
       {/* CONTEÚDO */}
       <div className="px-4 py-12 pt-32 min-h-screen">

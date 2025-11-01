@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { InscricaoForm } from '@/components/inscricao/InscricaoForm'
 import { handleSignOut } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
+import { MainHeader } from '@/components/MainHeader';
 
 /**
  * Página de Inscrição
@@ -22,6 +23,7 @@ export default function InscricaoPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const isAdmin = session?.user?.role === 'ADMIN'
   const user = session?.user
+  const isAuthenticated = !!session?.user
 
   const scrollToSection = (id: string) => {
     window.location.href = `/#${id}`
@@ -104,120 +106,7 @@ export default function InscricaoPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* CABEÇALHO DA PÁGINA */}
-      <header className="fixed top-0 w-full bg-gray-100 shadow-md z-50">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 sm:h-20">
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <Link href="/">
-                <img
-                  src="/logo-chris.png"
-                  alt="Todo Mundo Corre com o Chris"
-                  className="h-10 sm:h-13 w-auto cursor-pointer"
-                />
-              </Link>
-            </div>
-
-            {/* Menu Desktop */}
-            <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
-              <button
-                onClick={() => scrollToSection('inicio')}
-                className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg"
-              >
-                Início
-              </button>
-              <button
-                onClick={() => scrollToSection('inscricoes')}
-                className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg"
-              >
-                Inscrições
-              </button>
-              <button
-                onClick={() => scrollToSection('informacoes')}
-                className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg"
-              >
-                Informações
-              </button>
-              <button
-                onClick={() => scrollToSection('percurso')}
-                className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg"
-              >
-                Percurso
-              </button>
-            </div>
-
-            {/* Botões Desktop */}
-            <div className="hidden lg:flex items-center gap-4">
-              {renderHeaderButton()}
-            </div>
-
-            {/* Menu Mobile Toggle */}
-            <div className="lg:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-[#E53935] p-2"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  {mobileMenuOpen ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  )}
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* Menu Mobile */}
-          {mobileMenuOpen && (
-            <div className="lg:hidden pb-4 bg-gray-100">
-              <button
-                onClick={() => scrollToSection('inicio')}
-                className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded"
-              >
-                Início
-              </button>
-              <button
-                onClick={() => scrollToSection('inscricoes')}
-                className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded"
-              >
-                Inscrições
-              </button>
-              <button
-                onClick={() => scrollToSection('informacoes')}
-                className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded"
-              >
-                Informações
-              </button>
-              <button
-                onClick={() => scrollToSection('percurso')}
-                className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded"
-              >
-                Percurso
-              </button>
-              {renderMobileButton()}
-            </div>
-          )}
-        </nav>
-      </header>
-
-      {/* FORMULÁRIO DE INSCRIÇÃO */}
+      <MainHeader isAdmin={isAdmin} isAuthenticated={isAuthenticated} />
       <div className="pt-20">
         <InscricaoForm />
       </div>
