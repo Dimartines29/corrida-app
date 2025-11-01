@@ -16,7 +16,7 @@ export default function Home() {
   const isAuthenticated = !!session?.user
 
   useEffect(() => {
-    const targetDate = new Date('2026-01-25T07:00:00').getTime();
+    const targetDate = new Date('2026-01-25T06:30:00').getTime();
 
     const timer = setInterval(() => {
       const now = new Date().getTime();
@@ -102,7 +102,7 @@ export default function Home() {
 
             {/* COLUNA ESQUERDA - Card do Kit Oficial */}
             <div className="space-y-6">
-              <div className="bg-[url('/kit.png')] bg-cover bg-center rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-20 relative min-h-[500px] sm:min-h-[500px]">
+              <div className="bg-[url('/kit-oficial-logo.png')] bg-cover bg-center rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-20 relative min-h-[500px] sm:min-h-[500px]">
                 {/* Badge do Primeiro Lote */}
                 <div className="absolute -top-4 -right-4 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-5 py-3 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform">
                   <div className="text-center">
@@ -143,37 +143,78 @@ export default function Home() {
       </section>
 
       {/* PERCURSO */}
-      {/* <section id="percurso" className="py-12 sm:py-16 lg:py-20 bg-white">
+      <section id="percurso" className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-3 sm:mb-4">PERCURSO</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-3 sm:mb-4">
+            PERCURSO
+          </h2>
 
-          <p className="text-center text-gray-700 text-base sm:text-lg mb-8 sm:mb-12 max-w-3xl mx-auto px-4">Circuito seguro, plano e sem o Caruso jogando você pra fora da pista.</p>
+          <p className="text-center text-gray-700 text-base sm:text-lg mb-8 sm:mb-12 max-w-3xl mx-auto px-4">
+            Circuito seguro, plano e sem o Caruso jogando você pra fora da pista.
+          </p>
 
-          <h3 className="text-2xl sm:text-3xl font-bold text-center text-[#E53935] mb-6 sm:mb-8">ESCOLHA SUA DISTÂNCIA</h3>
+          <h3 className="text-2xl sm:text-3xl font-bold text-center text-[#E53935] mb-6 sm:mb-8">
+            ESCOLHA SUA DISTÂNCIA
+          </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
-
-            <div onClick={() => setSelectedDistance(6)}className={`p-4 sm:p-6 rounded-xl shadow-lg transition cursor-pointer sm:col-span-2 md:col-span-1 ${selectedDistance === 6 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'}`}>
+            <div
+              onClick={() => setSelectedDistance(6)}
+              className={`p-4 sm:p-6 rounded-xl shadow-lg transition cursor-pointer sm:col-span-2 md:col-span-1 ${
+                selectedDistance === 6 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'
+              }`}
+            >
               <div className="text-center mb-3 sm:mb-4">
-                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 6 ? 'text-white' : 'text-[#E53935]'}`}>6KM</h3>
-
-                <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 6 ? 'text-white' : 'text-gray-700'}`}>CORRIDA</p>
+                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${
+                  selectedDistance === 6 ? 'text-white' : 'text-[#E53935]'
+                }`}>
+                  6KM
+                </h3>
+                <p className={`text-xs sm:text-sm font-semibold ${
+                  selectedDistance === 6 ? 'text-white' : 'text-gray-700'
+                }`}>
+                  CORRIDA
+                </p>
               </div>
             </div>
 
-            <div onClick={() => setSelectedDistance(10)}className={`p-4 sm:p-6 rounded-xl shadow-lg transition cursor-pointer border-4 ${selectedDistance === 10 ? 'bg-[#E53935] text-white border-[#E53935]' : 'bg-[#FFE66D] border-[#E53935]'}`}>
+            <div
+              onClick={() => setSelectedDistance(10)}
+              className={`p-4 sm:p-6 rounded-xl shadow-lg transition cursor-pointer border-4 ${
+                selectedDistance === 10 ? 'bg-[#E53935] text-white border-[#E53935]' : 'bg-[#FFE66D] border-[#E53935]'
+              }`}
+            >
               <div className="text-center mb-3 sm:mb-4">
-                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 10 ? 'text-white' : 'text-[#E53935]'}`}>10KM</h3>
-
-                <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 10 ? 'text-white' : 'text-gray-700'}`}>CORRIDA</p>
+                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${
+                  selectedDistance === 10 ? 'text-white' : 'text-[#E53935]'
+                }`}>
+                  10KM
+                </h3>
+                <p className={`text-xs sm:text-sm font-semibold ${
+                  selectedDistance === 10 ? 'text-white' : 'text-gray-700'
+                }`}>
+                  CORRIDA
+                </p>
               </div>
             </div>
 
-            <div onClick={() => setSelectedDistance(3)}className={`p-4 sm:p-6 rounded-xl shadow-lg transition cursor-pointer ${selectedDistance === 3 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'}`}>
+            <div
+              onClick={() => setSelectedDistance(3)}
+              className={`p-4 sm:p-6 rounded-xl shadow-lg transition cursor-pointer ${
+                selectedDistance === 3 ? 'bg-[#00B8D4] text-white' : 'bg-[#FFE66D]'
+              }`}
+            >
               <div className="text-center mb-3 sm:mb-4">
-                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${selectedDistance === 3 ? 'text-white' : 'text-[#E53935]'}`}>3KM</h3>
-
-                <p className={`text-xs sm:text-sm font-semibold ${selectedDistance === 3 ? 'text-white' : 'text-gray-700'}`}>CAMINHADA</p>
+                <h3 className={`text-3xl sm:text-4xl font-black mb-2 ${
+                  selectedDistance === 3 ? 'text-white' : 'text-[#E53935]'
+                }`}>
+                  3KM
+                </h3>
+                <p className={`text-xs sm:text-sm font-semibold ${
+                  selectedDistance === 3 ? 'text-white' : 'text-gray-700'
+                }`}>
+                  CAMINHADA
+                </p>
               </div>
             </div>
           </div>
@@ -184,50 +225,21 @@ export default function Home() {
                 📍 MAPA DO PERCURSO - {selectedDistance}KM
               </h3>
 
-              <div className="bg-white rounded-lg overflow-hidden shadow-lg">
-                {selectedDistance === 3 && (
-                  <iframe
-                    src="https://www.google.com/maps/d/embed?mid=1PEluBiryiQz5Kzdn7mafCsDLrA_seyU&ehbc=2E312F"
-                    width="100%"
-                    height="550"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="rounded-lg"
-                  />
-                )}
-
-                {selectedDistance === 6 && (
-                  <iframe
-                    src="https://www.google.com/maps/d/embed?mid=16nh29YpGSp54KyTTUTsTT3OsVLzeYfc&ehbc=2E312F"
-                    width="100%"
-                    height="550"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="rounded-lg"
-                  />
-                )}
-
-                {selectedDistance === 10 && (
-                  <iframe
-                    src="https://www.google.com/maps/d/embed?mid=1lp8bVHygfECY7qsVV6fhgh6bQ7FsTpY&ehbc=2E312F"
-                    width="100%"
-                    height="550"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="rounded-lg"
-                  />
-                )}
+              <div className="bg-gradient-to-br from-[#FFE66D] to-[#ffd93d] rounded-lg p-12 sm:p-16 shadow-lg flex items-center justify-center min-h-[400px]">
+                <div className="text-center">
+                  <div className="text-6xl sm:text-7xl mb-4">🗺️</div>
+                  <p className="text-xl sm:text-2xl font-black text-[#E53935] mb-2">
+                    📍 Os mapas dos percursos serão divulgados em breve!
+                  </p>
+                  <p className="text-sm sm:text-base text-gray-700 font-semibold">
+                    Fique atento às nossas redes sociais para atualizações
+                  </p>
+                </div>
               </div>
             </div>
           )}
 
-          <div className=" p-6 sm:p-8 mb-6 sm:mb-8">
+          <div className="p-6 sm:p-8 mb-6 sm:mb-8">
             <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-6 flex items-center justify-center gap-2">
               <span className="text-2xl">🏃‍♂️</span> CARACTERÍSTICAS DO CIRCUITO
             </h3>
@@ -264,9 +276,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-
         </div>
-      </section> */}
+      </section>
 
       {/* INFORMAÇÕES DO EVENTO */}
       <section id="informacoes" className="py-12 sm:py-16 lg:py-20 bg-[#FFE66D]">
@@ -281,7 +292,7 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="bg-white/10 backdrop-blur p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
-                <p className="font-black text-lg mb-1">07:00</p>
+                <p className="font-black text-lg mb-1">06:30</p>
                 <p className="text-sm">Abertura da Arena <strong>The Chris</strong></p>
               </div>
 
@@ -493,7 +504,7 @@ export default function Home() {
           </div>
 
           {/* APOIO - Logos Menores */}
-          <div>
+          <div className="mb-10 sm:mb-14">
             <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-8 max-w-3xl mx-auto">
               <div className="bg-white w-full h-32 sm:h-44 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
                 <img
@@ -509,6 +520,24 @@ export default function Home() {
                   className="w-full h-full object-contain p-3 sm:p-4"
                 />
               </div>
+            </div>
+          </div>
+
+          {/* Call to Action - Seja Patrocinador */}
+          <div className="flex justify-center">
+            <div className="px-6 sm:px-8 py-4 sm:py-5">
+              <p className="text-center text-base sm:text-lg font-bold text-gray-800 mb-2">
+                🤝 Seja um patrocinador!
+              </p>
+              <p className="text-center text-sm sm:text-base text-gray-700">
+                Entre em contato:{' '}
+                <a
+                  href="mailto:studiobravo0@gmail.com"
+                  className="text-[#E53935] font-black hover:text-[#c62828] underline transition-colors"
+                >
+                  studiobravo0@gmail.com
+                </a>
+              </p>
             </div>
           </div>
         </div>
