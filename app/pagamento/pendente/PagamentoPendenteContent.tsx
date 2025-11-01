@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock, Home, RefreshCw, AlertCircle, CreditCard, Calendar, User } from "lucide-react";
+import { Clock, Home, RefreshCw, AlertCircle, CreditCard, Calendar } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import type { Inscricao } from "@/types/types";
 
@@ -82,7 +82,7 @@ export default function PagamentoPendenteContent() {
           <CardContent className="p-6 sm:p-8 space-y-6">
             {/* Alerta Principal */}
             <Alert className="bg-yellow-50 border-2 border-yellow-400 -mt-8">
-              <AlertCircle className="h-5 w-5 sm:h-6 sm:h-6 text-yellow-600" />
+              <AlertCircle className="h-5 w-5  sm:h-6 text-yellow-600" />
               <AlertDescription className="text-sm sm:text-base text-yellow-800 font-semibold">
                 ⏳ Estamos aguardando a confirmação do seu pagamento. Isso pode levar alguns minutos.
               </AlertDescription>

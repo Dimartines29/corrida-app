@@ -144,6 +144,11 @@ export const inscricaoCompletaSchema = z.object({
 
 // Schema específico para inscrição manual (admin)
 export const inscricaoManualSchema = inscricaoCompletaSchema.extend({
+  valorPago: z
+    .number()
+    .positive("Valor deve ser maior que zero")
+    .min(0.01, "Valor mínimo é R$ 0,01"),
+
   statusInscricao: z
     .enum(["PENDENTE", "PAGO", "CANCELADO"])
     .default("PENDENTE"),

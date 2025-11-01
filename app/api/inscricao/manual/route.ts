@@ -102,7 +102,11 @@ export async function POST(request: NextRequest) {
     const statusInscricao = body.statusInscricao || "PENDENTE";
     const metodoPagamento = body.metodoPagamento || "manual";
     const statusPagamento = body.statusPagamento || "PENDENTE";
-    const valorPago = body.valeAlmoco ? lote.preco + 4.00 + 35.90 : lote.preco + 4.00;
+    let valorPago = body.valorPago;
+
+    if (!valorPago || valorPago <= 0) {
+      valorPago = body.valeAlmoco ? lote.preco + 4.00 + 35.00 : lote.preco + 4.00;
+    }
 
     // Valida status da inscrição
     if (!["PENDENTE", "PAGO", "CANCELADO"].includes(statusInscricao)) {

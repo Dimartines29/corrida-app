@@ -134,7 +134,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
         </div>
 
         {isExpanded && (
-          <div className="mt-6 pt-4 border-t space-y-6">
+          <div className=" mt-6 pt-4 border-t space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-medium">Filtros Específicos</h3>
               <Button variant="ghost" size="sm" onClick={() => setIsExpanded(false)} className="text-gray-500 hover:text-gray-700 lg:hidden">
@@ -143,7 +143,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
             </div>
 
             <div className="space-y-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 justify-items-center">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3 justify-items-center">
                 <div>
                   <label className="text-sm md:text-xs block mb-1">Status</label>
                   <Select value={filters.status} onValueChange={(value) => onFiltersChange({ ...filters, status: value })}>

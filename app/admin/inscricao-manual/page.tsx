@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { inscricaoManualSchema, type InscricaoManual } from "@/lib/validations/inscricao"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,6 +16,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { toast } from "sonner"
 import { Loader2, UserPlus, ArrowLeft } from "lucide-react"
 import Link from "next/link"
+
+// Constantes de preços
+const TAXA_INSCRICAO = 4.00;
+const VALOR_ALMOCO = 35.90;
 
 type Lote = {
   id: string
@@ -29,24 +33,31 @@ export default function InscricaoManualPage() {
   const [loading, setLoading] = useState(false)
   const [lotes, setLotes] = useState<Lote[]>([]);
   const [loadingLotes, setLoadingLotes] = useState(true)
+  const [valorEditadoManualmente, setValorEditadoManualmente] = useState(false)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm({
-    resolver: zodResolver(inscricaoManualSchema),
+  const { register, handleSubmit, formState: { errors }, setValue, control } = useForm({resolver: zodResolver(inscricaoManualSchema),
     defaultValues: {
       possuiPlanoSaude: false,
       declaracaoSaude: false,
       valeAlmoco: false,
-      statusInscricao: "PENDENTE",
-      statusPagamento: "PENDENTE",
+      valorPago: 0,
+      statusInscricao: "PENDENTE" as const,
+      statusPagamento: "PENDENTE" as const,
       metodoPagamento: "manual",
       enviarEmail: true,
     },
   })
+
+  // Monitorar mudanças nos campos
+  const loteIdSelecionado = useWatch({
+    control,
+    name: "loteId",
+  });
+
+  const valeAlmocoSelecionado = useWatch({
+    control,
+    name: "valeAlmoco",
+  });
 
   // Buscar lotes disponíveis
   useEffect(() => {
@@ -54,6 +65,7 @@ export default function InscricaoManualPage() {
       try {
         const response = await fetch("/api/lotes")
         const data = await response.json()
+
         setLotes(data)
       } catch (error) {
 
@@ -65,6 +77,24 @@ export default function InscricaoManualPage() {
 
     fetchLotes()
   }, [])
+
+  // Calcular valor automaticamente
+  useEffect(() => {
+    // Só calcula se o usuário NÃO editou manualmente
+    if (!valorEditadoManualmente && loteIdSelecionado && lotes.length > 0) {
+      const loteSelecionado = lotes.find(l => l.id === loteIdSelecionado);
+
+      if (loteSelecionado) {
+        let valorTotal = loteSelecionado.preco + TAXA_INSCRICAO;
+
+        if (valeAlmocoSelecionado) {
+          valorTotal += VALOR_ALMOCO;
+        }
+
+        setValue("valorPago", valorTotal);
+      }
+    }
+  }, [loteIdSelecionado, valeAlmocoSelecionado, lotes, valorEditadoManualmente, setValue]);
 
   const onSubmit = async (data: InscricaoManual) => {
     setLoading(true)
@@ -371,7 +401,7 @@ export default function InscricaoManualPage() {
                   onCheckedChange={(checked) => setValue("valeAlmoco", checked as boolean)}
                 />
                 <Label htmlFor="valeAlmoco" className="font-normal cursor-pointer">
-                  Vale almoço
+                  Vale almoço (+R$ {VALOR_ALMOCO.toFixed(2)})
                 </Label>
               </div>
             </div>
@@ -494,6 +524,24 @@ export default function InscricaoManualPage() {
                     <SelectItem value="manual">Manual/Outro</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div className="space-y-2 md:col-span-3">
+                <Label htmlFor="valorPago">Valor Total da Inscrição *</Label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                    R$
+                  </span>
+                  <Input id="valorPago" type="number" step="0.01" min="0" placeholder="0.00" className="pl-10 text-muted-foreground"
+                    {...register("valorPago", {
+                      valueAsNumber: true,
+                      onChange: () => setValorEditadoManualmente(true)
+                    })}
+                  />
+                </div>
+                {errors.valorPago && (
+                  <p className="text-sm text-red-500">{errors.valorPago.message}</p>
+                )}
               </div>
             </div>
           </CardContent>
