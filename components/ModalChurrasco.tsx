@@ -15,7 +15,6 @@ export default function ModalChurrasco() {
         <div className="relative z-10">
           {/* Título */}
           <h4 className="text-2xl sm:text-3xl font-black text-center mb-3 flex items-center justify-center gap-2">
-            <span className="text-3xl">🍖</span>
             ALMOÇO COM CHURRASCO
           </h4>
 
@@ -98,7 +97,7 @@ export default function ModalChurrasco() {
 
                   {/* O que está incluído */}
                   <div className="bg-gradient-to-br from-[#E53935] to-[#c62828] text-white p-6 rounded-xl">
-                    <h3 className="text-2xl font-black mb-4 text-center">🍖 O QUE ESTÁ INCLUSO?</h3>
+                    <h3 className="text-2xl font-black mb-4 text-center">O QUE ESTÁ INCLUSO?</h3>
                     <div className="grid sm:grid-cols-2 gap-3">
                       <div className="flex items-center gap-2">
                         <Check className="w-5 h-5 text-[#FFE66D]" />

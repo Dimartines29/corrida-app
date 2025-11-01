@@ -55,7 +55,7 @@ export function RegulamentoModal({origin}: {origin: string} ) {
                 </div>
                 <Button
                   onClick={() => setOpen(false)}
-                  className="text-white hover:bg-white/20 p-2 rounded-lg transition-colors"
+                  className="bg-[#FFE66D] text-[#E53935] hover:bg-[#ffd93d] font-black px-4 py-3 text-lg shadow-lg hover:scale-105 transition-all"
                 >
                   <X className="w-6 h-6" />
                 </Button>
@@ -192,8 +192,8 @@ export function RegulamentoModal({origin}: {origin: string} ) {
                         <p className="font-bold text-[#00B8D4] mb-2"><strong>6.1 Modalidades:</strong></p>
                         <ul className="space-y-1 ml-4">
                           <li>• <strong>CORRIDA 10 KM</strong></li>
-                          <li>• <strong>CORRIDA 06 KM</strong></li>
-                          <li>• <strong>CAMINHADA 03 KM</strong></li>
+                          <li>• <strong>CORRIDA 6 KM</strong></li>
+                          <li>• <strong>CAMINHADA 3 KM</strong></li>
                         </ul>
                       </div>
                       <p><strong>6.2</strong> CONDUTA - Os competidores deverão: manter durante todo o tempo uma conduta desportiva; ser responsáveis pela sua própria segurança e a segurança de outros; ser responsáveis pela compreensão e pelo cumprimento deste Regulamento; tratar a todos com respeito e cortesia; não fazer uso da linguagem vulgar ou de baixo calão; em eventual abandono informar à organização.</p>

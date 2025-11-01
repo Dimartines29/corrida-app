@@ -468,52 +468,91 @@ export default function Home() {
       {/* PATROCINADORES */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-10 sm:mb-14">
             PATROCINADORES
           </h2>
 
-          {/* OURO */}
-          <div className="mb-12 sm:mb-16">
-            <div className="flex justify-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 max-w-4xl">
-                <div className="bg-white w-full sm:w-80 h-56 sm:h-64 rounded-xl flex items-center justify-center shadow-xl mx-auto border-2 border-gray-100">
-                  <img
-                    src="/logo-elitelab.png"
-                    alt="Patrocinador Ouro - Elite Lab"
-                    className="w-full h-full object-contain p-4 sm:p-6"
-                  />
-                </div>
-                <div className="bg-white w-full sm:w-80 h-56 sm:h-64 rounded-xl flex items-center justify-center shadow-xl mx-auto border-2 border-gray-100">
-                  <img
-                    src="/logo-power.png"
-                    alt="Patrocinador Ouro - Power"
-                    className="w-full h-full object-contain p-4 sm:p-6"
-                  />
-                </div>
+          {/* PATROCÍNIO OURO - Logos Grandes */}
+          <div className="mb-10 sm:mb-14">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 max-w-4xl mx-auto">
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-elitelab.png"
+                  alt="Patrocinador Ouro - Elite Lab"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
+              </div>
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-power.png"
+                  alt="Patrocinador Ouro - Power"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
               </div>
             </div>
           </div>
 
-          {/* APOIO */}
+          {/* APOIO - Logos Menores */}
           <div>
-            <div className="flex justify-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl">
-                <div className="bg-white w-full sm:w-64 h-40 sm:h-44 rounded-lg flex items-center justify-center shadow-lg mx-auto border border-gray-200">
-                  <img
-                    src="/logo-rafacar.jpeg"
-                    alt="Apoio - Rafacar"
-                    className="w-full h-full object-contain p-3 sm:p-4"
-                  />
-                </div>
-                <div className="bg-white w-full sm:w-64 h-40 sm:h-44 rounded-lg flex items-center justify-center shadow-lg mx-auto border border-gray-200">
-                  <img
-                    src="/logo-brenda.jpeg"
-                    alt="Apoio - Brenda"
-                    className="w-full h-full object-contain p-3 sm:p-4"
-                  />
-                </div>
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-8 max-w-3xl mx-auto">
+              <div className="bg-white w-full h-32 sm:h-44 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+                <img
+                  src="/logo-rafacar.jpeg"
+                  alt="Apoio - Rafacar"
+                  className="w-full h-full object-contain p-3 sm:p-4"
+                />
+              </div>
+              <div className="bg-white w-full h-32 sm:h-44 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+                <img
+                  src="/logo-brenda.jpeg"
+                  alt="Apoio - Brenda"
+                  className="w-full h-full object-contain p-3 sm:p-4"
+                />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* REALIZAÇÃO */}
+      <section className="py-6 lg:py-10 bg-gradient-to-br from-[#FFE66D] via-[#ffd93d] to-[#FFE66D]">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-center text-[#E53935] mb-10 sm:mb-14">
+            ORGANIZAÇÃO
+          </h2>
+
+          {/* Realizador Principal - DESTAQUE */}
+          <div className="flex justify-center sm:mb-12 -mt-10">
+            <div className="h-44 sm:h-48 lg:h-56 flex items-center justify-center">
+              <img
+                src="/logo-bravo-petro.png"
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-center text-[#E53935] mb-10 sm:mb-14">
+            REALIZAÇÃO
+          </h2>
+
+          {/* Outros 2 Realizadores */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 sm:gap-6 max-w-4xl mx-auto">
+            {[
+              { name: "The Chris", role: "Local do Evento", img: "/logo-thechris.png" }, 
+              { name: "Monte Carmo Shopping", role: "Apoio Institucional", img: "/logo-montecarmo.png" }
+            ].map((realizador, i) => (
+              <div key={`realizador-${i}`}>
+                <div className="space-y-3 -mt-4">
+                  <div className="h-28 sm:h-32 flex items-center justify-center">
+                    <img 
+                      src={realizador.img} 
+                      alt={realizador.name} 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -549,18 +588,18 @@ export default function Home() {
           <div className="border-t border-gray-700 pt-6 sm:pt-8 text-center text-gray-400">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <p className="text-xs sm:text-sm">&copy; Copyright © 2025 All Rights Reserved. Desenvolvido e mantido por</p>
-              <a 
-                href="https://wa.me/5531988280047" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-block hover:opacity-80 transition-opacity"
-              >
-                <img
-                  src="/logo-branco.png"
-                  alt="Logo da empresa"
-                  className="h-40 md:h-48"
-                />
-              </a>
+            <a 
+              href="https://wa.me/5531988280047" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block hover:opacity-80 transition-opacity"
+            >
+              <img
+                src="/logo-branco.png"
+                alt="Logo da empresa"
+                className="h-40 md:h-48"
+              />
+            </a>
             </div>
           </div>
         </div>
