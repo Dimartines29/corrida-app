@@ -335,7 +335,7 @@ export function Step5Revisao({ form }: Step5Props) {
                 <div className="bg-white/20 p-3 sm:p-4 rounded-lg backdrop-blur border-2 border-white/30">
                   <div className="flex justify-between items-center text-white">
                     <div>
-                      <span className="font-semibold text-sm sm:text-base block flex items-center gap-2">
+                      <span className="font-semibold text-sm sm:text-base flex items-center gap-2">
                         <UtensilsCrossed className="w-4 h-4" />
                         Almoço com Churrasco
                       </span>
