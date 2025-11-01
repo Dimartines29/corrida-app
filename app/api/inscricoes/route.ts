@@ -18,6 +18,8 @@ export async function GET() {
         cidade: true,
         estado: true,
         lote: true,
+        sexo: true,
+        retiradaKit: true,
       },
       orderBy: {
         id: "asc",

@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { format } from "date-fns"
-import { ArrowLeft, User, Mail, Phone, MapPin, CreditCard, Calendar, Shirt, Heart, AlertCircle } from "lucide-react"
+import { ArrowLeft, User, Mail, Phone, MapPin, CreditCard, Calendar, Shirt, Heart, AlertCircle, Package } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -157,8 +157,13 @@ export default function InscricaoDetalhesPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Data de Nascimento</p>
-                <p className="text-sm">{format(new Date(inscricao.dataNascimento), "12/12/2012")}</p>
+                <p className="text-sm">{format(new Date(inscricao.dataNascimento), "dd/MM/yyyy")}</p>
               </div>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Sexo</p>
+              <p className="text-sm">{inscricao.sexo}</p>
             </div>
 
             <Separator />
@@ -228,6 +233,14 @@ export default function InscricaoDetalhesPage() {
                   R$ {inscricao.valorPago.toFixed(2)}
                 </p>
               </div>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <Package className="h-4 w-4" />
+                Local de Retirada do Kit
+              </p>
+              <p className="text-sm">{inscricao.retiradaKit}</p>
             </div>
 
             <Separator />
