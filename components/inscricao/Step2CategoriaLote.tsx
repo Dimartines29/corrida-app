@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Flag, DollarSign, Calendar, Shirt, UtensilsCrossed } from "lucide-react";
+import { Flag, DollarSign, Calendar, Shirt, UtensilsCrossed, MapPin } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 // 💰 VALORES FIXOS
@@ -228,6 +228,41 @@ export function Step2CategoriaLote({ form }: Step2Props) {
 
               <FormDescription className="text-gray-600 text-xs sm:text-sm">
                 O preço varia de acordo com o lote disponível.
+              </FormDescription>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      {/* 🆕 RETIRADA DO KIT */}
+      <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
+        <FormField control={form.control} name="retiradaKit" render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-[#E53935] font-bold text-base sm:text-lg flex items-center gap-2">
+                <MapPin className="w-4 h-4 sm:w-5 sm:h-5" /> Local de Retirada do Kit *
+              </FormLabel>
+
+              <Select onValueChange={field.onChange} defaultValue={field.value || "The Chris - Monte Carmo Shopping"}>
+                <FormControl>
+                  <SelectTrigger className="border-2 border-[#00B8D4] h-10 sm:h-12 text-sm sm:text-base text-black">
+                    <SelectValue placeholder="Selecione o local de retirada" />
+                  </SelectTrigger>
+                </FormControl>
+
+                <SelectContent>
+                  <SelectItem value="The Chris - Shopping do avião" className="text-sm sm:text-base">
+                    The Chris - Shopping do avião
+                  </SelectItem>
+                  <SelectItem value="The Chris - Monte Carmo Shopping" className="text-sm sm:text-base">
+                    The Chris - Monte Carmo Shopping
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+
+              <FormDescription className="text-gray-600 text-xs sm:text-sm">
+                Escolha o shopping mais conveniente para retirar seu kit de corrida.
               </FormDescription>
 
               <FormMessage />

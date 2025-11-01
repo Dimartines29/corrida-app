@@ -24,6 +24,7 @@ export function InscricaoForm() {
       nomeCompleto: "",
       cpf: "",
       rg: "",
+      sexo: "",
       dataNascimento: "",
       telefone: "",
       endereco: "",
@@ -33,8 +34,10 @@ export function InscricaoForm() {
       cep: "",
       categoria: "",
       loteId: "",
+      retiradaKit: "The Chris Monte Carmo Shopping",
       tamanhoCamisa: "",
       possuiPlanoSaude: false,
+      valeAlmoco: false,
       contatoEmergencia: "",
       telefoneEmergencia: "",
       declaracaoSaude: false,
@@ -110,14 +113,6 @@ export function InscricaoForm() {
 
   return (
     <div className="min-h-screen bg-[#FFE66D] py-6 sm:py-8 md:py-12 px-3 sm:px-4">
-      <div className="fixed bottom-15 left-46.5 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96  pointer-events-none z-0">
-        <img
-          src="/julius-prato.png"
-          alt=""
-          className="w-full h-full object-contain"
-        />
-      </div>
-
       <div className="container mx-auto max-w-4xl">
         <div className="shadow-2xl rounded-xl sm:rounded-2xl overflow-hidden bg-white">
           <div className="bg-[#E53935] text-white py-6 sm:py-8 px-4 sm:px-6 relative">
@@ -163,7 +158,7 @@ export function InscricaoForm() {
 
         {/* Footer Info - Responsivo */}
         <div className="mt-4 sm:mt-6 text-center px-2">
-          <p className="text-xs sm:text-sm text-gray-700">Dúvidas? Entre em contato: <strong className="text-[#E53935]">contato@corridachris.com.br</strong></p>
+          <p className="text-xs sm:text-sm text-gray-700">Dúvidas? Entre em contato: <strong className="text-[#E53935]">studiobravo0@gmail.com</strong></p>
         </div>
       </div>
     </div>

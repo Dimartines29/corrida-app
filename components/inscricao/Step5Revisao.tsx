@@ -3,8 +3,12 @@ import { useState, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { User, MapPin, Shirt, Heart, CheckCircle2, AlertCircle, Calendar, Phone, CreditCard, Package } from "lucide-react";
+import { User, MapPin, Shirt, Heart, CheckCircle2, AlertCircle, Calendar, Phone, CreditCard, Package, UtensilsCrossed } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
+
+// 💰 VALORES FIXOS
+const TAXA_INSCRICAO = 4.00;
+const VALOR_ALMOCO = 35.90;
 
 interface Step5Props {
   form: UseFormReturn<InscricaoCompleta>;
@@ -36,6 +40,17 @@ export function Step5Revisao({ form }: Step5Props) {
   const [loading, setLoading] = useState(true);
 
   const formData = form.getValues();
+  const valeAlmoco = formData.valeAlmoco || false;
+
+  // Função para calcular o total
+  const calcularTotal = () => {
+    if (!lote) return 0;
+    let total = lote.preco + TAXA_INSCRICAO;
+    if (valeAlmoco) {
+      total += VALOR_ALMOCO;
+    }
+    return total;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -302,7 +317,7 @@ export function Step5Revisao({ form }: Step5Props) {
                 <span className="text-white/80 text-xs">Inclui todos os itens do kit selecionado</span>
               </div>
 
-              {/* 🆕 TAXA DE INSCRIÇÃO */}
+              {/* Taxa de Inscrição */}
               <div className="bg-white/20 p-3 sm:p-4 rounded-lg backdrop-blur border-2 border-white/30">
                 <div className="flex justify-between items-center text-white">
                   <div>
@@ -310,10 +325,28 @@ export function Step5Revisao({ form }: Step5Props) {
                     <span className="text-white/80 text-xs">Processamento e serviços</span>
                   </div>
                   <span className="font-bold text-lg sm:text-xl">
-                    R$ 4,00
+                    R$ {TAXA_INSCRICAO.toFixed(2)}
                   </span>
                 </div>
               </div>
+
+              {/* 🆕 Almoço com Churrasco (condicional) */}
+              {valeAlmoco && (
+                <div className="bg-white/20 p-3 sm:p-4 rounded-lg backdrop-blur border-2 border-white/30">
+                  <div className="flex justify-between items-center text-white">
+                    <div>
+                      <span className="font-semibold text-sm sm:text-base block flex items-center gap-2">
+                        <UtensilsCrossed className="w-4 h-4" />
+                        Almoço com Churrasco
+                      </span>
+                      <span className="text-white/80 text-xs">Self-service à vontade com churrasco e sobremesas!</span>
+                    </div>
+                    <span className="font-bold text-lg sm:text-xl">
+                      R$ {VALOR_ALMOCO.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              )}
 
               {/* Linha Divisória */}
               <div className="border-t-2 border-white/30 my-2"></div>
@@ -324,10 +357,11 @@ export function Step5Revisao({ form }: Step5Props) {
                   <div>
                     <p className="text-xs sm:text-sm text-gray-600 font-semibold mb-1">VALOR TOTAL</p>
                     <p className="text-3xl sm:text-4xl font-black text-[#E53935]">
-                      R$ {(lote.preco + 4).toFixed(2)}
+                      R$ {calcularTotal().toFixed(2)}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      Lote: R$ {lote.preco.toFixed(2)} + Taxa: R$ 4,00
+                      Lote: R$ {lote.preco.toFixed(2)} + Taxa: R$ {TAXA_INSCRICAO.toFixed(2)}
+                      {valeAlmoco && ` + Almoço: R$ ${VALOR_ALMOCO.toFixed(2)}`}
                     </p>
                   </div>
                   <Package className="w-10 h-10 sm:w-12 sm:h-12 text-[#00B8D4]" />

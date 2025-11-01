@@ -96,18 +96,6 @@ export default function ModalChurrasco() {
               <div className="overflow-y-auto p-6 flex-1">
                 <div className="space-y-6">
 
-                  {/* Galeria de Fotos */}
-                  <div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="bg-gray-200 rounded-xl overflow-hidden h-48 sm:h-64 flex items-center justify-center">
-                        <img src="/churrasco.jpeg" alt="Churrasco" className="w-full h-full object-cover" />
-                      </div>
-                      <div className="bg-gray-200 rounded-xl overflow-hidden h-48 sm:h-64 flex items-center justify-center">
-                        <img src="/almoco.jpeg" alt="Buffet" className="w-full h-full object-cover" />
-                      </div>
-                    </div>
-                  </div>
-
                   {/* O que está incluído */}
                   <div className="bg-gradient-to-br from-[#E53935] to-[#c62828] text-white p-6 rounded-xl">
                     <h3 className="text-2xl font-black mb-4 text-center">🍖 O QUE ESTÁ INCLUSO?</h3>
@@ -137,28 +125,40 @@ export default function ModalChurrasco() {
                     </div>
                   </div>
 
+                  {/* Galeria de Fotos */}
+                  <div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="bg-gray-200 rounded-xl overflow-hidden h-48 sm:h-64 flex items-center justify-center">
+                        <img src="/churrasco.jpeg" alt="Churrasco" className="w-full h-full object-cover" />
+                      </div>
+                      <div className="bg-gray-200 rounded-xl overflow-hidden h-48 sm:h-64 flex items-center justify-center">
+                        <img src="/almoco.jpeg" alt="Buffet" className="w-full h-full object-cover" />
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Preço e CTA */}
-                  <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd700] p-6 rounded-xl text-center relative overflow-hidden">
-                    {/* Imagem no canto direito */}
+                  <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffd700] p-4 sm:p-6 rounded-xl relative overflow-hidden">
+                    {/* Imagem no canto direito - menor em mobile */}
                     <img
                       src="/julius-prato.png"
                       alt="Decoração"
-                      className="absolute right-0 top-0 h-full w-auto  object-cover"
-                      style={{ maxWidth: '40%' }}
+                      className="absolute right-0 top-0 h-full w-auto object-cover"
+                      style={{ maxWidth: '35%' }}
                     />
 
                     {/* Conteúdo com z-index para ficar acima da imagem */}
-                    <div className="relative z-10">
-                      <p className="text-xl font-bold text-gray-800 mb-3">
+                    <div className="relative z-10 text-left pr-[38%] sm:pr-[42%]">
+                      <p className="text-sm sm:text-xl font-bold text-gray-800 mb-2 sm:mb-3">
                         Adicione por apenas:
                       </p>
-                      <p className="text-5xl font-black text-[#E53935] mb-4">
+                      <p className="text-3xl sm:text-5xl font-black text-[#E53935] mb-2 sm:mb-4">
                         R$ 35,90
                       </p>
-                      <p className="text-base text-gray-800 font-semibold mb-4">
-                        ⚠️ LIMITADO A APENAS 200 VAGAS
+                      <p className="text-xs sm:text-base text-gray-800 font-semibold mb-2 sm:mb-4">
+                        ⚠️ LIMITADO A 200 VAGAS
                       </p>
-                      <p className="text-sm text-gray-700">
+                      <p className="text-xs sm:text-sm text-gray-700">
                         💡 Marque a opção durante sua inscrição para garantir!
                       </p>
                     </div>

@@ -48,7 +48,7 @@ export default function Home() {
       <MainHeader isAdmin={isAdmin} isAuthenticated={isAuthenticated} />
 
       {/* HERO SECTION */}
-      <section id="inicio" className="min-h-[90vh] bg-[#ffde41] flex items-center justify-center pt-16 sm:pt-20 px-4">
+      <section id="inicio" className="min-h-[90vh] bg-[#ffde41] flex items-center justify-center pt-16 sm:pt-20 px-4 relative">
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-start">
 
           <div className="flex flex-col items-center justify-center order-2 lg:order-1 mt-4 sm:mt-6 lg:mt-18">
@@ -87,7 +87,7 @@ export default function Home() {
             <button onClick={() => scrollToSection('inscricoes')} className="bg-[#E53935] text-white text-base sm:text-lg md:text-xl font-bold px-6 sm:px-8 md:px-12 py-3 md:py-4 rounded-full hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-xl">GARANTA SUA VAGA AGORA!</button>
           </div>
 
-          <div className="flex items-start justify-center order-1 lg:order-2 lg:-mt-4">
+          <div className="flex items-start justify-center order-1 lg:order-2 -mt-11 md:-mt-22 lg:-mt-7">
             <img src="/chris-pendurado.png" alt="Chris pendurado" className="w-full max-w-sm sm:max-w-lg lg:max-w-2xl -mt-14 lg:-mt-18"/>
           </div>
         </div>
@@ -347,7 +347,7 @@ export default function Home() {
 
                     {/* Nome e Descrição */}
                     <div className="text-center">
-                      <h4 className="text-2xl sm:text-3xl font-black mb-2">DJ IVAN</h4>
+                      <h4 className="text-2xl sm:text-3xl font-black mb-2">DJ IVAN LEAL</h4>
                       <p className="text-sm sm:text-base text-white/90 leading-relaxed">
                         Comanda o som da arena com um set cheio de hits energia lá em cima no pós-corrida!
                       </p>
@@ -393,12 +393,12 @@ export default function Home() {
               <div className="space-y-4">
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
                   <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🏁 Concentração</h4>
-                  <p className="text-sm sm:text-base text-gray-800">Estacionamento do Shopping Monte Carmo em frente ao <strong>The Chris</strong>.</p>
+                  <p className="text-sm sm:text-base text-gray-800">Estacionamento do <strong>Monte Carmo Shopping</strong> em frente ao <strong>The Chris</strong>.</p>
                 </div>
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
                   <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🚀 Largada e Chegada</h4>
-                  <p className="text-sm sm:text-base text-gray-800">Estacionamento Monte Carmo Shopping.</p>
+                  <p className="text-sm sm:text-base text-gray-800">Estacionamento <strong>Monte Carmo Shopping</strong>.</p>
                 </div>
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
@@ -408,7 +408,7 @@ export default function Home() {
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
                   <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🎉 Pós-Corrida</h4>
-                  <p className="text-sm sm:text-base text-gray-800">Celebração no <strong>The Chris</strong></p>
+                  <p className="text-sm sm:text-base text-gray-800">Evento com DJ, premiação e sorteios no <strong>The Chris</strong>.</p>
                 </div>
               </div>
             </div>
@@ -423,22 +423,22 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">🚑</div>
-                  <p className="font-semibold text-xs sm:text-sm">Ambulância<br></br> (Não vai precisar, mas tem).</p>
+                  <p className="font-semibold text-xs sm:text-sm">Ambulância</p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">👨‍⚕️</div>
-                  <p className="font-semibold text-xs sm:text-sm">Equipe Médica<br></br>(mais atenta que a Rochelle)</p>
+                  <p className="font-semibold text-xs sm:text-sm">Equipe Médica</p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">🍽️</div>
-                  <p className="font-semibold text-xs sm:text-sm">Praça de Alimentação<br></br>(preço aprovado pelo Julius)</p>
+                  <p className="font-semibold text-xs sm:text-sm">Praça de Alimentação</p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
                   <div className="text-3xl mb-2">🎒</div>
-                  <p className="font-semibold text-xs sm:text-sm">Guarda Volumes<br></br>(Tonya não mexe aqui)</p>
+                  <p className="font-semibold text-xs sm:text-sm">Guarda Volumes</p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur p-3 sm:p-4 rounded-xl text-center border border-white/30 hover:bg-white/30 transition-all">
