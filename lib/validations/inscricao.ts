@@ -51,12 +51,7 @@ export const step1Schema = z.object({
 
   dataNascimento: z
     .string()
-    .refine((data) => {
-      const nascimento = new Date(data);
-      const hoje = new Date();
-      const idade = hoje.getFullYear() - nascimento.getFullYear();
-      return idade >= 18;
-    }, "Você deve ter pelo menos 18 anos"),
+    .refine((val) => !isNaN(Date.parse(val)), "Data de nascimento inválida"),
 
   telefone: z
     .string()
