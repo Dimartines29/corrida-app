@@ -55,8 +55,8 @@ export default function Home() {
 
             <div className="mb-6 sm:mb-8 w-full mt-0 lg:mt-18">
 
-              <div className="mb-6 sm:mb-6 flex justify-center">
-                <img src="/logo-principal.png" alt="Todo Mundo Corre com o Chris" className="w-full max-w-xs sm:max-w-md h-auto -mt-20 sm:-mt-24 lg:-mt-28"/>
+              <div className="mb-8 sm:mb-6 flex justify-center">
+                <img src="/logo-principal.png" alt="Todo Mundo Corre com o Chris" className="w-full max-w-xs sm:max-w-md h-auto -mt-6 sm:-mt-24 lg:-mt-28"/>
               </div>
 
               <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">FALTAM:</p>
@@ -87,8 +87,8 @@ export default function Home() {
             <button onClick={() => scrollToSection('inscricoes')} className="bg-[#E53935] text-white text-base sm:text-lg md:text-xl font-bold px-6 sm:px-8 md:px-12 py-3 md:py-4 rounded-full hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-xl">GARANTA SUA VAGA AGORA!</button>
           </div>
 
-          <div className="flex items-start justify-center order-1 lg:order-2 -mt-11 md:-mt-22 lg:-mt-7">
-            <img src="/chris-pendurado.png" alt="Chris pendurado" className="w-full max-w-sm sm:max-w-lg lg:max-w-2xl -mt-14 lg:-mt-18"/>
+          <div className="flex items-start justify-center order-1 lg:order-2 -mt-28 md:-mt-22 lg:-mt-12">
+            <img src="/chris-pendurado.png" alt="Chris pendurado" className="w-full max-w-sm sm:max-w-lg lg:max-w-2xl -mt-0 lg:-mt-18"/>
           </div>
         </div>
       </section>
