@@ -549,11 +549,18 @@ export default function Home() {
           <div className="border-t border-gray-700 pt-6 sm:pt-8 text-center text-gray-400">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <p className="text-xs sm:text-sm">&copy; Copyright © 2025 All Rights Reserved. Desenvolvido e mantido por</p>
-              <img
-                src="/logo-branco.png"
-                alt="Logo da empresa"
-                className="h-40 md:h-48"
-              />
+              <a 
+                href="https://wa.me/5531988280047" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block hover:opacity-80 transition-opacity"
+              >
+                <img
+                  src="/logo-branco.png"
+                  alt="Logo da empresa"
+                  className="h-40 md:h-48"
+                />
+              </a>
             </div>
           </div>
         </div>
