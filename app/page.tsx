@@ -143,7 +143,7 @@ export default function Home() {
       </section>
 
       {/* PERCURSO */}
-      <section id="percurso" className="py-12 sm:py-16 lg:py-20 bg-white">
+      {/* <section id="percurso" className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-[#00B8D4] mb-3 sm:mb-4">PERCURSO</h2>
 
@@ -227,7 +227,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Características do Circuito */}
           <div className=" p-6 sm:p-8 mb-6 sm:mb-8">
             <h3 className="text-xl sm:text-2xl font-bold text-center text-[#E53935] mb-6 flex items-center justify-center gap-2">
               <span className="text-2xl">🏃‍♂️</span> CARACTERÍSTICAS DO CIRCUITO
@@ -267,7 +266,7 @@ export default function Home() {
           </div>
 
         </div>
-      </section>
+      </section> */}
 
       {/* INFORMAÇÕES DO EVENTO */}
       <section id="informacoes" className="py-12 sm:py-16 lg:py-20 bg-[#FFE66D]">

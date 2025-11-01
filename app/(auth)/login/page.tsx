@@ -19,12 +19,6 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  const scrollToSection = (id: string) => {
-    router.push(`/#${id}`)
-    setMobileMenuOpen(false)
-  }
 
   async function handleSubmit() {
     setIsLoading(true)
