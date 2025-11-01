@@ -5,18 +5,28 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { FileText, X } from 'lucide-react'
 
-export function RegulamentoModal() {
+export function RegulamentoModal({origin}: {origin: string} ) {
   const [open, setOpen] = useState(false)
 
   return (
     <>
       {/* BOTÃO - SEMPRE VISÍVEL */}
-      <button
-        onClick={() => setOpen(true)}
-        className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg transition-colors"
-      >
-        Regulamento
-      </button>
+      {origin === 'mobile' ? (
+        <Button
+          onClick={() => setOpen(true)}
+          className=" w-full text-[#E53935] font-semibold"
+        >
+          Regulamento
+        </Button>
+
+      ) : (
+        <Button
+          onClick={() => setOpen(true)}
+          className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg"
+        >
+          Regulamento
+        </Button>
+      )}
 
       {/* MODAL - SÓ APARECE QUANDO OPEN === TRUE */}
       {open && (
@@ -43,12 +53,12 @@ export function RegulamentoModal() {
                     </p>
                   </div>
                 </div>
-                <button
+                <Button
                   onClick={() => setOpen(false)}
                   className="text-white hover:bg-white/20 p-2 rounded-lg transition-colors"
                 >
                   <X className="w-6 h-6" />
-                </button>
+                </Button>
               </div>
 
               {/* Conteúdo com Scroll - BARRA BRANCA */}

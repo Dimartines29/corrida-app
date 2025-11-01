@@ -31,10 +31,8 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
           <Link href="/admin" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
             Painel Admin
           </Link>
-          <Button
-            onClick={async () => { await handleSignOut() }}
-            className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent"
-          >
+
+          <Button onClick={async () => { await handleSignOut() }} className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg bg-transparent" >
             Sair
           </Button>
         </div>
@@ -47,10 +45,8 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
           <Link href="/minha-area" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
             Minha Área
           </Link>
-          <Button
-            onClick={async () => { await handleSignOut() }}
-            className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent"
-          >
+
+          <Button onClick={async () => { await handleSignOut() }} className="text-[#E53935] hover:text-[#c62828] text-base xl:text-lg bg-transparent" >
             Sair
           </Button>
         </div>
@@ -60,9 +56,9 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
     return (
       <div className="flex items-center gap-4">
         <Link href="/register">
-          <button className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors">
-            INSCREVA-SE
-          </button>
+            <Button className="bg-[#E53935] text-white px-4 xl:px-6 py-2 xl:py-3 rounded-md font-bold text-base xl:text-lg hover:bg-[#c62828] transition-colors">
+              INSCREVA-SE
+            </Button>
         </Link>
         <Link href="/login" className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
           Entrar
@@ -74,14 +70,12 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
   const renderMobileButton = () => {
     if (isAdmin) {
       return (
-        <div className="px-4">
-          <Link href="/admin" className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
+        <div className="grid grid-cols-2 px-4 pb-2">
+          <Link href="/admin" className="block w-full text-center mt-2 text-[#ffffff] font-bold text-base xl:text-lg bg-[#E53935] p-2 rounded-md hover:bg-[#c62828] transition">
             Painel Admin
           </Link>
-          <Button
-            onClick={async () => { await handleSignOut() }}
-            className="w-full text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent"
-          >
+
+          <Button onClick={async () => { await handleSignOut() }} className="block  text-center mt-2 text-[#E53935] font-bold text-base xl:text-lg bg-trasparent">
             Sair
           </Button>
         </div>
@@ -90,14 +84,12 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
 
     if (isAuthenticated) {
       return (
-        <div className="px-4">
-          <Link href="/minha-area" className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition text-center block">
+        <div className="grid grid-cols-2 px-4 pb-2">
+          <Link href="/minha-area" className="w-full mt-2 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition text-center block">
             Minha área
           </Link>
-          <Button
-            onClick={async () => { await handleSignOut() }}
-            className="w-full text-[#E53935] hover:text-[#c62828] text-base xl:text-lg hover:underline bg-transparent mt-2"
-          >
+
+          <Button onClick={async () => { await handleSignOut() }} className="block  text-center mt-2 text-[#E53935] font-bold text-base xl:text-lg bg-trasparent">
             Sair
           </Button>
         </div>
@@ -105,13 +97,12 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
     }
 
     return (
-      <div className="px-4">
-        <Link href="/register">
-          <button className="w-full mt-4 bg-[#E53935] text-white px-6 py-3 rounded-md font-bold hover:bg-[#c62828] transition">
-            INSCREVA-SE
-          </button>
+      <div className="grid grid-cols-2 px-4 pb-2">
+        <Link href="/register" className="block w-full text-center mt-2 text-[#ffffff] font-bold text-base xl:text-lg bg-[#E53935] p-2 rounded-md hover:bg-[#c62828] transition">
+          Inscreva-se
         </Link>
-        <Link href="/login" className="block w-full text-center mt-3 text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+
+        <Link href="/login" className="block w-full text-center mt-4 text-[#E53935] font-bold text-base xl:text-lg">
           Entrar
         </Link>
       </div>
@@ -130,19 +121,20 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
 
           {/* MENU DESKTOP */}
           <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
-            <button onClick={() => scrollToSection('inicio')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+            <Button onClick={() => scrollToSection('inicio')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
               Início
-            </button>
-            <button onClick={() => scrollToSection('inscricoes')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+            </Button>
+            <Button onClick={() => scrollToSection('inscricoes')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
               Inscrições
-            </button>
-            <button onClick={() => scrollToSection('percurso')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+            </Button>
+            {/* <Button onClick={() => scrollToSection('percurso')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
               Percurso
-            </button>
-            <button onClick={() => scrollToSection('informacoes')} className="text-[#E53935] hover:text-[#c62828] font-bold text-base xl:text-lg">
+            </Button> */}
+            <Button onClick={() => scrollToSection('informacoes')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
               Informações
-            </button>
-            <RegulamentoModal />
+            </Button>
+
+            <RegulamentoModal origin='desktop' />
           </div>
 
           <div className="hidden lg:block">
@@ -164,24 +156,27 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
 
         {/* MENU MOBILE */}
         {mobileMenuOpen && (
-          <div className="lg:hidden pb-4 bg-gray-100">
-            <button onClick={() => scrollToSection('inicio')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
-              Início
-            </button>
-            <button onClick={() => scrollToSection('inscricoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
-              Inscrições
-            </button>
-            <button onClick={() => scrollToSection('percurso')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
-              Percurso
-            </button>
-            <button onClick={() => scrollToSection('informacoes')} className="block w-full text-left py-3 text-[#E53935] font-semibold hover:bg-gray-200 px-4 rounded">
-              Informações
-            </button>
-            <div className="px-4 py-3">
-              <RegulamentoModal />
+            <div className="lg:hidden pb-4 bg-gray-100 flex flex-col space-y-2 items-center">
+                {renderMobileButton()}
+
+                <Button onClick={() => scrollToSection('inicio')} className=" w-full text-[#E53935] font-semibold">
+                    Início
+                </Button>
+
+                <Button onClick={() => scrollToSection('inscricoes')} className=" w-full text-[#E53935] font-semibold">
+                    Inscrições
+                </Button>
+
+                {/* <Button onClick={() => scrollToSection('percurso')} className=" w-full text-[#E53935] font-semibold">
+                    Percurso
+                </Button> */}
+
+                <Button onClick={() => scrollToSection('informacoes')} className=" w-full text-[#E53935] font-semibold">
+                    Informações
+                </Button>
+
+                <RegulamentoModal origin='mobile' />
             </div>
-            {renderMobileButton()}
-          </div>
         )}
       </nav>
     </header>
