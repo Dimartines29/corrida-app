@@ -297,7 +297,7 @@ export default async function MinhaAreaPage() {
 
           {/* Card de Informações do Usuário */}
           <Card className="bg-white border-none shadow-2xl rounded-2xl overflow-hidden">
-            <div className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] p-6">
+            <div className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] p-6 -mt-6">
               <div className="flex items-center gap-3">
                 <div className="bg-white p-3 rounded-lg">
                   <User className="w-6 h-6 text-[#00B8D4]" />
@@ -341,8 +341,8 @@ export default async function MinhaAreaPage() {
           </Card>
 
           {/* Card de Próximos Passos */}
-          <Card className="bg-white border-none shadow-2xl rounded-2xl">
-            <div className="bg-[#E53935] p-6">
+          <Card className="bg-white border-none shadow-2xl rounded-2xl overflow-hidden">
+            <div className="bg-[#E53935] p-6 -mt-6">
               <div className="flex items-center gap-3">
                 <div className="bg-white p-3 rounded-lg">
                   <Trophy className="w-6 h-6 text-[#E53935]" />

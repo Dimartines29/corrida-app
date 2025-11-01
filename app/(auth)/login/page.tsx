@@ -193,7 +193,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-700">
               Dúvidas? Entre em contato:{' '}
-              <strong className="text-[#E53935]">contato@corridachris.com.br</strong>
+              <strong className="text-[#E53935]">studiobravo0@gmail.com</strong>
             </p>
           </div>
         </div>

@@ -2,7 +2,8 @@
 import { UseFormReturn } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { User, FileText, Calendar, Phone, MapPin, Home, Building2 } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { User, FileText, Calendar, Phone, MapPin, Home, Building2, Users } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 interface Step1Props {
@@ -47,8 +48,8 @@ export function Step1DadosPessoais({ form }: Step1Props) {
         />
       </div>
 
-      {/* CPF e RG */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+      {/* CPF, RG e Sexo - 3 COLUNAS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {/* CPF */}
         <div className="bg-white p-4 sm:p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
           <FormField
@@ -96,6 +97,38 @@ export function Step1DadosPessoais({ form }: Step1Props) {
             )}
           />
         </div>
+
+        {/* 🆕 SEXO */}
+        <div className="bg-white p-4 sm:p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
+          <FormField
+            control={form.control}
+            name="sexo"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-[#E53935] font-bold flex items-center gap-2 text-sm sm:text-base">
+                  <Users className="w-3 h-3 sm:w-4 sm:h-4" />
+                  Sexo *
+                </FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="border-2 border-gray-300 focus:border-[#00B8D4] h-10 sm:h-11 text-sm sm:text-base text-gray-400">
+                      <SelectValue placeholder="Selecione" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Masculino" className="text-sm sm:text-base">
+                      Masculino
+                    </SelectItem>
+                    <SelectItem value="Feminino" className="text-sm sm:text-base">
+                      Feminino
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
       </div>
 
       {/* Data de Nascimento e Telefone */}
@@ -115,7 +148,7 @@ export function Step1DadosPessoais({ form }: Step1Props) {
                   <Input
                     type="date"
                     {...field}
-                    className="border-2 focus:border-[#00B8D4] transition-all text-sm sm:text-base"
+                    className="border-2 focus:border-[#00B8D4] transition-all text-sm sm:text-base text-gray-400"
                     lang="pt-BR"
                   />
                 </FormControl>
@@ -154,7 +187,7 @@ export function Step1DadosPessoais({ form }: Step1Props) {
       <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffe033] p-4 sm:p-6 rounded-xl border-2 border-[#E53935]">
         <div className="flex items-center gap-2 sm:gap-3 mb-4">
           <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#E53935]" />
-          <h4 className="text-base sm:text-lg font-black text-[#E53935]">Endereço Completo</h4>
+          <h4 className="text-base sm:text-lg font-black text-[#E53935]">ENDEREÇO COMPLETO</h4>
         </div>
 
         <div className="space-y-3 sm:space-y-4">

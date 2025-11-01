@@ -177,7 +177,7 @@ export function emailRecuperacaoSenha({
         </div>
 
         <p style="font-size: 14px; color: #666; margin-top: 30px; text-align: center;">
-          Dúvidas? Entre em contato: <a href="mailto:contato@corridachris.com.br" style="color: #E53935;">contato@corridachris.com.br</a>
+          Dúvidas? Entre em contato: <a href="mailto:studiobravo0@gmail.com" style="color: #E53935;">studiobravo0@gmail.com</a>
         </p>
 
       </div>
