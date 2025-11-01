@@ -86,7 +86,7 @@ export function RegulamentoModal({origin}: {origin: string} ) {
                       CRONOGRAMA
                     </h2>
                     <div className="space-y-2 text-sm font-semibold">
-                      <p>🕖 <strong>07h00</strong> – Abertura da Arena</p>
+                      <p>🕖 <strong>06h30</strong> – Abertura da Arena</p>
                       <p>🤸 <strong>07h30</strong> – Alongamento</p>
                       <p>🏃 <strong>07h45</strong> – Largada Corrida de 10 km</p>
                       <p>🏃 <strong>07h55</strong> – Largada Corrida de 6 km</p>

@@ -38,7 +38,7 @@ const tamanhos = [
   },
   {
     value: "GG",
-    label: "G",
+    label: "GG",
     nome: "Extra Grande",
     medidas: "Largura: 54cm | Comprimento: 76cm",
   },

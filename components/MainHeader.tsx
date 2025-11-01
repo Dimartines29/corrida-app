@@ -127,9 +127,9 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
             <Button onClick={() => scrollToSection('inscricoes')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
               Inscrições
             </Button>
-            {/* <Button onClick={() => scrollToSection('percurso')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
+            <Button onClick={() => scrollToSection('percurso')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
               Percurso
-            </Button> */}
+            </Button>
             <Button onClick={() => scrollToSection('informacoes')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
               Informações
             </Button>
@@ -167,9 +167,9 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
                     Inscrições
                 </Button>
 
-                {/* <Button onClick={() => scrollToSection('percurso')} className=" w-full text-[#E53935] font-semibold">
+                <Button onClick={() => scrollToSection('percurso')} className=" w-full text-[#E53935] font-semibold">
                     Percurso
-                </Button> */}
+                </Button>
 
                 <Button onClick={() => scrollToSection('informacoes')} className=" w-full text-[#E53935] font-semibold">
                     Informações

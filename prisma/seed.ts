@@ -39,7 +39,7 @@ async function main() {
   const config = await prisma.configuracaoSite.create({
     data: {
       nomeEvento: 'Todo mundo Corre com o Chris',
-      dataEvento: new Date('2026-01-25T07:00:00'),
+      dataEvento: new Date('2026-01-25T06:30:00'),
       localEvento: 'Arena The Chris (Rua de Minas no Shopping Monte Carmo em frente ao The Chris Gastrobar)',
       descricao: `
         Descrição do Evento
