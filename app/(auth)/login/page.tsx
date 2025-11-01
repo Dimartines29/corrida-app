@@ -12,7 +12,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { LogIn, Mail, Lock, AlertCircle, User } from 'lucide-react'
 import { MainHeader } from '@/components/MainHeader';
-import { Main } from 'next/document'
 
 export default function LoginPage() {
   const router = useRouter()
