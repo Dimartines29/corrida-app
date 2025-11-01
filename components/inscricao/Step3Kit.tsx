@@ -92,7 +92,7 @@ export function Step3Kit({ form }: Step3Props) {
           </FormItem>
         )}
       />
-  
+
       <Alert className="bg-yellow-50 border-2 border-yellow-400">
         <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-600" />
         <AlertDescription className="text-sm sm:text-base text-yellow-800 font-semibold">⚠️ O tamanho escolhido é definitivo e não poderá ser alterado!
