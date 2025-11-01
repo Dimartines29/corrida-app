@@ -189,7 +189,7 @@ export default function PagamentoPendenteContent() {
               <Button
                 asChild
                 variant="outline"
-                className="flex-1 border-2 border-[#00B8D4] text-[#00B8D4] hover:bg-[#00B8D4] hover:text-white font-bold text-base sm:text-lg py-6 sm:py-7 rounded-xl shadow-lg hover:scale-105 transition-all"
+                className="flex-1 border-2 border-[#00B8D4] text-[#00B8D4] font-bold text-base sm:text-lg py-6 sm:py-7 rounded-xl shadow-lg hover:scale-105 transition-all"
               >
                 <Link href="/minha-area">
                   <Home className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
