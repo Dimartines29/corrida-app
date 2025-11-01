@@ -303,7 +303,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                 <FormDescription className={`text-xs sm:text-sm ${
                   valeAlmoco ? 'text-white/90' : 'text-gray-600'
                 }`}>
-                  🍖 Depois de cruzar a linha de chegada, aproveite o self-service à vontade com churrasco.
+                  Depois de cruzar a linha de chegada, aproveite o self-service à vontade com churrasco.
                 </FormDescription>
               </div>
             </FormItem>
@@ -348,7 +348,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                 {/* Almoço (se selecionado) */}
                 {valeAlmoco && (
                   <div className="flex justify-between items-center">
-                    <p className="text-xs text-white/80">🍖 Almoço com Churrasco:</p>
+                    <p className="text-xs text-white/80">Almoço com Churrasco:</p>
                     <p className="text-lg font-bold">R$ {VALOR_ALMOCO.toFixed(2)}</p>
                   </div>
                 )}
