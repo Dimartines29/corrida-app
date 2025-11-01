@@ -143,8 +143,8 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
             </div>
 
             <div className="space-y-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3 justify-items-center">
-                <div>
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
+                <div className="w-full">
                   <label className="text-sm md:text-xs block mb-1">Status</label>
                   <Select value={filters.status} onValueChange={(value) => onFiltersChange({ ...filters, status: value })}>
                     <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
@@ -159,10 +159,10 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                   </Select>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label className="text-sm md:text-xs block mb-1">Categoria</label>
                   <Select value={filters.category} onValueChange={(value) => onFiltersChange({ ...filters, category: value })}>
-                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
+                    <SelectTrigger className="h-9 text-sm md:text-xs max-w-40 lg:min-w-30">
                       <SelectValue placeholder="Todas" />
                     </SelectTrigger>
                     <SelectContent>
@@ -174,7 +174,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                   </Select>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label className="text-sm md:text-xs block mb-1">Camisa</label>
                   <Select value={filters.shirtSize} onValueChange={(value) => onFiltersChange({ ...filters, shirtSize: value })}>
                     <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
@@ -189,7 +189,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                   </Select>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label className="text-sm md:text-xs block mb-1">Lote</label>
                   <Select value={filters.tier} onValueChange={(value) => onFiltersChange({ ...filters, tier: value })}>
                     <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
@@ -204,7 +204,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                   </Select>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label className="text-sm md:text-xs block mb-1">Vale almoço</label>
                   <Select value={filters.lunch} onValueChange={(value) => onFiltersChange({ ...filters, lunch: value })}>
                     <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
@@ -218,7 +218,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                   </Select>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label className="text-sm md:text-xs block mb-1">Sexo</label>
                   <Select value={filters.sex} onValueChange={(value) => onFiltersChange({ ...filters, sex: value })}>
                     <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
@@ -233,16 +233,16 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                   </Select>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label className="text-sm md:text-xs block mb-1">Retirada Kit</label>
                   <Select value={filters.kit} onValueChange={(value) => onFiltersChange({ ...filters, kit: value })}>
-                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
+                    <SelectTrigger className="h-9 text-sm max-w-45 md:max-w-80 md:text-xs lg:min-w-30">
                       <SelectValue placeholder="Todos" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem className="text-sm md:text-xs" value="todos">Todos</SelectItem>
                       {metadata.retiradaKit?.map(local => (
-                        <SelectItem className="text-sm md:text-xs" key={local} value={local}>{local}</SelectItem>
+                        <SelectItem className="text-sm md:text-xs truncate" key={local} value={local}>{local}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
