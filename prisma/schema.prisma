@@ -143,6 +143,7 @@ model Pagamento {
   valor           Float
   status          StatusPagamento @default(PENDENTE)
   metodoPagamento String
+  deviceId        String?
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
   inscricao       Inscricao       @relation(fields: [inscricaoId], references: [id], onDelete: Cascade)

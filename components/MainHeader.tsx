@@ -163,15 +163,15 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
                     Início
                 </Link>
 
-                <Button onClick={() => scrollToSection('inscricoes')} className=" w-full text-[#E53935] font-semibold">
+                <Button onClick={() => scrollToSection('inscricoes')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
                     Inscrições
                 </Button>
 
-                <Button onClick={() => scrollToSection('percurso')} className=" w-full text-[#E53935] font-semibold">
+                <Button onClick={() => scrollToSection('percurso')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
                     Percurso
                 </Button>
 
-                <Button onClick={() => scrollToSection('informacoes')} className=" w-full text-[#E53935] font-semibold">
+                <Button onClick={() => scrollToSection('informacoes')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
                     Informações
                 </Button>
 

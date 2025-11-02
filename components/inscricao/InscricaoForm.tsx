@@ -83,32 +83,85 @@ export function InscricaoForm() {
     setIsSubmitting(true);
 
     try {
-      const inscricaoResponse = await fetch("/api/inscricao", {method: "POST", headers: {"Content-Type": "application/json",}, body: JSON.stringify(data),});
+      // Primeira tentativa de capturar o Device ID
+      let deviceId = window.MP_DEVICE_SESSION_ID || null;
+
+      // Se não existir, aguarda 1 segundo e tenta novamente
+      if (!deviceId) {
+        console.warn('Device ID não encontrado na primeira tentativa. Aguardando...');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        deviceId = window.MP_DEVICE_SESSION_ID || null;
+      }
+
+      // Se ainda não existir, mostra erro e para
+      if (!deviceId) {
+        console.error('Device ID não foi gerado após tentativas');
+        alert(
+          'Erro ao gerar identificador de segurança.\n\n' +
+          'Por favor, recarregue a página e tente novamente.\n\n' +
+          'Se o problema persistir, limpe o cache do navegador.'
+        );
+        return;
+      }
+
+      const inscricaoResponse = await fetch("/api/inscricao", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          ...data,
+          deviceId: deviceId
+        })
+      });
 
       const inscricaoResult = await inscricaoResponse.json();
 
-      if (!inscricaoResponse.ok) {alert(inscricaoResult.error || "Erro ao criar inscrição"); return;}
+      if (!inscricaoResponse.ok) {
+        alert(inscricaoResult.error || "Erro ao criar inscrição");
+        return;
+      }
 
-      const pagamentoResponse = await fetch('/api/pagamento/criar-preferencia', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ inscricaoId: inscricaoResult.inscricao.id})});
+      const pagamentoResponse = await fetch('/api/pagamento/criar-preferencia', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ inscricaoId: inscricaoResult.inscricao.id})
+      });
 
       const pagamentoResult = await pagamentoResponse.json();
 
-      if (!pagamentoResponse.ok) {alert(`Inscrição criada, mas erro ao gerar pagamento: ${pagamentoResult.error}`); window.location.href = `/minha-area`; return;}
+      if (!pagamentoResponse.ok) {
+        alert(`Inscrição criada, mas erro ao gerar pagamento: ${pagamentoResult.error}`);
+        window.location.href = `/minha-area`;
+        return;
+      }
 
       const checkoutUrl = pagamentoResult.initPoint;
 
-      if (checkoutUrl) {alert( `✅ Inscrição criada com sucesso!\n\n` + `Código: ${inscricaoResult.inscricao.codigo}\n` + `Categoria: ${inscricaoResult.inscricao.categoria}\n` + `Valor: R$ ${inscricaoResult.inscricao.valor.toFixed(2)}\n\n` + `Você será redirecionado para o pagamento...`);
+      if (checkoutUrl) {
+        alert(
+          `✅ Inscrição criada com sucesso!\n\n` +
+          `Código: ${inscricaoResult.inscricao.codigo}\n` +
+          `Categoria: ${inscricaoResult.inscricao.categoria}\n` +
+          `Valor: R$ ${inscricaoResult.inscricao.valor.toFixed(2)}\n\n` +
+          `Você será redirecionado para o pagamento...`
+        );
 
         window.location.href = checkoutUrl;
       }
 
-      else {alert("Erro: Link de pagamento não foi gerado"); window.location.href = `/minha-area`;}
+      else {
+        alert("Erro: Link de pagamento não foi gerado");
+        window.location.href = `/minha-area`;
+      }
     }
 
-    catch (error) {alert("Erro ao processar inscrição. " + "Verifique sua conexão e tente novamente.");
+    catch (error) {
+      console.error('Erro ao processar inscrição:', error);
+      alert("Erro ao processar inscrição. " + "Verifique sua conexão e tente novamente.");
     }
 
-    finally {setIsSubmitting(false);}
+    finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

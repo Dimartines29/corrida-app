@@ -14,7 +14,7 @@ export function RegulamentoModal({origin}: {origin: string} ) {
       {origin === 'mobile' ? (
         <Button
           onClick={() => setOpen(true)}
-          className=" w-full text-[#E53935] font-semibold"
+          className=" w-full text-[#E53935] font-semibold bg-gray-200"
         >
           Regulamento
         </Button>

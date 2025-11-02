@@ -243,6 +243,7 @@ export async function POST(request: NextRequest) {
           valor: valorFinal,
           status: "PENDENTE",
           metodoPagamento: "pending",
+          deviceId: body.deviceId || null,
         },
       });
 

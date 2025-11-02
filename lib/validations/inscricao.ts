@@ -136,6 +136,7 @@ export const inscricaoCompletaSchema = z.object({
   ...step3Schema.shape,
   ...step4Schema.shape,
   cupomCodigo: z.string().optional(),
+  deviceId: z.string().optional(),
 });
 
 // Schema específico para inscrição manual (admin)
