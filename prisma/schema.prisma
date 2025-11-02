@@ -94,6 +94,9 @@ model Inscricao {
   telefoneEmergencia String
   declaracaoSaude    Boolean
   valorPago          Float
+  cupomId            String?
+  cupom              Cupom?          @relation(fields: [cupomId], references: [id])
+  valorDesconto      Float           @default(0) // Quanto foi descontado
   status             StatusInscricao @default(PENDENTE)
   valeAlmoco         Boolean         @default(false)
   createdAt          DateTime        @default(now())
@@ -101,6 +104,36 @@ model Inscricao {
   lote               Lote            @relation(fields: [loteId], references: [id])
   user               User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   pagamento          Pagamento?
+}
+
+model Cupom {
+  id              String         @id @default(cuid())
+  codigo          String         @unique // "PRIMEIRACOMPRA", "DESCONTO10"
+  desconto        Float          // Valor do desconto (10 para 10% ou 20 para R$20)
+  tipoDesconto    TipoDesconto   // PERCENTUAL ou FIXO
+  origem          String         // "Parceiro X", "Influencer Y", "Marketing"
+  ativo           Boolean        @default(true)
+  dataInicio      DateTime       @default(now())
+  dataValidade    DateTime
+  usoMaximo       Int?           // null = ilimitado
+  usoPorUsuario   Int?           @default(1) // null = ilimitado
+  valorMinimo     Float?         // Valor mínimo da inscrição para aplicar
+  totalUsos       Int            @default(0) // Contador automático
+
+  // Relacionamento
+  inscricoes      Inscricao[]
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([codigo])
+  @@index([ativo])
+}
+
+// Adicione este enum no seu schema.prisma
+enum TipoDesconto {
+  PERCENTUAL  // Ex: 10 = 10% de desconto
+  FIXO        // Ex: 20 = R$ 20,00 de desconto
 }
 
 model Pagamento {

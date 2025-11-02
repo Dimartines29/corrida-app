@@ -6,8 +6,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Flag, DollarSign, Calendar, Shirt, UtensilsCrossed, MapPin } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Flag, DollarSign, Calendar, Shirt, UtensilsCrossed, MapPin, Tag, Check, X, Loader2, Percent } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
+import { toast } from "sonner";
 
 // 💰 VALORES FIXOS
 const TAXA_INSCRICAO = 4.00;
@@ -25,9 +28,21 @@ interface Lote {
   dataFim: string;
 }
 
+interface CupomValidado {
+  id: string;
+  codigo: string;
+  desconto: number;
+  tipoDesconto: "PERCENTUAL" | "FIXO";
+  valorDesconto: number;
+  origem: string;
+}
+
 export function Step2CategoriaLote({ form }: Step2Props) {
   const [lotes, setLotes] = useState<Lote[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cupomCodigo, setCupomCodigo] = useState("");
+  const [cupomValidado, setCupomValidado] = useState<CupomValidado | null>(null);
+  const [validandoCupom, setValidandoCupom] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,13 +76,75 @@ export function Step2CategoriaLote({ form }: Step2Props) {
 
   const loteSelecionado = lotes.find((lote) => lote.id === loteIdSelecionado);
 
+  // Validar cupom
+  const validarCupom = async () => {
+    if (!cupomCodigo.trim()) {
+      toast.error("Digite um código de cupom");
+      return;
+    }
+
+    if (!loteSelecionado) {
+      toast.error("Selecione um lote primeiro");
+      return;
+    }
+
+    setValidandoCupom(true);
+
+    try {
+      const response = await fetch("/api/cupons/validar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          codigo: cupomCodigo,
+          valorLote: loteSelecionado.preco
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.error || "Cupom inválido");
+        setCupomValidado(null);
+        form.setValue("cupomCodigo", undefined);
+        return;
+      }
+
+      setCupomValidado(data.cupom);
+      form.setValue("cupomCodigo", data.cupom.codigo);
+      toast.success(`Cupom aplicado! Desconto de R$ ${data.cupom.valorDesconto.toFixed(2)}`);
+
+    } catch (error) {
+      console.error("Erro ao validar cupom:", error);
+      toast.error("Erro ao validar cupom");
+    } finally {
+      setValidandoCupom(false);
+    }
+  };
+
+  const removerCupom = () => {
+    setCupomValidado(null);
+    setCupomCodigo("");
+    form.setValue("cupomCodigo", undefined);
+    toast.info("Cupom removido");
+  };
+
   // Cálculo do valor total
   const calcularTotal = () => {
     if (!loteSelecionado) return 0;
-    let total = loteSelecionado.preco + TAXA_INSCRICAO;
+
+    let valorLote = loteSelecionado.preco;
+
+    // Aplicar desconto APENAS no valor do lote
+    if (cupomValidado) {
+      valorLote -= cupomValidado.valorDesconto;
+    }
+
+    let total = valorLote + TAXA_INSCRICAO;
+
     if (valeAlmoco) {
       total += VALOR_ALMOCO;
     }
+
     return total;
   };
 
@@ -204,7 +281,13 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                 <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" /> Lote de Inscrição *
               </FormLabel>
 
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={(value) => {
+                field.onChange(value);
+                // Remover cupom ao trocar de lote
+                if (cupomValidado) {
+                  removerCupom();
+                }
+              }} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="border-2 border-[#E53935] h-10 sm:h-12 text-sm sm:text-base text-black">
                     <SelectValue placeholder="Selecione o lote" />
@@ -236,7 +319,83 @@ export function Step2CategoriaLote({ form }: Step2Props) {
         />
       </div>
 
-      {/* 🆕 RETIRADA DO KIT */}
+      {/* 🆕 CUPOM DE DESCONTO */}
+      {loteSelecionado && (
+        <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-[#FFE66D] hover:border-[#E53935] transition-all">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <Tag className="w-5 h-5 text-[#E53935]" />
+              <h4 className="text-[#E53935] font-bold text-base sm:text-lg">
+                Cupom de Desconto (Opcional)
+              </h4>
+            </div>
+
+            {!cupomValidado ? (
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Digite o código do cupom"
+                  value={cupomCodigo}
+                  onChange={(e) => setCupomCodigo(e.target.value.toUpperCase())}
+                  className="border-2 border-[#FFE66D] uppercase"
+                  maxLength={20}
+                  disabled={validandoCupom}
+                />
+                <Button
+                  type="button"
+                  onClick={validarCupom}
+                  disabled={validandoCupom || !cupomCodigo.trim()}
+                  className="bg-[#E53935] hover:bg-[#c62828]"
+                >
+                  {validandoCupom ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    "Aplicar"
+                  )}
+                </Button>
+              </div>
+            ) : (
+              <div className="bg-green-50 border-2 border-green-400 rounded-lg p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3 flex-1">
+                    <Check className="w-5 h-5 text-green-600 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="font-bold text-green-800 text-base flex items-center gap-2">
+                        {cupomValidado.codigo}
+                        <Badge className="bg-green-600 text-white">
+                          {cupomValidado.tipoDesconto === "PERCENTUAL"
+                            ? `${cupomValidado.desconto}%`
+                            : `R$ ${cupomValidado.desconto}`}
+                        </Badge>
+                      </p>
+                      <p className="text-sm text-green-700 mt-1">
+                        Desconto de <span className="font-bold">R$ {cupomValidado.valorDesconto.toFixed(2)}</span> aplicado no valor do lote
+                      </p>
+                      <p className="text-xs text-green-600 mt-1">
+                        Origem: {cupomValidado.origem}
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={removerCupom}
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <p className="text-xs text-gray-600">
+              💡 O desconto é aplicado apenas no valor do lote. Taxa de inscrição e vale-almoço não têm desconto.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* RETIRADA DO KIT */}
       <div className="bg-white p-4 sm:p-6 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
         <FormField control={form.control} name="retiradaKit" render={({ field }) => (
             <FormItem>
@@ -271,7 +430,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
         />
       </div>
 
-      {/* 🆕 ALMOÇO COM CHURRASCO - BOX FICA VERMELHO QUANDO MARCADO */}
+      {/* ALMOÇO COM CHURRASCO */}
       <div className={`p-4 sm:p-6 rounded-xl border-2 transition-all ${
         valeAlmoco
           ? 'bg-gradient-to-r from-[#E53935] to-[#c62828] border-[#E53935]'
@@ -311,19 +470,17 @@ export function Step2CategoriaLote({ form }: Step2Props) {
         />
       </div>
 
-      {/* CARD MOBILE - COM BREAKDOWN COMPLETO */}
+      {/* CARD RESUMO MOBILE */}
       {loteSelecionado && (
         <Card className="bg-gradient-to-r from-[#E53935] to-[#c62828] border-none shadow-lg xl:hidden">
           <CardContent className="pt-6 pb-6 px-4">
             <div className="space-y-3 text-white">
-              {/* Badge do Lote */}
               <div className="flex items-start justify-between flex-wrap gap-2">
                 <Badge variant="secondary" className="bg-white text-[#E53935] font-bold px-3 py-1.5 text-sm">
                   {loteSelecionado.nome}
                 </Badge>
               </div>
 
-              {/* Data de Validade */}
               <div className="flex items-center gap-2 text-white/90">
                 <Calendar className="w-4 h-4" />
                 <p className="text-sm">
@@ -331,7 +488,6 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                 </p>
               </div>
 
-              {/* Breakdown de Valores */}
               <div className="pt-3 border-t border-white/30 space-y-3">
                 {/* Valor do Lote */}
                 <div className="flex justify-between items-center">
@@ -339,13 +495,24 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                   <p className="text-lg font-bold">R$ {loteSelecionado.preco.toFixed(2)}</p>
                 </div>
 
+                {/* Desconto do Cupom */}
+                {cupomValidado && (
+                  <div className="flex justify-between items-center text-green-300">
+                    <p className="text-xs flex items-center gap-1">
+                      <Percent className="w-3 h-3" />
+                      Desconto ({cupomValidado.codigo}):
+                    </p>
+                    <p className="text-lg font-bold">- R$ {cupomValidado.valorDesconto.toFixed(2)}</p>
+                  </div>
+                )}
+
                 {/* Taxa de Inscrição */}
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-white/80">Taxa de inscrição:</p>
                   <p className="text-lg font-bold">R$ {TAXA_INSCRICAO.toFixed(2)}</p>
                 </div>
 
-                {/* Almoço (se selecionado) */}
+                {/* Almoço */}
                 {valeAlmoco && (
                   <div className="flex justify-between items-center">
                     <p className="text-xs text-white/80">Almoço com Churrasco:</p>
@@ -353,7 +520,6 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                   </div>
                 )}
 
-                {/* Linha Divisória */}
                 <div className="border-t border-white/30 my-2"></div>
 
                 {/* Total */}
@@ -369,13 +535,12 @@ export function Step2CategoriaLote({ form }: Step2Props) {
         </Card>
       )}
 
-      {/* CARD DESKTOP FLUTUANTE - COM BREAKDOWN COMPLETO */}
+      {/* CARD RESUMO DESKTOP FLUTUANTE */}
       {loteSelecionado && (
         <div className="hidden xl:block fixed top-[400px] right-6 z-40 w-80">
           <Card className="bg-gradient-to-r from-[#E53935] to-[#c62828] border-none shadow-2xl">
             <CardContent className="pt-6 sm:pt-8 pb-6 sm:pb-8 px-4 sm:px-6">
               <div className="space-y-3 sm:space-y-4 text-white">
-                {/* Badges */}
                 <div className="flex items-start justify-between flex-wrap gap-2">
                   <Badge variant="secondary" className="bg-white text-[#E53935] font-bold px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base">
                     {loteSelecionado.nome}
@@ -386,7 +551,6 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                   </Badge>
                 </div>
 
-                {/* Data de Validade */}
                 <div className="flex items-center gap-2 text-white/90">
                   <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
                   <p className="text-sm sm:text-base">
@@ -394,7 +558,6 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                   </p>
                 </div>
 
-                {/* Breakdown de Valores */}
                 <div className="pt-3 sm:pt-4 border-t border-white/30 space-y-3">
                   {/* Valor do Lote */}
                   <div className="flex justify-between items-center">
@@ -403,6 +566,22 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                       R$ {loteSelecionado.preco.toFixed(2)}
                     </p>
                   </div>
+
+                  {/* Desconto do Cupom */}
+                  {cupomValidado && (
+                    <div className="flex justify-between items-center text-green-300 bg-white/10 p-2 rounded-lg">
+                      <div>
+                        <p className="text-xs sm:text-sm flex items-center gap-1">
+                          <Percent className="w-3 h-3" />
+                          Desconto:
+                        </p>
+                        <p className="text-[10px] text-white/60">{cupomValidado.codigo}</p>
+                      </div>
+                      <p className="text-xl sm:text-2xl font-bold">
+                        - R$ {cupomValidado.valorDesconto.toFixed(2)}
+                      </p>
+                    </div>
+                  )}
 
                   {/* Taxa de Inscrição */}
                   <div className="flex justify-between items-center">
@@ -415,7 +594,7 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                     </p>
                   </div>
 
-                  {/* Almoço (se selecionado) */}
+                  {/* Almoço */}
                   {valeAlmoco && (
                     <div className="flex justify-between items-center pb-3">
                       <div>
@@ -428,7 +607,6 @@ export function Step2CategoriaLote({ form }: Step2Props) {
                     </div>
                   )}
 
-                  {/* Linha Divisória */}
                   <div className="border-t border-white/30"></div>
 
                   {/* Total */}

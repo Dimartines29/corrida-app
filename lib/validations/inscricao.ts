@@ -135,6 +135,7 @@ export const inscricaoCompletaSchema = z.object({
   ...step2Schema.shape,
   ...step3Schema.shape,
   ...step4Schema.shape,
+  cupomCodigo: z.string().optional(),
 });
 
 // Schema específico para inscrição manual (admin)
@@ -160,6 +161,13 @@ export const inscricaoManualSchema = inscricaoCompletaSchema.extend({
   enviarEmail: z
     .boolean()
     .default(true),
+});
+
+export const step2SchemaComCupom = step2Schema.extend({
+  cupomCodigo: z
+    .string()
+    .optional()
+    .transform(val => val ? val.toUpperCase() : undefined),
 });
 
 export type InscricaoManual = z.infer<typeof inscricaoManualSchema>;

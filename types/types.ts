@@ -107,3 +107,42 @@ export interface InscricaoDetalhada {
     updatedAt: string
   } | null
 }
+
+export interface Cupom {
+  id: string
+  codigo: string
+  desconto: number
+  tipoDesconto: "PERCENTUAL" | "FIXO"
+  origem: string
+  ativo: boolean
+  dataInicio: Date | string
+  dataValidade: Date | string
+  usoMaximo: number | null
+  usoPorUsuario: number | null
+  valorMinimo: number | null
+  totalUsos: number
+  expirado: boolean
+  createdAt: Date | string
+  updatedAt: Date | string
+}
+
+export interface CupomDetalhado extends Cupom {
+  inscricoes: {
+    id: string
+    codigo: number
+    nomeCompleto: string
+    valorPago: number
+    status: string
+    createdAt: string
+  }[]
+  _count: {
+    inscricoes: number
+  }
+}
+
+export interface CupomFilters {
+  search: string
+  status: "todos" | "ativos" | "inativos" | "expirados"
+  origem: string
+  tipoDesconto: "todos" | "PERCENTUAL" | "FIXO"
+}
