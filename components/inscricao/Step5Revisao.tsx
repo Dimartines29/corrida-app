@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { User, MapPin, Shirt, Heart, CheckCircle2, AlertCircle, Calendar, Phone, CreditCard, Package, UtensilsCrossed } from "lucide-react";
+import { User, MapPin, Shirt, Heart, CheckCircle2, AlertCircle, Calendar, Phone, CreditCard, Package, UtensilsCrossed, Tag, Percent } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 // 💰 VALORES FIXOS
@@ -14,13 +14,6 @@ interface Step5Props {
   form: UseFormReturn<InscricaoCompleta>;
 }
 
-interface Categoria {
-  id: string;
-  nome: string;
-  descricao: string;
-  distancia: number;
-}
-
 interface Lote {
   id: string;
   nome: string;
@@ -28,29 +21,20 @@ interface Lote {
   dataFim: string;
 }
 
-interface Kit {
-  id: string;
-  nome: string;
-  itens: string;
-  preco: number;
+interface CupomInfo {
+  codigo: string;
+  desconto: number;
+  tipoDesconto: "PERCENTUAL" | "FIXO";
+  valorDesconto: number;
 }
 
 export function Step5Revisao({ form }: Step5Props) {
   const [lote, setLote] = useState<Lote | null>(null);
+  const [cupomInfo, setCupomInfo] = useState<CupomInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
   const formData = form.getValues();
   const valeAlmoco = formData.valeAlmoco || false;
-
-  // Função para calcular o total
-  const calcularTotal = () => {
-    if (!lote) return 0;
-    let total = lote.preco + TAXA_INSCRICAO;
-    if (valeAlmoco) {
-      total += VALOR_ALMOCO;
-    }
-    return total;
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +46,23 @@ export function Step5Revisao({ form }: Step5Props) {
           : undefined;
         setLote(loteSelecionado);
 
+        // Se tem cupom, validar novamente para pegar informações
+        if (formData.cupomCodigo && loteSelecionado) {
+          const cupomRes = await fetch("/api/cupons/validar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              codigo: formData.cupomCodigo,
+              valorLote: loteSelecionado.preco
+            })
+          });
+
+          if (cupomRes.ok) {
+            const cupomData = await cupomRes.json();
+            setCupomInfo(cupomData.cupom);
+          }
+        }
+
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       } finally {
@@ -70,7 +71,27 @@ export function Step5Revisao({ form }: Step5Props) {
     };
 
     fetchData();
-  }, [formData.loteId]);
+  }, [formData.loteId, formData.cupomCodigo]);
+
+  // Função para calcular o total
+  const calcularTotal = () => {
+    if (!lote) return 0;
+
+    let valorLote = lote.preco;
+
+    // Aplicar desconto do cupom APENAS no valor do lote
+    if (cupomInfo) {
+      valorLote -= cupomInfo.valorDesconto;
+    }
+
+    let total = valorLote + TAXA_INSCRICAO;
+
+    if (valeAlmoco) {
+      total += VALOR_ALMOCO;
+    }
+
+    return total;
+  };
 
   if (loading) {
     return (
@@ -152,7 +173,6 @@ export function Step5Revisao({ form }: Step5Props) {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {/* Rua/Endereço */}
                 <div className="bg-white p-3 rounded-lg">
                   <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
                     <MapPin className="w-3 h-3" /> Rua/Avenida
@@ -160,7 +180,6 @@ export function Step5Revisao({ form }: Step5Props) {
                   <p className="text-sm font-bold text-gray-800">{formData.endereco}</p>
                 </div>
 
-                {/* Bairro */}
                 <div className="bg-white p-3 rounded-lg">
                   <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
                     <MapPin className="w-3 h-3" /> Bairro
@@ -168,7 +187,6 @@ export function Step5Revisao({ form }: Step5Props) {
                   <p className="text-sm font-bold text-gray-800">{formData.bairro}</p>
                 </div>
 
-                {/* Cidade */}
                 <div className="bg-white p-3 rounded-lg">
                   <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
                     <MapPin className="w-3 h-3" /> Cidade
@@ -176,7 +194,6 @@ export function Step5Revisao({ form }: Step5Props) {
                   <p className="text-sm font-bold text-gray-800">{formData.cidade}</p>
                 </div>
 
-                {/* Estado */}
                 <div className="bg-white p-3 rounded-lg">
                   <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
                     <MapPin className="w-3 h-3" /> Estado
@@ -184,7 +201,6 @@ export function Step5Revisao({ form }: Step5Props) {
                   <p className="text-sm font-bold text-gray-800">{formData.estado}</p>
                 </div>
 
-                {/* CEP */}
                 <div className="bg-white p-3 rounded-lg sm:col-span-2">
                   <p className="text-xs font-bold text-gray-600 uppercase mb-1 flex items-center gap-1">
                     <MapPin className="w-3 h-3" /> CEP
@@ -317,6 +333,29 @@ export function Step5Revisao({ form }: Step5Props) {
                 <span className="text-white/80 text-xs">Inclui todos os itens do kit selecionado</span>
               </div>
 
+              {/* 🆕 Cupom de Desconto */}
+              {cupomInfo && (
+                <div className="bg-green-500/30 p-3 sm:p-4 rounded-lg backdrop-blur border-2 border-green-300">
+                  <div className="flex justify-between items-center text-white">
+                    <div>
+                      <span className="font-semibold text-sm sm:text-base flex items-center gap-2">
+                        <Tag className="w-4 h-4" />
+                        Cupom: {cupomInfo.codigo}
+                      </span>
+                      <span className="text-white/80 text-xs flex items-center gap-1">
+                        <Percent className="w-3 h-3" />
+                        {cupomInfo.tipoDesconto === "PERCENTUAL"
+                          ? `${cupomInfo.desconto}% de desconto`
+                          : `R$ ${cupomInfo.desconto} de desconto`}
+                      </span>
+                    </div>
+                    <span className="font-bold text-lg sm:text-xl text-green-300">
+                      - R$ {cupomInfo.valorDesconto.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              )}
+
               {/* Taxa de Inscrição */}
               <div className="bg-white/20 p-3 sm:p-4 rounded-lg backdrop-blur border-2 border-white/30">
                 <div className="flex justify-between items-center text-white">
@@ -330,7 +369,7 @@ export function Step5Revisao({ form }: Step5Props) {
                 </div>
               </div>
 
-              {/* 🆕 Almoço com Churrasco (condicional) */}
+              {/* Almoço com Churrasco */}
               {valeAlmoco && (
                 <div className="bg-white/20 p-3 sm:p-4 rounded-lg backdrop-blur border-2 border-white/30">
                   <div className="flex justify-between items-center text-white">
@@ -360,7 +399,9 @@ export function Step5Revisao({ form }: Step5Props) {
                       R$ {calcularTotal().toFixed(2)}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      Lote: R$ {lote.preco.toFixed(2)} + Taxa: R$ {TAXA_INSCRICAO.toFixed(2)}
+                      {cupomInfo && `Lote: R$ ${lote.preco.toFixed(2)} - Desconto: R$ ${cupomInfo.valorDesconto.toFixed(2)} + `}
+                      {!cupomInfo && `Lote: R$ ${lote.preco.toFixed(2)} + `}
+                      Taxa: R$ {TAXA_INSCRICAO.toFixed(2)}
                       {valeAlmoco && ` + Almoço: R$ ${VALOR_ALMOCO.toFixed(2)}`}
                     </p>
                   </div>
@@ -375,7 +416,9 @@ export function Step5Revisao({ form }: Step5Props) {
       {/* Aviso Final */}
       <Alert className="bg-yellow-50 border-2 border-yellow-400">
         <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-600" />
-        <AlertDescription className="text-sm sm:text-base text-yellow-800 font-semibold">⚠️ Após a confirmação da inscrição, não será possível realizar alterações nos dados informados. Revise tudo cuidadosamente antes de prosseguir para o pagamento.</AlertDescription>
+        <AlertDescription className="text-sm sm:text-base text-yellow-800 font-semibold">
+          ⚠️ Após a confirmação da inscrição, não será possível realizar alterações nos dados informados. Revise tudo cuidadosamente antes de prosseguir para o pagamento.
+        </AlertDescription>
       </Alert>
     </div>
   );

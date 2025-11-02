@@ -26,6 +26,11 @@ const data = {
       url: "/admin/inscricao-manual",
       icon: IconUserEdit,
     },
+    {
+      title: "Cupons de desconto",
+      url: "/admin/cupons",
+      icon: IconBookmarkEdit,
+    },
   ],
   navSecondary: [
     {
