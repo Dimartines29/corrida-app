@@ -1,3 +1,5 @@
+//components/PagamentoPendenteButton.tsx
+
 "use client";
 
 import { useState } from "react";
@@ -15,8 +17,7 @@ export function PagamentoPendenteButton({ inscricaoId }: PagamentoPendenteButton
     setIsLoading(true);
 
     try {
-      // Chamar API para criar preferência
-      const response = await fetch('/api/pagamento/criar-preferencia', {
+      const response = await fetch('/api/pagamento/criar-link-pagbank', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ inscricaoId }),
@@ -30,11 +31,9 @@ export function PagamentoPendenteButton({ inscricaoId }: PagamentoPendenteButton
         return;
       }
 
-      // Redirecionar para checkout do Mercado Pago
-      const checkoutUrl = result.initPoint || result.sandboxInitPoint;
-
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
+      // Redirecionar para checkout do PagBank
+      if (result.checkoutUrl) {
+        window.location.href = result.checkoutUrl;
       } else {
         alert('Erro: Link de pagamento não foi gerado');
         setIsLoading(false);
