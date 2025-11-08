@@ -86,8 +86,8 @@ export default function EscolhaPagamentoContent() {
     setIsLoadingCartao(true);
 
     // ⭐ CONFIGURE AQUI OS LINKS DO PAGBANK
-    const linkSemAlmoco =  "https://pag.ae/81cmfibxL";
-    const linkComAlmoco =  "https://pag.ae/81cmgk3Ep";
+    const linkSemAlmoco =  "https://pag.ae/81cowUkVp";
+    const linkComAlmoco =  "https://pag.ae/81coweaB5";
 
     const linkPagamento = inscricao.valeAlmoco ? linkComAlmoco : linkSemAlmoco;
 
@@ -258,7 +258,7 @@ export default function EscolhaPagamentoContent() {
                       <div className="flex items-center gap-2 text-sm">
                         <CheckCircle className="w-4 h-4 text-[#00B8D4] flex-shrink-0" />
                         <span className="font-semibold text-gray-700">
-                          Todas as bandeiras aceitas
+                          <strong>SUJEITO A TAXAS DO BANCO</strong>
                         </span>
                       </div>
                     </div>
@@ -291,7 +291,7 @@ export default function EscolhaPagamentoContent() {
                   <p className="text-sm text-yellow-800 font-semibold">
                     <strong>PIX:</strong> Aprovação imediata e você já pode ver sua inscrição confirmada.
                     <br />
-                    <strong>Cartão:</strong> Após o pagamento, aguarde até 24h para confirmação.
+                    <strong>Cartão:</strong> Após o pagamento, aguarde até 24h para confirmação. <strong>SUJEITO A TAXAS DA OPERADORA.</strong>
                   </p>
                 </div>
               </div>
