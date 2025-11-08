@@ -65,9 +65,7 @@ export default function EscolhaPagamentoContent() {
         return;
       }
 
-      let checkoutUrl = result.initPoint || result.sandboxInitPoint;
-
-      process.env.MERCADOPAGO_ENVIRONMENT === 'production' ? checkoutUrl = result.initPoint : checkoutUrl = result.sandboxInitPoint;
+      const checkoutUrl = result.initPoint
 
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
