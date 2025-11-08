@@ -14,6 +14,7 @@ interface Inscricao {
   categoria: string;
   valorPago: number;
   valeAlmoco: boolean;
+  cupomId: string | null;
 }
 
 export default function EscolhaPagamentoContent() {
@@ -85,11 +86,27 @@ export default function EscolhaPagamentoContent() {
 
     setIsLoadingCartao(true);
 
-    // ⭐ CONFIGURE AQUI OS LINKS DO PAGBANK
-    const linkSemAlmoco =  "https://pag.ae/81cowUkVp";
-    const linkComAlmoco =  "https://pag.ae/81coweaB5";
+    // ⭐ 4 LINKS - Configure aqui os links do PagBank
+    const linkSemCupomSemAlmoco = "https://pag.ae/81cowUkVp";
+    const linkSemCupomComAlmoco = "https://pag.ae/81coweaB5";
+    const linkComCupomSemAlmoco = "https://pag.ae/81cp5Nnjp";
+    const linkComCupomComAlmoco = "https://pag.ae/81cpd_4zp";
 
-    const linkPagamento = inscricao.valeAlmoco ? linkComAlmoco : linkSemAlmoco;
+    // Verificar se tem cupom aplicado
+    const temCupom = inscricao.cupomId !== null;
+
+    // Escolher o link baseado em cupom + almoço
+    let linkPagamento;
+
+    if (temCupom && inscricao.valeAlmoco) {
+      linkPagamento = linkComCupomComAlmoco;
+    } else if (temCupom && !inscricao.valeAlmoco) {
+      linkPagamento = linkComCupomSemAlmoco;
+    } else if (!temCupom && inscricao.valeAlmoco) {
+      linkPagamento = linkSemCupomComAlmoco;
+    } else {
+      linkPagamento = linkSemCupomSemAlmoco;
+    }
 
     window.location.href = linkPagamento;
   };
