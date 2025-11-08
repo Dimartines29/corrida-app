@@ -485,7 +485,7 @@ export default function Home() {
 
           {/* PATROCÍNIO OURO - Logos Grandes */}
           <div className="mb-10 sm:mb-14">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-5 max-w-6xl mx-auto">
               <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
                 <img
                   src="/logo-elitelab.png"
@@ -493,6 +493,15 @@ export default function Home() {
                   className="w-full h-full object-contain p-6 sm:p-8"
                 />
               </div>
+
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-hamburguer.png"
+                  alt="Patrocinador Ouro - Power"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
+              </div>
+
               <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
                 <img
                   src="/logo-power.png"
@@ -505,17 +514,24 @@ export default function Home() {
 
           {/* APOIO - Logos Menores */}
           <div className="mb-10 sm:mb-14">
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-8 max-w-3xl mx-auto">
-              <div className="bg-white w-full h-32 sm:h-44 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8 max-w-3xl mx-auto">
+              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
                 <img
                   src="/logo-rafacar.jpeg"
                   alt="Apoio - Rafacar"
                   className="w-full h-full object-contain p-3 sm:p-4"
                 />
               </div>
-              <div className="bg-white w-full h-32 sm:h-44 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
                 <img
                   src="/logo-brenda.jpeg"
+                  alt="Apoio - Brenda"
+                  className="w-full h-full object-contain p-3 sm:p-4"
+                />
+              </div>
+              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+                <img
+                  src="/logo-estacio.png"
                   alt="Apoio - Brenda"
                   className="w-full h-full object-contain p-3 sm:p-4"
                 />
