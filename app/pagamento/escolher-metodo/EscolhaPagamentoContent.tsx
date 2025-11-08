@@ -298,15 +298,6 @@ export default function EscolhaPagamentoContent() {
                 </div>
               </div>
             </div>
-
-            {/* Voltar */}
-            <div className="p-6 text-center border-t">
-              <Link href="/minha-area">
-                  ← Voltar para Minha Área
-              </Link>
-                href="/minha-area"
-                className="text-[#E53935] font-bold hover:underline"
-            </div>
           </div>
 
           {/* Footer */}
