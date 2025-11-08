@@ -15,6 +15,20 @@ export function PagamentoPendenteButton({ inscricaoId }: PagamentoPendenteButton
     setIsLoading(true);
 
     try {
+      window.location.href = `/pagamento/escolher-metodo?inscricaoId=${inscricaoId}`;
+    } catch (error) {
+      console.error('Erro ao redirecionar:', error);
+      alert('Erro ao processar. Tente novamente.');
+      setIsLoading(false);
+    }
+
+    /* ====================================================================
+       CÓDIGO ANTIGO - MERCADO PAGO DIRETO (COMENTADO)
+       Descomente quando a integração automática do PagBank for aprovada
+       ==================================================================== */
+
+    /*
+    try {
       // Chamar API para criar preferência
       const response = await fetch('/api/pagamento/criar-preferencia', {
         method: 'POST',
@@ -31,7 +45,9 @@ export function PagamentoPendenteButton({ inscricaoId }: PagamentoPendenteButton
       }
 
       // Redirecionar para checkout do Mercado Pago
-      const checkoutUrl = result.initPoint || result.sandboxInitPoint;
+      let checkoutUrl = result.initPoint || result.sandboxInitPoint;
+
+      process.env.MERCADOPAGO_ENVIRONMENT === 'production' ? checkoutUrl = result.initPoint : checkoutUrl = result.sandboxInitPoint;
 
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
@@ -44,6 +60,7 @@ export function PagamentoPendenteButton({ inscricaoId }: PagamentoPendenteButton
       alert('Erro ao processar pagamento. Tente novamente.');
       setIsLoading(false);
     }
+    */
   };
 
   return (
@@ -55,7 +72,7 @@ export function PagamentoPendenteButton({ inscricaoId }: PagamentoPendenteButton
       {isLoading ? (
         <>
           <Loader2 className="w-6 h-6 mr-2 animate-spin" />
-          Gerando link...
+          Redirecionando...
         </>
       ) : (
         <>

@@ -145,7 +145,7 @@ export function InscricaoForm() {
           `Você será redirecionado para o pagamento...`
         );
 
-        window.location.href = checkoutUrl;
+        window.location.href = `/pagamento/escolher-metodo?inscricaoId=${inscricaoResult.inscricao.id}`;
       }
 
       else {
