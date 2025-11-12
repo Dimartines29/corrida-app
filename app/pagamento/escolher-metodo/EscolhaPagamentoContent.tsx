@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import { CreditCard, QrCode, Clock, CheckCircle, Loader2, Zap } from 'lucide-react';
 import { MainHeader } from '@/components/MainHeader';
 
@@ -29,6 +28,11 @@ export default function EscolhaPagamentoContent() {
   const [isLoadingPix, setIsLoadingPix] = useState(false);
   const [isLoadingCartao, setIsLoadingCartao] = useState(false);
 
+  // ⭐ CALCULAR VALORES
+  const valorBase = inscricao?.valorPago || 0;
+  const valorComTaxa = valorBase * 1.0416; // 4,16% de taxa
+  const valorTaxa = valorComTaxa - valorBase;
+
   useEffect(() => {
     if (inscricaoId) {
       fetch(`/api/inscricoes/${inscricaoId}`)
@@ -46,16 +50,25 @@ export default function EscolhaPagamentoContent() {
     }
   }, [inscricaoId]);
 
-  const handlePagarPix = async () => {
+  // ⭐ FUNÇÃO UNIFICADA DE PAGAMENTO
+  const handlePagamento = async (metodoPagamento: 'PIX' | 'CARTAO') => {
     if (!inscricao) return;
 
-    setIsLoadingPix(true);
+    // Definir qual loading ativar
+    if (metodoPagamento === 'PIX') {
+      setIsLoadingPix(true);
+    } else {
+      setIsLoadingCartao(true);
+    }
 
     try {
-      const response = await fetch('/api/pagamento/criar-preferencia', {
+      const response = await fetch('/api/pagamento/criar-link-pagbank', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ inscricaoId: inscricao.id }),
+        body: JSON.stringify({ 
+          inscricaoId: inscricao.id,
+          metodoPagamento: metodoPagamento
+        }),
       });
 
       const result = await response.json();
@@ -63,52 +76,25 @@ export default function EscolhaPagamentoContent() {
       if (!response.ok) {
         alert(`Erro: ${result.error || 'Não foi possível gerar pagamento'}`);
         setIsLoadingPix(false);
+        setIsLoadingCartao(false);
         return;
       }
 
-      const checkoutUrl = result.initPoint
+      const checkoutUrl = result.checkoutUrl;
 
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
       } else {
         alert('Erro: Link de pagamento não gerado');
         setIsLoadingPix(false);
+        setIsLoadingCartao(false);
       }
     } catch (error) {
       console.error('Erro:', error);
       alert('Erro ao processar pagamento. Tente novamente.');
       setIsLoadingPix(false);
+      setIsLoadingCartao(false);
     }
-  };
-
-  const handlePagarCartao = () => {
-    if (!inscricao) return;
-
-    setIsLoadingCartao(true);
-
-    // ⭐ 4 LINKS - Configure aqui os links do PagBank
-    const linkSemCupomSemAlmoco = "https://pag.ae/81cowUkVp";
-    const linkSemCupomComAlmoco = "https://pag.ae/81coweaB5";
-    const linkComCupomSemAlmoco = "https://pag.ae/81cp5Nnjp";
-    const linkComCupomComAlmoco = "https://pag.ae/81cpd_4zp";
-
-    // Verificar se tem cupom aplicado
-    const temCupom = inscricao.cupomId !== null;
-
-    // Escolher o link baseado em cupom + almoço
-    let linkPagamento;
-
-    if (temCupom && inscricao.valeAlmoco) {
-      linkPagamento = linkComCupomComAlmoco;
-    } else if (temCupom && !inscricao.valeAlmoco) {
-      linkPagamento = linkComCupomSemAlmoco;
-    } else if (!temCupom && inscricao.valeAlmoco) {
-      linkPagamento = linkSemCupomComAlmoco;
-    } else {
-      linkPagamento = linkSemCupomSemAlmoco;
-    }
-
-    window.location.href = linkPagamento;
   };
 
   if (loading) {
@@ -160,8 +146,8 @@ export default function EscolhaPagamentoContent() {
                   <p className="text-2xl font-black">#{inscricao.codigo}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-white/80 uppercase font-bold mb-1">Valor Total</p>
-                  <p className="text-2xl font-black">R$ {inscricao.valorPago.toFixed(2)}</p>
+                  <p className="text-xs text-white/80 uppercase font-bold mb-1">Valor Base</p>
+                  <p className="text-2xl font-black">R$ {valorBase.toFixed(2)}</p>
                 </div>
                 <div className="col-span-2">
                   <p className="text-xs text-white/80 uppercase font-bold mb-1">Participante</p>
@@ -176,7 +162,6 @@ export default function EscolhaPagamentoContent() {
 
             {/* Métodos de Pagamento */}
             <div className="p-6 space-y-4">
-              {/* PIX - RECOMENDADO */}
               <div className="relative">
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
                   <div className="bg-green-500 text-white px-4 py-1 rounded-full text-xs font-black flex items-center gap-1 shadow-lg">
@@ -186,7 +171,7 @@ export default function EscolhaPagamentoContent() {
                 </div>
 
                 <button
-                  onClick={handlePagarPix}
+                  onClick={() => handlePagamento('PIX')}
                   disabled={isLoadingPix}
                   className="w-full border-4 border-green-500 rounded-xl p-6 hover:bg-green-50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
@@ -200,6 +185,23 @@ export default function EscolhaPagamentoContent() {
                         🟢 PIX
                       </h3>
 
+                      {/* Valor do PIX */}
+                      <div className="bg-green-100 border-2 border-green-500 rounded-lg p-4 mb-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-sm font-bold text-green-800">Valor a pagar:</span>
+                          <span className="text-3xl font-black text-green-700">
+                            R$ {valorBase.toFixed(2)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs font-semibold text-green-700">Economia:</span>
+                          <span className="text-lg font-bold text-green-600">
+                            - R$ {valorTaxa.toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Benefícios */}
                       <div className="space-y-2 mb-4">
                         <div className="flex items-center gap-2 text-sm">
                           <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
@@ -216,11 +218,12 @@ export default function EscolhaPagamentoContent() {
                         <div className="flex items-center gap-2 text-sm">
                           <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
                           <span className="font-semibold text-gray-700">
-                            Disponível <strong>24/7</strong>
+                            <strong>SEM TAXAS ADICIONAIS</strong>
                           </span>
                         </div>
                       </div>
 
+                      {/* Botão */}
                       {isLoadingPix ? (
                         <div className="bg-green-600 text-white px-6 py-3 rounded-lg font-black text-center flex items-center justify-center gap-2">
                           <Loader2 className="w-5 h-5 animate-spin" />
@@ -243,9 +246,8 @@ export default function EscolhaPagamentoContent() {
                 <div className="flex-1 border-t-2 border-gray-300"></div>
               </div>
 
-              {/* CARTÃO */}
               <button
-                onClick={handlePagarCartao}
+                onClick={() => handlePagamento('CARTAO')}
                 disabled={isLoadingCartao}
                 className="w-full border-2 border-gray-300 rounded-xl p-6 hover:bg-gray-50 hover:border-[#00B8D4] transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
@@ -256,14 +258,54 @@ export default function EscolhaPagamentoContent() {
 
                   <div className="flex-1 text-left">
                     <h3 className="text-xl font-black text-[#00B8D4] mb-2">
-                      💳 CARTÃO DE CRÉDITO
+                      💳 CARTÃO OU BOLETO
                     </h3>
 
+                    {/* Valor do Cartão */}
+                    <div className="bg-orange-50 border-2 border-orange-400 rounded-lg p-4 mb-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-bold text-orange-800">Valor a pagar:</span>
+                        <span className="text-3xl font-black text-orange-700">
+                          R$ {valorComTaxa.toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs font-semibold text-orange-700">Taxa de 4,16%:</span>
+                        <span className="text-lg font-bold text-orange-600">
+                          + R$ {valorTaxa.toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Opções Disponíveis */}
+                    <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-3 mb-4">
+                      <p className="text-xs font-bold text-blue-800 mb-2">
+                        📋 FORMAS DE PAGAMENTO DISPONÍVEIS:
+                      </p>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="bg-white rounded-lg p-2 text-center border border-blue-200">
+                          <p className="text-xs font-black text-blue-700">💳 CRÉDITO</p>
+                          <p className="text-[10px] text-blue-600">Até 12x</p>
+                        </div>
+                        <div className="bg-white rounded-lg p-2 text-center border border-blue-200">
+                          <p className="text-xs font-black text-blue-700">📄 BOLETO</p>
+                          <p className="text-[10px] text-blue-600">À vista</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Detalhes */}
                     <div className="space-y-2 mb-4">
                       <div className="flex items-center gap-2 text-sm">
                         <CheckCircle className="w-4 h-4 text-[#00B8D4] flex-shrink-0" />
                         <span className="font-semibold text-gray-700">
-                          Parcelamento em até <strong>12x</strong>
+                          <strong>Crédito:</strong> Parcelamento em até <strong>12x</strong>
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <CheckCircle className="w-4 h-4 text-[#00B8D4] flex-shrink-0" />
+                        <span className="font-semibold text-gray-700">
+                          <strong>Boleto:</strong> Vencimento em 3 dias
                         </span>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
@@ -273,13 +315,14 @@ export default function EscolhaPagamentoContent() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
-                        <CheckCircle className="w-4 h-4 text-[#00B8D4] flex-shrink-0" />
+                        <CheckCircle className="w-4 h-4 text-orange-500 flex-shrink-0" />
                         <span className="font-semibold text-gray-700">
-                          <strong>SUJEITO A TAXAS DO BANCO</strong>
+                          <strong>+ Taxa de 4,16%</strong>
                         </span>
                       </div>
                     </div>
 
+                    {/* Botão */}
                     {isLoadingCartao ? (
                       <div className="bg-[#00B8D4] text-white px-6 py-3 rounded-lg font-black text-center flex items-center justify-center gap-2">
                         <Loader2 className="w-5 h-5 animate-spin" />
@@ -287,7 +330,7 @@ export default function EscolhaPagamentoContent() {
                       </div>
                     ) : (
                       <div className="bg-[#00B8D4] text-white px-6 py-3 rounded-lg font-black text-center hover:bg-[#00a0c0] transition-colors">
-                        PAGAR COM CARTÃO →
+                        ESCOLHER ESTA OPÇÃO →
                       </div>
                     )}
                   </div>
@@ -306,9 +349,9 @@ export default function EscolhaPagamentoContent() {
                     ⚠️ IMPORTANTE
                   </p>
                   <p className="text-sm text-yellow-800 font-semibold">
-                    <strong>PIX:</strong> Aprovação imediata e você já pode ver sua inscrição confirmada.
+                    <strong>PIX:</strong> Aprovação imediata e você já pode ver sua inscrição confirmada. <strong>SEM TAXAS!</strong>
                     <br />
-                    <strong>Cartão:</strong> Após o pagamento, aguarde até 24h para confirmação. <strong>SUJEITO A TAXAS DA OPERADORA.</strong>
+                    <strong>Boleto:</strong> Vencimento em 3 dias úteis. Confirmação após compensação bancária. <strong>Taxa de 4,16%.</strong>
                   </p>
                 </div>
               </div>
@@ -324,6 +367,5 @@ export default function EscolhaPagamentoContent() {
         </div>
       </div>
     </>
-
   );
 }
