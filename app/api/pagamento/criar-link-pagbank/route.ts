@@ -36,10 +36,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
     }
 
-    const { inscricaoId } = await request.json();
+    // ⭐ NOVIDADE: Receber metodoPagamento do body
+    const { inscricaoId, metodoPagamento } = await request.json();
 
     if (!inscricaoId) {
       return NextResponse.json({ error: 'inscricaoId obrigatório' }, { status: 400 });
+    }
+
+    // ⭐ VALIDAÇÃO: Verificar se o método é válido
+    if (!metodoPagamento || !['PIX', 'CARTAO'].includes(metodoPagamento)) {
+      return NextResponse.json({
+        error: 'Método de pagamento inválido. Use PIX ou CARTAO'
+      }, { status: 400 });
     }
 
     const inscricao = await prisma.inscricao.findUnique({
@@ -63,6 +71,41 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Já foi paga' }, { status: 400 });
     }
 
+    let valorFinal = inscricao.valorPago;
+
+    if (metodoPagamento === 'CARTAO') {
+      // Aplicar taxa de 4,16% no cartão
+      valorFinal = inscricao.valorPago * 1.0416;
+    }
+
+    // ⭐ CONFIGURAR MÉTODOS DE PAGAMENTO DO PAGBANK
+    const paymentMethods = metodoPagamento === 'PIX'
+      ? [{ type: "PIX" }]  // Apenas PIX
+      : [
+          {
+            type: "CREDIT_CARD",
+            brands: ["mastercard", "visa", "elo", "amex", "hipercard"]
+          },
+          {
+            type: "DEBIT_CARD",
+            brands: ["mastercard", "visa", "elo"]
+          },
+          {
+            type: "BOLETO"
+          }
+        ];
+
+    // Configuração de parcelamento apenas para cartão
+    const paymentMethodsConfigs = metodoPagamento === 'CARTAO'
+      ? [{
+          type: "CREDIT_CARD",
+          config_options: [{
+            option: "INSTALLMENTS_LIMIT",
+            value: "12"
+          }]
+        }]
+      : [];
+
     const checkoutPayload = {
       reference_id: inscricao.id,
       customer_modifiable: false,
@@ -82,41 +125,22 @@ export async function POST(request: NextRequest) {
         reference_id: String(inscricao.codigo),
         name: `Inscricao ${inscricao.categoria} - Corrida`,
         quantity: 1,
-        unit_amount: Math.round(inscricao.valorPago * 100)
+        // ⭐ USAR VALOR FINAL (com ou sem taxa)
+        unit_amount: Math.round(valorFinal * 100) // Converter para centavos
       }],
       notification_urls: [
         `${process.env.APP_URL}/api/pagamento/webhook-pagbank`
       ],
-      payment_methods: [
-        {
-          type: "CREDIT_CARD",
-          brands: ["mastercard", "visa", "elo", "amex", "hipercard"]
-        },
-        {
-          type: "DEBIT_CARD",
-          brands: ["mastercard", "visa", "elo"]
-        },
-        {
-          type: "PIX"
-        },
-        {
-          type: "BOLETO"
-        }
-      ],
-      payment_methods_configs: [{
-        type: "CREDIT_CARD",
-        config_options: [{
-          option: "INSTALLMENTS_LIMIT",
-          value: "12"
-        }]
-      }],
+
+      payment_methods: paymentMethods,
+
+      payment_methods_configs: paymentMethodsConfigs,
       soft_descriptor: "Corrida The Chris"
     };
 
     const pagbankUrl = process.env.PAGBANK_ENVIRONMENT === 'sandbox'
       ? 'https://sandbox.api.pagseguro.com/checkouts'
       : 'https://api.pagseguro.com/checkouts';
-
 
     const response = await fetch(pagbankUrl, {
       method: 'POST',
@@ -129,12 +153,11 @@ export async function POST(request: NextRequest) {
 
     const responseText = await response.text();
 
-    // ⭐ Tipado explicitamente
     let responseData: PagBankCheckoutResponse;
     try {
       responseData = responseText ? JSON.parse(responseText) : {} as PagBankCheckoutResponse;
     } catch (parseError) {
-      console.error('Erro parse:', parseError);
+      console.error('ERRO AO FAZER PARSE DO JSON:', parseError);
       return NextResponse.json(
         { error: 'Resposta inválida', details: responseText },
         { status: 500 }
@@ -142,7 +165,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!response.ok) {
-      console.error('Erro PagBank:', responseData);
+      console.error('ERRO - PAGBANK RETORNOU:', responseData);
       return NextResponse.json(
         { error: 'Erro ao criar checkout', details: responseData },
         { status: response.status }
@@ -152,18 +175,21 @@ export async function POST(request: NextRequest) {
     const payLink = responseData.links?.find((link) => link.rel === 'PAY');
 
     if (!payLink?.href) {
-      console.error('Link não encontrado');
+      console.error('ERRO - LINK DE PAGAMENTO NÃO ENCONTRADO');
+      console.error('Links disponíveis:', responseData.links);
       return NextResponse.json(
         { error: 'Link não gerado', details: responseData },
         { status: 500 }
       );
     }
 
+
     await prisma.pagamento.update({
       where: { inscricaoId: inscricao.id },
       data: {
         transacaoId: responseData.id,
-        metodoPagamento: 'pagbank'
+        metodoPagamento: metodoPagamento,
+        valor: valorFinal
       },
     });
 
@@ -171,10 +197,11 @@ export async function POST(request: NextRequest) {
       success: true,
       checkoutId: responseData.id,
       checkoutUrl: payLink.href,
+      metodoPagamento: metodoPagamento,
+      valorFinal: valorFinal
     });
 
   } catch (error) {
-    console.error("Erro:", error);
     return NextResponse.json(
       { error: 'Erro ao processar', details: error instanceof Error ? error.message : String(error) },
       { status: 500 }

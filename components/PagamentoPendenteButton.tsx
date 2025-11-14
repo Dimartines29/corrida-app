@@ -11,56 +11,9 @@ interface PagamentoPendenteButtonProps {
 export function PagamentoPendenteButton({ inscricaoId }: PagamentoPendenteButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handlePagamento = async () => {
+  const handlePagamento = () => {
     setIsLoading(true);
-
-    try {
-      window.location.href = `/pagamento/escolher-metodo?inscricaoId=${inscricaoId}`;
-    } catch (error) {
-      console.error('Erro ao redirecionar:', error);
-      alert('Erro ao processar. Tente novamente.');
-      setIsLoading(false);
-    }
-
-    /* ====================================================================
-       CÓDIGO ANTIGO - MERCADO PAGO DIRETO (COMENTADO)
-       Descomente quando a integração automática do PagBank for aprovada
-       ==================================================================== */
-
-    /*
-    try {
-      // Chamar API para criar preferência
-      const response = await fetch('/api/pagamento/criar-preferencia', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ inscricaoId }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        alert(`Erro: ${result.error || 'Não foi possível gerar link de pagamento'}`);
-        setIsLoading(false);
-        return;
-      }
-
-      // Redirecionar para checkout do Mercado Pago
-      let checkoutUrl = result.initPoint || result.sandboxInitPoint;
-
-      process.env.MERCADOPAGO_ENVIRONMENT === 'production' ? checkoutUrl = result.initPoint : checkoutUrl = result.sandboxInitPoint;
-
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        alert('Erro: Link de pagamento não foi gerado');
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.error('Erro ao processar pagamento:', error);
-      alert('Erro ao processar pagamento. Tente novamente.');
-      setIsLoading(false);
-    }
-    */
+    window.location.href = `/pagamento/escolher-metodo?inscricaoId=${inscricaoId}`;
   };
 
   return (
