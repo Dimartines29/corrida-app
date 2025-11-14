@@ -511,14 +511,14 @@ export default function Home() {
               </div>
               <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
                 <img
-                  src="/logo-keesen.png"
+                  src="/logo-keesen.jpeg"
                   alt="Patrocinador Ouro - Olavo Keesen"
                   className="w-full h-full object-contain p-6 sm:p-8"
                 />
               </div>
               <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
                 <img
-                  src="/logo-drvinicius.png"
+                  src="/logo-drvinicius.jpeg"
                   alt="Patrocinador Ouro - Dr. Vinicius"
                   className="w-full h-full object-contain p-6 sm:p-8"
                 />
