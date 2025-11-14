@@ -509,6 +509,20 @@ export default function Home() {
                   className="w-full h-full object-contain p-6 sm:p-8"
                 />
               </div>
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-keesen.png"
+                  alt="Patrocinador Ouro - Olavo Keesen"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
+              </div>
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-drvinicius.png"
+                  alt="Patrocinador Ouro - Dr. Vinicius"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
+              </div>
             </div>
           </div>
 
@@ -532,7 +546,21 @@ export default function Home() {
               <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
                 <img
                   src="/logo-estacio.png"
-                  alt="Apoio - Brenda"
+                  alt="Apoio - Estácio"
+                  className="w-full h-full object-contain p-3 sm:p-4"
+                />
+              </div>
+              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+                <img
+                  src="/logo-kordex.png"
+                  alt="Apoio - Kordex"
+                  className="w-full h-full object-contain p-3 sm:p-4"
+                />
+              </div>
+              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+                <img
+                  src="/logo-acai.jpeg"
+                  alt="Apoio - Açaízinho BH"
                   className="w-full h-full object-contain p-3 sm:p-4"
                 />
               </div>
