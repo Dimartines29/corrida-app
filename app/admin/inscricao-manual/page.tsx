@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { toast } from "sonner"
 import { Loader2, UserPlus, ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import { SiteHeader } from "@/components/site-header"
 
 // Constantes de preços
 const TAXA_INSCRICAO = 4.00;
@@ -133,15 +134,7 @@ export default function InscricaoManualPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <div className="flex items-center justify-between pt-4">
-        <div className="flex">
-          <Button variant="ghost" size="sm" onClick={() => router.back()}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-          </Button>
-          <h1 className="text-2xl font-bold text-foreground">Inscrição Manual</h1>
-        </div>
-      </div>
-
+      <SiteHeader title="Inscrição manual" />
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <Card>
           <CardHeader>

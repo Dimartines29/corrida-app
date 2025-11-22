@@ -18,6 +18,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { toast } from "sonner"
 import { Skeleton } from "@/components/ui/skeleton"
 import type { Cupom } from "@/types/types"
+import { SiteHeader } from "@/components/site-header"
 
 export default function CuponsPage() {
   const router = useRouter()
@@ -170,10 +171,10 @@ export default function CuponsPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <SiteHeader title="Cupons de desconto" />
       {/* Header */}
       <div className="flex items-center justify-between pt-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Cupons de Desconto</h1>
           <p className="text-muted-foreground">Gerencie os cupons promocionais</p>
         </div>
         <Link href="/admin/cupons/novo">

@@ -12,6 +12,7 @@ import IndicatorCard from "@/components/inscricoes/IndicatorCard"
 import MobileButton from "@/components/mobile/MobileButton"
 import Paginator from "@/components/pagination/Paginator"
 import { InscricoesFilters } from "@/components/inscricoes/InscricoesFilters"
+import { SiteHeader } from "@/components/site-header"
 
 function createDefaultInscricaoFilters(): InscricaoConsolidatedFilters {
   return {
@@ -333,6 +334,7 @@ export default function Inscricoes() {
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <SiteHeader title="Inscrições" />
       <div className="grid grid-cols-2 gap-4 md:hidden pt-4">
         <MobileButton onButtonClick={setShowCardsOnMobile} show={showCardsOnMobile} title="Indicadores" />
         <MobileButton onButtonClick={setShowFiltersOnMobile} show={showFiltersOnMobile} title="Filtros" />
