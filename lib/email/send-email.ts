@@ -1,5 +1,5 @@
 import { resend } from './resend';
-import { emailInscricaoPendente, emailRecuperacaoSenha } from './templates';
+import { emailInscricaoPendente, emailRecuperacaoSenha, emailAdminParaPendentes } from './templates';
 
 interface EnviarEmailInscricaoPendenteProps {
   para: string;
@@ -79,6 +79,48 @@ export async function enviarEmailRecuperacaoSenha({
 
     if (error) {
       console.error('Erro ao enviar email de recuperação:', error);
+      throw new Error(`Falha no envio: ${error.message}`);
+    }
+
+    return { success: true, data };
+
+  } catch (error) {
+    console.error('Erro ao enviar email:', error);
+    throw error;
+  }
+}
+
+interface EnviarEmailAdminParaPendentesProps {
+  para: string;
+  nomeCompleto: string;
+  codigo: number;
+  assunto: string;
+  mensagem: string;
+}
+
+export async function enviarEmailAdminParaPendentes({
+  para,
+  nomeCompleto,
+  codigo,
+  assunto,
+  mensagem,
+}: EnviarEmailAdminParaPendentesProps) {
+  try {
+    const htmlContent = emailAdminParaPendentes({
+      nomeCompleto,
+      codigo,
+      mensagem,
+    });
+
+    const { data, error } = await resend.emails.send({
+      from: 'Corrida The Chris <no-reply@corridathechris.com.br>',
+      to: para,
+      subject: assunto,
+      html: htmlContent,
+    });
+
+    if (error) {
+      console.error('Erro ao enviar email administrativo:', error);
       throw new Error(`Falha no envio: ${error.message}`);
     }
 

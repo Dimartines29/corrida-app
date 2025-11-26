@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { IconInnerShadowTop, IconHome, IconUsers, IconUserEdit, IconBookmarkEdit } from "@tabler/icons-react"
+import { IconInnerShadowTop, IconHome, IconUsers, IconUserEdit, IconBookmarkEdit, IconSend } from "@tabler/icons-react"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
@@ -30,6 +30,11 @@ const data = {
       title: "Cupons de desconto",
       url: "/admin/cupons",
       icon: IconBookmarkEdit,
+    },
+    {
+      title: "Envio de Emails Pendentes",
+      url: "/admin/enviar-email-pendentes",
+      icon: IconSend,
     },
   ],
   navSecondary: [

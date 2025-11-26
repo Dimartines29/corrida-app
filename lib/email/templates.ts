@@ -191,3 +191,62 @@ export function emailRecuperacaoSenha({
     </html>
   `;
 }
+
+// ========================================
+// TEMPLATE: EMAIL ADMIN PARA PENDENTES
+// ========================================
+
+interface EmailAdminParaPendentesProps {
+  nomeCompleto: string;
+  codigo: number;
+  mensagem: string;
+}
+
+export function emailAdminParaPendentes({
+  nomeCompleto,
+  codigo,
+  mensagem,
+}: EmailAdminParaPendentesProps): string {
+  return `
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Mensagem da Organização</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+      <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">📢 Corrida The Chris</h1>
+      </div>
+
+      <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; border: 1px solid #e0e0e0;">
+
+        <p style="font-size: 16px; margin-bottom: 20px;">
+          Olá, <strong>${nomeCompleto}</strong>! 👋
+        </p>
+
+        <p style="font-size: 14px; margin-bottom: 20px; color: #666;">
+          <strong>Código da sua inscrição:</strong> <span style="color: #f59e0b; font-weight: bold;">${codigo}</span>
+        </p>
+
+        <div style="background: white; padding: 25px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 30px;">
+          <div style="font-size: 15px; line-height: 1.8; color: #333; white-space: pre-wrap;">${mensagem}</div>
+        </div>
+
+        <p style="font-size: 14px; color: #666; margin-top: 30px; text-align: center;">
+          Dúvidas? Entre em contato: <a href="mailto:studiobravo0@gmail.com" style="color: #f59e0b;">studiobravo0@gmail.com</a>
+        </p>
+
+      </div>
+
+      <div style="text-align: center; padding: 20px; font-size: 12px; color: #999;">
+        <p>Este é um email automático, por favor não responda.</p>
+        <p>© 2025 Corrida The Chris. Todos os direitos reservados.</p>
+      </div>
+
+    </body>
+    </html>
+  `;
+}
