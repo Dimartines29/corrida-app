@@ -523,6 +523,27 @@ export default function Home() {
                   className="w-full h-full object-contain p-6 sm:p-8"
                 />
               </div>
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-max.png"
+                  alt="Patrocinador Ouro - Max Muscles"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
+              </div>
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-newpower.jpg"
+                  alt="Patrocinador Ouro - New Power Energy Drink"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
+              </div>
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-brasilembalagens.jpeg"
+                  alt="Patrocinador Ouro - Brasil Embalagens"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
+              </div>
             </div>
           </div>
 
@@ -531,8 +552,8 @@ export default function Home() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8 max-w-3xl mx-auto">
               <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
                 <img
-                  src="/logo-rafacar.jpeg"
-                  alt="Apoio - Rafacar"
+                  src="/logo-ruy.jpg"
+                  alt="Apoio - Ruy Store"
                   className="w-full h-full object-contain p-3 sm:p-4"
                 />
               </div>
@@ -561,6 +582,20 @@ export default function Home() {
                 <img
                   src="/logo-acai.jpeg"
                   alt="Apoio - Açaízinho BH"
+                  className="w-full h-full object-contain p-3 sm:p-4"
+                />
+              </div>
+              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+                <img
+                  src="/logo-wiliane.jpeg"
+                  alt="Apoio - Nutricionista Wiliane"
+                  className="w-full h-full object-contain p-3 sm:p-4"
+                />
+              </div>
+              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+                <img
+                  src="/logo-brazon.png"
+                  alt="Apoio - Brazon Purificadores"
                   className="w-full h-full object-contain p-3 sm:p-4"
                 />
               </div>
