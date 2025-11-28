@@ -11,6 +11,24 @@ interface Step1Props {
 }
 
 export function Step1DadosPessoais({ form }: Step1Props) {
+  // Função para formatar telefone para exibição visual
+  const formatarTelefoneVisual = (valor: string) => {
+    // Remove tudo que não é número
+    const numbers = valor.replace(/[^0-9]/g, '');
+    
+    // Aplica a máscara conforme o usuário digita
+    if (numbers.length <= 2) {
+      return numbers;
+    } else if (numbers.length <= 7) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    } else if (numbers.length <= 11) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+    }
+    
+    // Limita a 11 dígitos
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+  };
+
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Header */}
@@ -98,7 +116,7 @@ export function Step1DadosPessoais({ form }: Step1Props) {
           />
         </div>
 
-        {/* 🆕 SEXO */}
+        {/* SEXO */}
         <div className="bg-white p-4 sm:p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
           <FormField
             control={form.control}
@@ -158,7 +176,7 @@ export function Step1DadosPessoais({ form }: Step1Props) {
           />
         </div>
 
-        {/* Telefone */}
+        {/* Telefone com formatação automática */}
         <div className="bg-white p-4 sm:p-5 rounded-xl border-2 border-gray-300 hover:border-[#00B8D4] transition-all">
           <FormField
             control={form.control}
@@ -171,8 +189,22 @@ export function Step1DadosPessoais({ form }: Step1Props) {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    type="tel"
+                    inputMode="numeric"
                     placeholder="(00) 00000-0000"
-                    {...field}
+                    value={formatarTelefoneVisual(field.value || '')}
+                    onChange={(e) => {
+                      // Salva apenas números no formulário (banco de dados)
+                      const apenasNumeros = e.target.value.replace(/[^0-9]/g, '');
+                      field.onChange(apenasNumeros);
+                    }}
+                    onKeyPress={(e) => {
+                      // Bloqueia qualquer tecla que não seja número
+                      if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                    maxLength={15}
                     className="border-2 focus:border-[#00B8D4] transition-all text-sm sm:text-base"
                   />
                 </FormControl>
@@ -183,7 +215,7 @@ export function Step1DadosPessoais({ form }: Step1Props) {
         </div>
       </div>
 
-      {/* 🆕 SEÇÃO DE ENDEREÇO COMPLETO COM FUNDO AMARELO */}
+      {/* SEÇÃO DE ENDEREÇO COMPLETO COM FUNDO AMARELO */}
       <div className="bg-gradient-to-r from-[#FFE66D] to-[#ffe033] p-4 sm:p-6 rounded-xl border-2 border-[#E53935]">
         <div className="flex items-center gap-2 sm:gap-3 mb-4">
           <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#E53935]" />
