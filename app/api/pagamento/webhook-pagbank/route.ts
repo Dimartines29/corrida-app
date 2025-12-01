@@ -159,13 +159,15 @@ export async function POST(request: NextRequest) {
     // Mapear status
     const { statusInscricao, statusPagamento } = mapearStatusPagBank(status || '');
 
-    // Evitar processar duplicado
-    if (inscricao.status === 'PAGO' && statusInscricao === 'PAGO') {
-      console.log(`[Webhook] Já processado: ${inscricao.id}`);
+    // PROTEÇÃO: Não atualizar se já está PAGO
+    if (inscricao.status === 'PAGO') {
+      console.log(`[Webhook] Bloqueado - Inscrição já PAGA: ${inscricao.id} (tentou ${statusInscricao})`);
       return NextResponse.json({
         success: true,
-        message: 'Já processado',
-        inscricaoId: inscricao.id
+        message: 'Inscrição já está paga - não atualizado',
+        inscricaoId: inscricao.id,
+        statusAtual: 'PAGO',
+        statusRecebido: statusInscricao
       });
     }
 
