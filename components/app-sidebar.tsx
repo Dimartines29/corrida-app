@@ -32,8 +32,8 @@ const data = {
       icon: IconBookmarkEdit,
     },
     {
-      title: "Envio de Emails Pendentes",
-      url: "/admin/enviar-email-pendentes",
+      title: "Envio de Emails",
+      url: "/admin/enviar-email-seletivo",
       icon: IconSend,
     },
   ],

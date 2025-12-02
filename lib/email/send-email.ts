@@ -1,5 +1,5 @@
 import { resend } from './resend';
-import { emailInscricaoPendente, emailRecuperacaoSenha, emailAdminParaPendentes } from './templates';
+import { emailInscricaoPendente, emailRecuperacaoSenha, emailAdminGenerico } from './templates';
 
 interface EnviarEmailInscricaoPendenteProps {
   para: string;
@@ -90,7 +90,7 @@ export async function enviarEmailRecuperacaoSenha({
   }
 }
 
-interface EnviarEmailAdminParaPendentesProps {
+interface EnviarEmailAdminGenericoProps {
   para: string;
   nomeCompleto: string;
   codigo: number;
@@ -98,17 +98,18 @@ interface EnviarEmailAdminParaPendentesProps {
   mensagem: string;
 }
 
-export async function enviarEmailAdminParaPendentes({
+export async function enviarEmailAdminGenerico({
   para,
   nomeCompleto,
   codigo,
   assunto,
   mensagem,
-}: EnviarEmailAdminParaPendentesProps) {
+}: EnviarEmailAdminGenericoProps) {
   try {
-    const htmlContent = emailAdminParaPendentes({
+    const htmlContent = emailAdminGenerico({
       nomeCompleto,
       codigo,
+      assunto,
       mensagem,
     });
 
@@ -120,7 +121,7 @@ export async function enviarEmailAdminParaPendentes({
     });
 
     if (error) {
-      console.error('Erro ao enviar email administrativo:', error);
+      console.error('Erro ao enviar email genérico:', error);
       throw new Error(`Falha no envio: ${error.message}`);
     }
 

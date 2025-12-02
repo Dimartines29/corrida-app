@@ -193,27 +193,29 @@ export function emailRecuperacaoSenha({
 }
 
 // ========================================
-// TEMPLATE: EMAIL ADMIN PARA PENDENTES
+// TEMPLATE: EMAIL ADMIN GENÉRICO
 // ========================================
 
-interface EmailAdminParaPendentesProps {
+interface EmailAdminGenericoProps {
   nomeCompleto: string;
   codigo: number;
+  assunto: string;
   mensagem: string;
 }
 
-export function emailAdminParaPendentes({
+export function emailAdminGenerico({
   nomeCompleto,
   codigo,
+  assunto,
   mensagem,
-}: EmailAdminParaPendentesProps): string {
+}: EmailAdminGenericoProps): string {
   return `
     <!DOCTYPE html>
     <html lang="pt-BR">
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Mensagem da Organização</title>
+      <title>${assunto}</title>
     </head>
     <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
 

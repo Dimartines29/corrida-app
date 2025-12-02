@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { enviarEmailAdminParaPendentes } from "@/lib/email/send-email";
+import { enviarEmailAdminGenerico } from "@/lib/email/send-email";
 import { NextRequest, NextResponse } from "next/server";
 
 // Função auxiliar para delay entre envios
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     // 2. Pegar dados do body
     const body = await request.json();
-    const { assunto, mensagem } = body;
+    const { assunto, mensagem, inscricoesIds } = body;
 
     if (!assunto || !mensagem) {
       return NextResponse.json(
@@ -42,34 +42,43 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Buscar todas inscrições PENDENTES
-    const inscricoesPendentes = await prisma.inscricao.findMany({
+    if (!inscricoesIds || !Array.isArray(inscricoesIds) || inscricoesIds.length === 0) {
+      return NextResponse.json(
+        { error: "Selecione pelo menos uma inscrição" },
+        { status: 400 }
+      );
+    }
+
+    // 3. Buscar inscrições selecionadas
+    const inscricoesSelecionadas = await prisma.inscricao.findMany({
       where: {
-        status: "PENDENTE",
+        id: {
+          in: inscricoesIds,
+        },
       },
       include: {
         user: true,
       },
     });
 
-    if (inscricoesPendentes.length === 0) {
+    if (inscricoesSelecionadas.length === 0) {
       return NextResponse.json(
-        { error: "Nenhuma inscrição pendente encontrada" },
+        { error: "Nenhuma inscrição encontrada com os IDs fornecidos" },
         { status: 404 }
       );
     }
 
     // 4. Enviar emails com delay
     const resultados = {
-      total: inscricoesPendentes.length,
+      total: inscricoesSelecionadas.length,
       enviados: 0,
       falhas: 0,
       erros: [] as string[],
     };
 
-    for (const inscricao of inscricoesPendentes) {
+    for (const inscricao of inscricoesSelecionadas) {
       try {
-        await enviarEmailAdminParaPendentes({
+        await enviarEmailAdminGenerico({
           para: inscricao.user.email,
           nomeCompleto: inscricao.nomeCompleto,
           codigo: inscricao.codigo,
@@ -78,8 +87,9 @@ export async function POST(request: NextRequest) {
         });
 
         resultados.enviados++;
+        console.log(`✅ Email enviado para: ${inscricao.nomeCompleto} (${inscricao.user.email})`);
 
-        // Delay de 500ms entre cada envio para não sobrecarregar
+        // Delay de 500ms entre cada envio
         await delay(500);
 
       } catch (error) {
@@ -109,7 +119,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET para buscar preview das inscrições pendentes
+// GET para buscar todas as inscrições
 export async function GET() {
   try {
     const session = await auth();
@@ -132,35 +142,37 @@ export async function GET() {
       );
     }
 
-    // Buscar inscrições pendentes
-    const inscricoesPendentes = await prisma.inscricao.findMany({
-      where: {
-        status: "PENDENTE",
-      },
+    // Buscar TODAS as inscrições
+    const todasInscricoes = await prisma.inscricao.findMany({
       include: {
         user: true,
+        lote: true,
       },
       orderBy: {
         createdAt: "desc",
       },
     });
 
-    const preview = inscricoesPendentes.map(inscricao => ({
+    const inscricoes = todasInscricoes.map(inscricao => ({
       id: inscricao.id,
       codigo: inscricao.codigo,
       nomeCompleto: inscricao.nomeCompleto,
       email: inscricao.user.email,
+      cpf: inscricao.cpf,
       categoria: inscricao.categoria,
+      status: inscricao.status,
+      lote: inscricao.lote.nome,
+      tamanhoCamisa: inscricao.tamanhoCamisa,
       createdAt: inscricao.createdAt,
     }));
 
     return NextResponse.json({
-      total: inscricoesPendentes.length,
-      inscricoes: preview,
+      total: inscricoes.length,
+      inscricoes,
     });
 
   } catch (error) {
-    console.error("Erro ao buscar inscrições pendentes:", error);
+    console.error("Erro ao buscar inscrições:", error);
     return NextResponse.json(
       { error: "Erro ao buscar dados" },
       { status: 500 }
