@@ -107,7 +107,7 @@ export default function Home() {
                 <div className="absolute -top-4 -right-8 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-2 py-1 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform scale-75 sm:scale-100">
                   <div className="text-center">
                     <p className="text-xl font-black flex items-center">
-                      <span></span> 1º LOTE <br/> ÚLTIMOS DIAS <span></span>
+                      <span></span>2º LOTE<span></span>
                     </p>
                   </div>
                 </div>
@@ -117,7 +117,7 @@ export default function Home() {
                 </div>
 
                 <div className="text-center mb-32 sm:mb-120">
-                  <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#E53935] mb-2">R$ 100</div>
+                  <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#E53935] mb-2">R$ 110</div>
                   <p className="text-sm sm:text-base text-gray-600">Por pessoa</p>
                 </div>
 
