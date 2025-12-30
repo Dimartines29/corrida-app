@@ -16,37 +16,37 @@ const tamanhos = [
     value: "PP",
     label: "PP",
     nome: "Extra Pequeno",
-    medidas: "Largura: 46cm | Comprimento: 64cm",
+    medidas: "Largura: 49cm | Comprimento: 65cm",
   },
   {
     value: "P",
     label: "P",
     nome: "Pequeno",
-    medidas: "Largura: 48cm | Comprimento: 67cm",
+    medidas: "Largura: 51cm | Comprimento: 67cm",
   },
   {
     value: "M",
     label: "M",
     nome: "Médio",
-    medidas: "Largura: 50cm | Comprimento: 70cm",
+    medidas: "Largura: 54cm | Comprimento: 70cm",
   },
   {
     value: "G",
     label: "G",
     nome: "Grande",
-    medidas: "Largura: 52cm | Comprimento: 73cm",
+    medidas: "Largura: 56cm | Comprimento: 73cm",
   },
   {
     value: "GG",
     label: "GG",
     nome: "Extra Grande",
-    medidas: "Largura: 54cm | Comprimento: 76cm",
+    medidas: "Largura: 59cm | Comprimento: 76cm",
   },
   {
     value: "XG",
     label: "XG",
     nome: "Extra Extra Grande",
-    medidas: "Largura: 56cm | Comprimento: 79cm",
+    medidas: "Largura: 63cm | Comprimento: 79cm",
   },
 ];
 
