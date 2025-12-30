@@ -102,7 +102,7 @@ export default function Home() {
 
             {/* COLUNA ESQUERDA - Card do Kit Oficial */}
             <div className="space-y-6">
-              <div className="bg-[url('/kit-oficial.png')] bg-cover bg-[center_-20px] rounded-2xl shadow-2xl p-2 sm:p-43 lg:p-20 relative min-h-[500px] sm:min-h-[500px]">
+              <div className="bg-[url('/kit-oficial-31-12.png')] bg-cover bg-[center_-20px] rounded-2xl shadow-2xl p-2 sm:p-43 lg:p-20 relative min-h-[500px] sm:min-h-[500px]">
                 {/* Badge do Primeiro Lote */}
                 <div className="absolute -top-4 -right-8 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-2 py-1 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform scale-75 sm:scale-100">
                   <div className="text-center">
@@ -413,7 +413,7 @@ export default function Home() {
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
                   <h4 className="font-bold text-base sm:text-lg mb-2 text-[#E53935]">🏆 Premiação</h4>
-                  <p className="text-sm sm:text-base text-gray-800">Medalhas para todos os concluintes, troféus apenas aos 3 primeiros colocados masculino e aos 3 primeiros colocados feminino na prova de <strong>10 km</strong>.</p>
+                  <p className="text-sm sm:text-base text-gray-800">Medalhas para todos os concluintes, troféus apenas aos 5 primeiros colocados masculino e aos 5 primeiros colocados feminino na prova de <strong>10 km</strong>.</p>
                 </div>
 
                 <div className="bg-[#FFE66D] p-4 rounded-xl">
@@ -544,6 +544,20 @@ export default function Home() {
                   className="w-full h-full object-contain p-6 sm:p-8"
                 />
               </div>
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-sapao.png"
+                  alt="Patrocinador Ouro - Hortifruti ABC do Sapão"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
+              </div>
+              <div className="bg-white w-full h-48 sm:h-64 rounded-xl flex items-center justify-center shadow-xl border-2 border-gray-100">
+                <img
+                  src="/logo-laser.png"
+                  alt="Patrocinador Ouro - Liber Laser Academy"
+                  className="w-full h-full object-contain p-6 sm:p-8"
+                />
+              </div>
             </div>
           </div>
 
@@ -554,13 +568,6 @@ export default function Home() {
                 <img
                   src="/logo-ruy.jpg"
                   alt="Apoio - Ruy Store"
-                  className="w-full h-full object-contain p-3 sm:p-4"
-                />
-              </div>
-              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
-                <img
-                  src="/logo-brenda.jpeg"
-                  alt="Apoio - Brenda"
                   className="w-full h-full object-contain p-3 sm:p-4"
                 />
               </div>
@@ -596,6 +603,20 @@ export default function Home() {
                 <img
                   src="/logo-brazon.png"
                   alt="Apoio - Brazon Purificadores"
+                  className="w-full h-full object-contain p-3 sm:p-4"
+                />
+              </div>
+              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+                <img
+                  src="/logo-cartaodetodos.jpeg"
+                  alt="Apoio - Cartão de Todos"
+                  className="w-full h-full object-contain p-3 sm:p-4"
+                />
+              </div>
+              <div className="bg-white w-full h-32 sm:h-42 rounded-lg flex items-center justify-center shadow-lg border border-gray-200">
+                <img
+                  src="/logo-betim.png"
+                  alt="Apoio - Betim"
                   className="w-full h-full object-contain p-3 sm:p-4"
                 />
               </div>
