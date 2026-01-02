@@ -117,7 +117,7 @@ export default function Home() {
                 </div>
 
                 <div className="text-center mb-32 sm:mb-120">
-                  <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#E53935] mb-2">R$ 110</div>
+                  <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#E53935] mb-2">R$ 120</div>
                   <p className="text-sm sm:text-base text-gray-600">Por pessoa</p>
                 </div>
 
