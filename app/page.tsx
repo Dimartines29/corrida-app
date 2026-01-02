@@ -107,7 +107,7 @@ export default function Home() {
                 <div className="absolute -top-4 -right-8 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-2 py-1 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform scale-75 sm:scale-100">
                   <div className="text-center">
                     <p className="text-xl font-black flex items-center">
-                      <span></span>2º LOTE<span></span>
+                      <span></span>3º LOTE<span></span>
                     </p>
                   </div>
                 </div>
