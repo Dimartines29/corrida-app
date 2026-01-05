@@ -102,7 +102,7 @@ export default function Home() {
 
             {/* COLUNA ESQUERDA - Card do Kit Oficial */}
             <div className="space-y-6">
-              <div className="bg-[url('/kit-oficial-31-12.png')] bg-cover bg-[center_-20px] rounded-2xl shadow-2xl p-2 sm:p-43 lg:p-20 relative min-h-[500px] sm:min-h-[500px]">
+              <div className="bg-[url('/kit-ofIcial-31-12.png')] bg-cover bg-[center_-20px] rounded-2xl shadow-2xl p-2 sm:p-43 lg:p-20 relative min-h-[500px] sm:min-h-[500px]">
                 {/* Badge do Primeiro Lote */}
                 <div className="absolute -top-4 -right-8 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-2 py-1 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform scale-75 sm:scale-100">
                   <div className="text-center">
