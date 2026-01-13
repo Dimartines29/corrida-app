@@ -16,7 +16,7 @@ interface InscricoesFiltersProps {
   metadata: {
     status: ['PAGO', 'PENDENTE', 'CANCELADO'],
     category: ['Caminhada - 3km', 'Corrida - 6km', 'Corrida - 10km'],
-    shirtSize: ['PP', 'P', 'M', 'G', 'GG', 'XG'],
+    shirtSize: ['P', 'M', 'G', 'GG'],
     tier: ['1º Lote', '2º Lote', '3º Lote'],
     sexo: ['Masculino', 'Feminino', 'Outro'],
     retiradaKit: ['The Chris - Shopping do avião', 'The Chris - Monte Carmo Shopping'],

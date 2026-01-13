@@ -13,12 +13,6 @@ interface Step3Props {
 
 const tamanhos = [
   {
-    value: "PP",
-    label: "PP",
-    nome: "Extra Pequeno",
-    medidas: "Largura: 49cm | Comprimento: 65cm",
-  },
-  {
     value: "P",
     label: "P",
     nome: "Pequeno",
@@ -42,12 +36,6 @@ const tamanhos = [
     nome: "Extra Grande",
     medidas: "Largura: 59cm | Comprimento: 76cm",
   },
-  {
-    value: "XG",
-    label: "XG",
-    nome: "Extra Extra Grande",
-    medidas: "Largura: 63cm | Comprimento: 79cm",
-  },
 ];
 
 export function Step3Kit({ form }: Step3Props) {
@@ -68,7 +56,7 @@ export function Step3Kit({ form }: Step3Props) {
       <FormField control={form.control} name="tamanhoCamisa" render={({ field }) => (
           <FormItem>
             <FormControl>
-              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-2 mt-2">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 mt-2">
                 {tamanhos.map((tamanho) => {
                   const isSelected = field.value === tamanho.value;
 
