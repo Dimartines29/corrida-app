@@ -105,7 +105,7 @@ export const step3Schema = z.object({
   tamanhoCamisa: z
     .string()
     .refine(
-      (val) => ["PP", "P", "M", "G", "GG", "XG"].includes(val),
+      (val) => ["P", "M", "G", "GG"].includes(val),
       { message: "Selecione um tamanho válido" }
     ),
 });
