@@ -94,6 +94,7 @@ model Inscricao {
   telefoneEmergencia String
   declaracaoSaude    Boolean
   valorPago          Float
+  kitretirado        Boolean         @default(false)
   cupomId            String?
   cupom              Cupom?          @relation(fields: [cupomId], references: [id])
   valorDesconto      Float           @default(0) // Quanto foi descontado
