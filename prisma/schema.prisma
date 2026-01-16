@@ -89,6 +89,7 @@ model Inscricao {
   cep                String
   tamanhoCamisa      String
   retiradaKit        String
+  equipe             String?
   possuiPlanoSaude   Boolean
   contatoEmergencia  String
   telefoneEmergencia String
