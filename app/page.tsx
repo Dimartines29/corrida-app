@@ -225,15 +225,40 @@ export default function Home() {
                 📍 MAPA DO PERCURSO - {selectedDistance}KM
               </h3>
 
-              <div className="bg-gradient-to-br from-[#FFE66D] to-[#ffd93d] rounded-lg p-12 sm:p-16 shadow-lg flex items-center justify-center min-h-[400px]">
-                <div className="text-center">
-                  <div className="text-6xl sm:text-7xl mb-4">🗺️</div>
-                  <p className="text-xl sm:text-2xl font-black text-[#E53935] mb-2">
-                    📍 Os mapas dos percursos serão divulgados em breve!
-                  </p>
-                  <p className="text-sm sm:text-base text-gray-700 font-semibold">
-                    Fique atento às nossas redes sociais para atualizações
-                  </p>
+              <div className="bg-white rounded-lg p-4 shadow-lg">
+                <div className="relative w-full" style={{ paddingBottom: '60%' }}>
+                  {selectedDistance === 6 && (
+                    <iframe
+                      src="https://www.google.com/maps/d/embed?mid=1_TyPa618KsCGbbcj3dKjiwshjnA1Sfc&ehbc=2E312F"
+                      className="absolute top-0 left-0 w-full h-full rounded-lg"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  )}
+
+                  {selectedDistance === 10 && (
+                    <iframe
+                      src="https://www.google.com/maps/d/embed?mid=1PcLbNnpdULg74vvI-2ZYQdwKRZ-cl1k&ehbc=2E312F"
+                      className="absolute top-0 left-0 w-full h-full rounded-lg"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  )}
+
+                  {selectedDistance === 3 && (
+                    <iframe
+                      src="https://www.google.com/maps/d/embed?mid=1-9FYESaSdKOFimc2VBz369zT8nVAViQ&ehbc=2E312F"
+                      className="absolute top-0 left-0 w-full h-full rounded-lg"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  )}
                 </div>
               </div>
             </div>
