@@ -11,7 +11,7 @@ export interface Lote {
 }
 
 export interface Inscricao {
-  id: number;
+  id: string;
   codigo: number;
   createdAt: string;
   nomeCompleto: string;
@@ -28,6 +28,7 @@ export interface Inscricao {
   tamanhoCamisa: string;
   status: string;
   valeAlmoco: boolean;
+  kitretirado: boolean;
 }
 
 export interface InscricaoConsolidatedFilters {

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { IconInnerShadowTop, IconHome, IconUsers, IconUserEdit, IconBookmarkEdit, IconSend } from "@tabler/icons-react"
+import { IconInnerShadowTop, IconHome, IconUsers, IconUserEdit, IconBookmarkEdit, IconSend, IconBox } from "@tabler/icons-react"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
@@ -35,6 +35,11 @@ const data = {
       title: "Envio de Emails",
       url: "/admin/enviar-email-seletivo",
       icon: IconSend,
+    },
+    {
+      title: "Retirada de Kits",
+      url: "/admin/retirada-kit",
+      icon: IconBox,
     },
   ],
   navSecondary: [
