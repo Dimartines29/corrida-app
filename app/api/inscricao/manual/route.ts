@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
           cidade: data.cidade,
           estado: data.estado,
           cep: data.cep,
-          tamanhoCamisa: data.tamanhoCamisa,
+          tamanhoCamisa: data.tamanhoCamisa || "N/A", // ✅ FIX: Garante que sempre terá valor
           retiradaKit: data.retiradaKit,
           possuiPlanoSaude: data.possuiPlanoSaude,
           contatoEmergencia: data.contatoEmergencia,

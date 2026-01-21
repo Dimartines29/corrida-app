@@ -220,7 +220,7 @@ export async function POST(request: NextRequest) {
           bairro: data.bairro,
           estado: data.estado,
           cep: data.cep,
-          tamanhoCamisa: data.tamanhoCamisa,
+          tamanhoCamisa: data.tamanhoCamisa || "N/A", // ✅ FIX: Garante que sempre terá valor
           retiradaKit: data.retiradaKit,
           possuiPlanoSaude: data.possuiPlanoSaude,
           contatoEmergencia: data.contatoEmergencia,
@@ -269,7 +269,7 @@ export async function POST(request: NextRequest) {
             })
           : 'A definir',
         localEvento: configuracao?.localEvento || 'A definir',
-        tamanhoCamisa: inscricao.tamanhoCamisa,
+        tamanhoCamisa: inscricao.tamanhoCamisa, // ✅ Agora sempre terá valor (ou "N/A")
       });
 
     } catch (emailError) {

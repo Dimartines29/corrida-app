@@ -1,4 +1,3 @@
-import { se } from "date-fns/locale";
 import { z } from "zod";
 
 const validarCPF = (cpf: string) => {
@@ -101,14 +100,8 @@ export const step2Schema = z.object({
     .boolean(),
 });
 
-export const step3Schema = z.object({
-  tamanhoCamisa: z
-    .string()
-    .refine(
-      (val) => ["P", "M", "G", "GG"].includes(val),
-      { message: "Selecione um tamanho válido" }
-    ),
-});
+// ❌ REMOVIDO - step3Schema não é mais necessário
+// O tamanho da camisa não faz mais parte do fluxo de inscrição
 
 export const step4Schema = z.object({
   possuiPlanoSaude: z
@@ -130,11 +123,13 @@ export const step4Schema = z.object({
       "Você deve aceitar a declaração de saúde"),
 });
 
+// ⚠️ IMPORTANTE: tamanhoCamisa agora é opcional e tem valor padrão "N/A"
 export const inscricaoCompletaSchema = z.object({
   ...step1Schema.shape,
   ...step2Schema.shape,
-  ...step3Schema.shape,
+  // step3Schema removido - sem escolha de tamanho de camisa
   ...step4Schema.shape,
+  tamanhoCamisa: z.string().default("N/A").optional(), // Campo mantido para compatibilidade com BD
   cupomCodigo: z.string().optional(),
   deviceId: z.string().optional(),
   kitRetirado: z.boolean().optional(),
@@ -175,6 +170,6 @@ export const step2SchemaComCupom = step2Schema.extend({
 export type InscricaoManual = z.infer<typeof inscricaoManualSchema>;
 export type Step1Data = z.infer<typeof step1Schema>;
 export type Step2Data = z.infer<typeof step2Schema>;
-export type Step3Data = z.infer<typeof step3Schema>;
+// ❌ REMOVIDO - Step3Data não é mais necessário
 export type Step4Data = z.infer<typeof step4Schema>;
 export type InscricaoCompleta = z.infer<typeof inscricaoCompletaSchema>;
