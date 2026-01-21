@@ -87,7 +87,7 @@ model Inscricao {
   cidade             String
   estado             String
   cep                String
-  tamanhoCamisa      String
+  tamanhoCamisa      String          @default("N/A") // ✅ ADICIONADO @default("N/A")
   retiradaKit        String
   equipe             String?
   possuiPlanoSaude   Boolean

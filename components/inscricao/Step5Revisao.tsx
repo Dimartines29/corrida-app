@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { User, MapPin, Shirt, Heart, CheckCircle2, AlertCircle, Calendar, Phone, CreditCard, Package, UtensilsCrossed, Tag, Percent } from "lucide-react";
+import { User, MapPin, Heart, CheckCircle2, AlertCircle, Calendar, Phone, CreditCard, Package, UtensilsCrossed, Tag, Percent } from "lucide-react";
 import type { InscricaoCompleta } from "@/lib/validations/inscricao";
 
 // 💰 VALORES FIXOS
@@ -213,36 +213,6 @@ export function Step5Revisao({ form }: Step5Props) {
         </CardContent>
       </Card>
 
-      {/* Tamanho da Camisa */}
-      <Card className="bg-white border-2 border-gray-200 shadow-lg">
-        <CardContent className="pt-4 sm:pt-6">
-          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-            <div className="bg-[#E53935] p-2 sm:p-3 rounded-lg">
-              <Shirt className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-black text-[#E53935]">Camisa do Participante</h3>
-          </div>
-
-          <div className="bg-gradient-to-r from-[#00B8D4] to-[#00a0c0] p-4 sm:p-6 rounded-lg">
-            <div className="flex items-center gap-4 sm:gap-6 flex-col sm:flex-row text-center sm:text-left">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-3xl sm:text-4xl font-black text-[#00B8D4]">
-                  {formData.tamanhoCamisa}
-                </span>
-              </div>
-              <div className="text-white">
-                <p className="text-xl sm:text-2xl font-black mb-1">
-                  Tamanho {formData.tamanhoCamisa}
-                </p>
-                <p className="text-xs sm:text-sm text-white/90 font-semibold">
-                  Camisa oficial em tecido dry-fit de alta performance
-                </p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Ficha Médica */}
       <Card className="bg-white border-2 border-gray-200 shadow-lg">
         <CardContent className="pt-4 sm:pt-6">
@@ -330,7 +300,7 @@ export function Step5Revisao({ form }: Step5Props) {
                     R$ {lote.preco.toFixed(2)}
                   </span>
                 </div>
-                <span className="text-white/80 text-xs">Inclui todos os itens do kit selecionado</span>
+                <span className="text-white/80 text-xs">Lote promocional - sem camisa inclusa</span>
               </div>
 
               {/* 🆕 Cupom de Desconto */}

@@ -9,10 +9,9 @@ import { Button } from "@/components/ui/button";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { Step1DadosPessoais } from "./Step1DadosPessoais";
 import { Step2CategoriaLote } from "./Step2CategoriaLote";
-import { Step3Kit } from "./Step3Kit";
 import { Step4FichaMedica } from "./Step4FichaMedica";
 import { Step5Revisao } from "./Step5Revisao";
-import { inscricaoCompletaSchema, step1Schema, step2Schema, step3Schema, step4Schema, type InscricaoCompleta } from "@/lib/validations/inscricao";
+import { inscricaoCompletaSchema, step1Schema, step2Schema, step4Schema, type InscricaoCompleta } from "@/lib/validations/inscricao";
 
 export function InscricaoForm() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -35,7 +34,7 @@ export function InscricaoForm() {
       categoria: "",
       loteId: "",
       retiradaKit: "The Chris - Monte Carmo Shopping",
-      tamanhoCamisa: "",
+      tamanhoCamisa: "N/A", // Valor padrão já que não será mais usado
       possuiPlanoSaude: false,
       valeAlmoco: false,
       contatoEmergencia: "",
@@ -45,7 +44,8 @@ export function InscricaoForm() {
     mode: "onChange",
   });
 
-  const stepSchemas = [step1Schema, step2Schema, step3Schema, step4Schema];
+  // Removido step3Schema da lista
+  const stepSchemas = [step1Schema, step2Schema, step4Schema];
 
   const handleNext = async (e?: React.MouseEvent) => {
     if (e) {
@@ -53,7 +53,7 @@ export function InscricaoForm() {
       e.stopPropagation();
     }
 
-    if (currentStep === 5) return;
+    if (currentStep === 4) return; // Agora são 4 steps no total
 
     const currentSchema = stepSchemas[currentStep - 1];
     const values = form.getValues();
@@ -83,7 +83,7 @@ export function InscricaoForm() {
   };
 
   const onSubmit = async (data: InscricaoCompleta) => {
-    if (currentStep !== 5) return;
+    if (currentStep !== 4) return; // Agora o último step é 4
 
     setIsSubmitting(true);
 
@@ -141,23 +141,22 @@ export function InscricaoForm() {
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 bg-white">
-            <ProgressIndicator currentStep={currentStep} totalSteps={5} />
+            <ProgressIndicator currentStep={currentStep} totalSteps={4} />
 
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-4 sm:space-y-6"
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && currentStep !== 5) {
+                  if (e.key === "Enter" && currentStep !== 4) {
                     e.preventDefault();
                   }
                 }}
               >
                 {currentStep === 1 && <Step1DadosPessoais form={form} />}
                 {currentStep === 2 && <Step2CategoriaLote form={form} />}
-                {currentStep === 3 && <Step3Kit form={form} />}
-                {currentStep === 4 && <Step4FichaMedica form={form} />}
-                {currentStep === 5 && <Step5Revisao form={form} />}
+                {currentStep === 3 && <Step4FichaMedica form={form} />}
+                {currentStep === 4 && <Step5Revisao form={form} />}
 
                 <div className="flex flex-col sm:flex-row justify-between pt-4 sm:pt-6 gap-3 sm:gap-4">
                   {currentStep > 1 && (
@@ -170,7 +169,7 @@ export function InscricaoForm() {
                     </Button>
                   )}
 
-                  {currentStep < 5 ? (
+                  {currentStep < 4 ? (
                     <Button
                       type="button"
                       onClick={(e) => handleNext(e)}

@@ -102,26 +102,12 @@ export default function Home() {
 
             {/* COLUNA ESQUERDA - Card do Kit Oficial */}
             <div className="space-y-6">
-              <div className="bg-[url('/kit-ofIcial-31-12.png')] bg-cover bg-[center_-20px] rounded-2xl shadow-2xl p-2 sm:p-43 lg:p-20 relative min-h-[500px] sm:min-h-[500px]">
-                {/* Badge do Primeiro Lote */}
-                <div className="absolute -top-4 -right-8 bg-gradient-to-br from-[#FFE66D] via-[#ffd700] to-[#ffb700] text-[#E53935] px-2 py-1 rounded-2xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform scale-75 sm:scale-100">
-                  <div className="text-center">
-                    <p className="text-xl font-black flex items-center">
-                      <span></span>3º LOTE<span></span>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="bg-[#00B8D4] text-white py-3 sm:py-4 px-4 sm:px-6 rounded-xl text-center mb-6 -mt-10 sm:-mt-14 lg:-mt-16 shadow-lg">
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black">KIT OFICIAL</h3>
-                </div>
+              <div className="bg-[url('/PARTICIPACAO.jpeg')] bg-cover bg-[center_0px] rounded-2xl shadow-2xl p-2 sm:p-43 lg:p-37 relative min-h-[500px] sm:min-h-[500px]">
 
                 <div className="text-center mb-32 sm:mb-120">
-                  <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#E53935] mb-2">R$ 120</div>
-                  <p className="text-sm sm:text-base text-gray-600">Por pessoa</p>
                 </div>
 
-                <Link href="/register" className="block w-full absolute bottom-6 left-1/2 -translate-x-1/2 max-w-xs sm:max-w-sm lg:max-w-md bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg text-center">
+                <Link href="/register" className="block w-full absolute bottom-1 left-1/2 -translate-x-1/2 max-w-xs sm:max-w-sm lg:max-w-md bg-[#E53935] text-white py-3 sm:py-4 rounded-xl font-black text-lg sm:text-xl hover:bg-[#c62828] transition-all transform hover:scale-105 shadow-lg text-center">
                   GARANTIR MEU KIT!
                 </Link>
               </div>
