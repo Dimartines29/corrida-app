@@ -177,7 +177,8 @@ export function RegulamentoModal({origin}: {origin: string} ) {
                       <p><strong>5.5</strong> A entrega dos KITS aos atletas será feita em local, dias e horários a ser informado no site do evento.</p>
                       <p><strong>5.6</strong> A entrega será para todos os atletas inscritos, em qualquer uma das categorias disponíveis no regulamento da prova sem exceção.</p>
                       <p><strong>5.7</strong> Para retirar o Kit do ATLETA, é necessário apresentar Documento de Identidade com foto original (RG ou Carteira de Motorista), COMPROVANTE DE PAGAMENTO ou o BOLETO BANCÁRIO pago. Esse comprovante será retido na entrega do Kit.</p>
-                      <p><strong>5.8</strong> Para terceiros retirarem o kit do ATLETA é necessário os mesmos documentos acima mencionados. Os atletas acima de 60 anos deverão retirar os seu KIT PESSOALMENTE, caso contrário não terão direito ao desconto de 50% no valor da inscrição.</p>
+                      <p><strong>5.8</strong> A organização reserva-se o direito de realizar ajustes na grade de tamanhos das camisetas, de acordo com a disponibilidade do fornecedor, podendo ocorrer substituição por tamanho equivalente, sem prejuízo ao atleta.</p>
+                      <p><strong>5.9</strong> Para terceiros retirarem o kit do ATLETA é necessário os mesmos documentos acima mencionados. Os atletas acima de 60 anos deverão retirar os seu KIT PESSOALMENTE, caso contrário não terão direito ao desconto de 50% no valor da inscrição.</p>
                     </div>
                   </section>
 
