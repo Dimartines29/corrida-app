@@ -366,30 +366,42 @@ export default function Inscricoes() {
                   </Link>
                 </div>
 
-                <div className="text-xs text-muted-foreground grid grid-cols-3 gap-2">
+                <div className="text-xs text-muted-foreground grid grid-cols-2 gap-2">
                   <div className="font-medium text-foreground mb-1">
                     <p>Código</p>
                     {registration.codigo}
                   </div>
                   <div className="font-medium text-foreground mb-1">
+                    <p>Camisa</p>
+                    {registration.tamanhoCamisa}
+                  </div>
+                </div>
+
+                <div className="text-xs text-muted-foreground grid grid-cols-2 gap-2">
+                  <div className="font-medium text-foreground mb-1">
                     <p>CPF</p>
                     {registration.cpf}
                   </div>
                   <div className="font-medium text-foreground mb-1">
-                    <p>Tam. camisa</p>
-                    {registration.tamanhoCamisa}
+                    <p>RG</p>
+                    {registration.rg}
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/30">
                   <div>
                     <div className="flex items-center gap-1">
-                      <User className="h-3 w-3" />
+                      <span className="font-medium truncate max-w-[120px]">Lote: {registration.lote.nome}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
                       <span className="font-medium truncate max-w-[120px]">{registration.categoria}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <span className="font-medium truncate max-w-[120px]">Vale almoço</span>
                       {registration.valeAlmoco ? <Check className="h-4 w-4 text-green-600" /> : <X className="h-4 w-4 text-red-600" />}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="font-medium">{registration.retiradaKit}</span>
                     </div>
                   </div>
                   <div className="text-center">

@@ -29,6 +29,7 @@ export interface Inscricao {
   status: string;
   valeAlmoco: boolean;
   kitretirado: boolean;
+  rg: string;
 }
 
 export interface InscricaoConsolidatedFilters {
