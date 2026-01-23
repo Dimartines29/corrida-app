@@ -30,6 +30,7 @@ export interface Inscricao {
   valeAlmoco: boolean;
   kitretirado: boolean;
   rg: string;
+  equipe: string;
 }
 
 export interface InscricaoConsolidatedFilters {
@@ -49,6 +50,7 @@ export interface InscricaoConsolidatedFilters {
     tier: string;
     sex: string;
     kit: string;
+    team: string;
 }
 
 export interface DateRangePickerProps {

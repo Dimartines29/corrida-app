@@ -19,6 +19,7 @@ interface InscricoesFiltersProps {
     shirtSize: ['PP', 'P', 'M', 'G', 'GG', 'XG'],
     tier: ['1º Lote', '2º Lote', '3º Lote'],
     sexo: ['Masculino', 'Feminino', 'Outro'],
+    team: ['MEIAS RENEGADAS', 'RUN A RACE', 'BETIM RUNNERS', 'LEME RUNNERS', 'SPARTANS RUNNERS', 'CLUBE DE CORRIDA', 'LIGEIRINHO RUNNERS', 'MAX MUSCLES', 'INCRIVEIS RUNNERS', 'CORRE CARAMELO']
     retiradaKit: ['The Chris - Shopping do avião', 'The Chris - Monte Carmo Shopping'],
     isLoading?: boolean,
   }
@@ -40,6 +41,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
     if (filters.code) count++
     if (filters.fullname) count++
     if (filters.cpf) count++
+    if (filters.team && filters.team !== 'todos') count++
     return count
   }
 
@@ -60,6 +62,7 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
       code: '',
       fullname: '',
       cpf: '',
+      team: 'todos',
     })
   }
 
@@ -184,6 +187,21 @@ export function InscricoesFilters({filters, onFiltersChange, metadata}: Inscrico
                       <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
                       {metadata.shirtSize?.map(ss => (
                         <SelectItem className="text-sm md:text-xs" key={ss} value={ss}>{ss}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="w-full">
+                  <label className="text-sm md:text-xs block mb-1">Equipe</label>
+                  <Select value={filters.team} onValueChange={(value) => onFiltersChange({ ...filters, team: value })}>
+                    <SelectTrigger className="h-9 text-sm md:text-xs lg:min-w-30">
+                      <SelectValue placeholder="Todas" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem className="text-sm md:text-xs" value="todos">Todas</SelectItem>
+                      {metadata.team?.map(t => (
+                        <SelectItem className="text-sm md:text-xs" key={t} value={t}>{t}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>

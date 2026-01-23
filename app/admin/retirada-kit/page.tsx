@@ -30,6 +30,7 @@ function createDefaultInscricaoFilters(): InscricaoConsolidatedFilters {
     tier: "",
     sex: "",
     kit: "",
+    team: "",
   }
 }
 
@@ -160,6 +161,10 @@ export default function Inscricoes() {
         if (registration.categoria !== filters.category) return false
       }
 
+      if (filters.team && filters.team !== "todos") {
+        if (registration.equipe !== filters.team) return false
+      }
+
       if (filters.tier && filters.tier !== "todos") {
         if (registration.lote.nome !== filters.tier) return false
       }
@@ -210,6 +215,7 @@ export default function Inscricoes() {
     filters.lunch,
     filters.sex,
     filters.kit,
+    filters.team,
     selectedCategory,
   ])
 
@@ -262,11 +268,12 @@ export default function Inscricoes() {
           tier: ['1º Lote', '2º Lote', '3º Lote'],
           sexo: ['Masculino', 'Feminino', 'Outro'],
           retiradaKit: ['The Chris - Shopping do avião', 'The Chris - Monte Carmo Shopping'],
+          team: ['MEIAS RENEGADAS', 'RUN A RACE', 'BETIM RUNNERS', 'LEME RUNNERS', 'SPARTANS RUNNERS', 'CLUBE DE CORRIDA', 'LIGEIRINHO RUNNERS', 'MAX MUSCLES', 'INCRIVEIS RUNNERS', 'CORRE CARAMELO']
         }}
       />
       <div>
         <h1 className="text-muted-foreground p-3">Exibindo {filteredRegistrations.length} de {registrations.length} Inscrições</h1>
-        
+
         {/* Tabela - Oculta em mobile, visível em iPad e desktop */}
         <Card className="border-border/50 shadow-sm hidden sm:block">
           <CardContent className="p-0">
@@ -393,6 +400,9 @@ export default function Inscricoes() {
 
                 <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/30">
                   <div>
+                    <div className="flex items-center gap-1">
+                      <span className="font-medium">Equipe: {registration.equipe}</span>
+                    </div>
                     <div className="flex items-center gap-1">
                       <span className="font-medium truncate max-w-[120px]">Lote: {registration.lote.nome}</span>
                     </div>
