@@ -266,36 +266,38 @@ export default function Inscricoes() {
       />
       <div>
         <h1 className="text-muted-foreground p-3">Exibindo {filteredRegistrations.length} de {registrations.length} Inscrições</h1>
-        <Card className="border-border/50 shadow-sm hidden md:block">
+        
+        {/* Tabela - Oculta em mobile, visível em iPad e desktop */}
+        <Card className="border-border/50 shadow-sm hidden sm:block">
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="border-b border-border/50">
                   <tr>
-                    <th className="text-left p-3 md:p-4 w-58 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="text-left p-3 lg:p-4 w-58 text-xs lg:text-sm font-medium text-muted-foreground">
                       <div>
                         <div>Nome</div>
                         <div>Código</div>
                       </div>
                     </th>
 
-                    <th className="text-left p-3 md:p-4 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="text-left p-3 lg:p-4 text-xs lg:text-sm font-medium text-muted-foreground">
                       Categoria
                     </th>
 
-                    <th className="hidden md:table-cell text-left p-3 md:p-4 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="hidden md:table-cell text-left p-3 lg:p-4 text-xs lg:text-sm font-medium text-muted-foreground">
                       Lote
                     </th>
 
-                    <th className="hidden md:table-cell text-left p-3 md:p-4 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="hidden lg:table-cell text-left p-3 lg:p-4 text-xs lg:text-sm font-medium text-muted-foreground">
                       Camisa
                     </th>
 
-                    <th className="text-left p-3 md:p-4 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="hidden md:table-cell text-left p-3 lg:p-4 text-xs lg:text-sm font-medium text-muted-foreground">
                       Almoço
                     </th>
 
-                    <th className="text-left p-1 w-54 text-xs md:text-sm font-medium text-muted-foreground">
+                    <th className="text-left p-1 w-54 text-xs lg:text-sm font-medium text-muted-foreground">
                       Kit retirado
                     </th>
                   </tr>
@@ -303,31 +305,31 @@ export default function Inscricoes() {
                 <tbody>
                   {paginatedRegistrations.map((registration, index) => (
                     <tr key={registration.cpf} className="border-b border-border/30 hover:bg-muted/20 transition-colors duration-150 group animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
-                      <td className="p-1 md:p-2">
+                      <td className="p-1 lg:p-2">
                         <Link href={`/admin/inscricoes/${registration.id}`} className="flex items-center gap-1 hover:bg-muted/50 rounded p-2 transition-colors group">
                           <User className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                           <div>
-                            <span className="text-xs md:text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                            <span className="text-xs lg:text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
                               {registration.nomeCompleto}
                             </span>
-                            <span className="text-muted-foreground">{registration.codigo}</span>
+                            <span className="text-xs text-muted-foreground">{registration.codigo}</span>
                           </div>
                         </Link>
                       </td>
 
-                      <td className="hidden md:table-cell p-1 md:p-2">
+                      <td className="p-1 lg:p-2 text-xs lg:text-sm">
                         {registration.categoria}
                       </td>
 
-                      <td className="hidden md:table-cell p-1 md:p-2 text-md">
+                      <td className="hidden md:table-cell p-1 lg:p-2 text-xs lg:text-sm">
                         {registration.lote.nome}
                       </td>
 
-                      <td className="hidden md:table-cell p-1 md:p-2 text-md">
+                      <td className="hidden lg:table-cell p-1 lg:p-2 text-xs lg:text-sm">
                         {registration.tamanhoCamisa}
                       </td>
 
-                      <td className="hidden md:table-cell p-1 md:p-2 text-md">
+                      <td className="hidden md:table-cell p-1 lg:p-2 text-xs lg:text-sm">
                         {registration.valeAlmoco ? <Check className="h-4 w-4 text-green-600" /> : <X className="h-4 w-4 text-red-600" />}
                       </td>
 
@@ -353,7 +355,8 @@ export default function Inscricoes() {
         </Card>
       </div>
 
-      <div className="md:hidden space-y-3">
+      {/* Cards Mobile - Visível apenas em mobile */}
+      <div className="sm:hidden space-y-3">
         {paginatedRegistrations.map((registration, index) => (
           <Card key={registration.id} className="border-b border-border/30 hover:bg-muted/20 transition-colors duration-150 group animate-fade-in" style={{animationDelay: `${index * 50}ms`}}>
             <CardContent className="p-2">
