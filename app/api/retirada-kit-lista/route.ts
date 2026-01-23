@@ -25,6 +25,7 @@ export async function GET() {
         lote: true,
         kitretirado: true,
         retiradaKit: true,
+        equipe: true,
       },
       orderBy: {
         id: "asc",

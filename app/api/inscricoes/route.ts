@@ -20,6 +20,7 @@ export async function GET() {
         lote: true,
         sexo: true,
         retiradaKit: true,
+        equipe: true,
       },
       orderBy: {
         id: "asc",
