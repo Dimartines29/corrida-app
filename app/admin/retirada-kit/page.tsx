@@ -420,6 +420,7 @@ export default function Inscricoes() {
                   <div className="text-center">
                     <h3>Kit Retirado</h3> <br />
                     <Switch
+                      className="scale-200 md:scale-150 lg:scale-200"
                       checked={editingId === registration.id ? editValues.kitretirado : registration.kitretirado}
                       onCheckedChange={(checked) => {
                         if (editingId === registration.id) {

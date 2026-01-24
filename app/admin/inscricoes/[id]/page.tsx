@@ -11,6 +11,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Switch } from "@/components/ui/switch"
+import { toast } from "sonner"
 import type { InscricaoDetalhada } from "@/types/types"
 
 
@@ -20,6 +22,7 @@ export default function InscricaoDetalhesPage() {
   const [inscricao, setInscricao] = useState<InscricaoDetalhada | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [kitRetirado, setKitRetirado] = useState(false)
 
   useEffect(() => {
     const fetchInscricao = async () => {
@@ -38,6 +41,7 @@ export default function InscricaoDetalhesPage() {
 
         const data = await res.json()
         setInscricao(data)
+        setKitRetirado(data.kitretirado || false)
 
       } catch (err) {
         console.error("Erro ao buscar inscrição:", err)
@@ -52,6 +56,24 @@ export default function InscricaoDetalhesPage() {
       fetchInscricao()
     }
   }, [params.id])
+
+  const handleToggleKit = async (checked: boolean) => {
+    try {
+      const response = await fetch(`/api/retirada-kit-lista/${inscricao?.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kitretirado: checked })
+      })
+
+      if (!response.ok) throw new Error("Erro ao atualizar status")
+
+      setKitRetirado(checked)
+      toast.success(`Kit ${checked ? 'retirado' : 'devolvido'} com sucesso!`)
+    } catch (error) {
+      console.error("Erro:", error)
+      toast.error("Erro ao alterar status")
+    }
+  }
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -257,6 +279,16 @@ export default function InscricaoDetalhesPage() {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Vale almoço</p>
               <p className="text-sm">{inscricao.valeAlmoco ? 'Sim' : 'Não'}</p>
+            </div>
+
+            <Separator />
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Kit Retirado</p>
+              <Switch
+                className="scale-200 md:scale-200 lg:scale-200"
+                checked={kitRetirado}
+                onCheckedChange={handleToggleKit}
+              />
             </div>
           </CardContent>
         </Card>
