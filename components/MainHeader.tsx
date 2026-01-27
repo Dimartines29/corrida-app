@@ -171,9 +171,9 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
                     Resultados
                 </Button>
 
-                {/* <Button onClick={() => scrollToSection('informacoes')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
-                    Informações
-                </Button> */}
+                <Button onClick={() => scrollToSection('momentos')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
+                    Fotos
+                </Button>
 
                 {/* <RegulamentoModal origin='mobile' /> */}
             </div>
