@@ -124,17 +124,17 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
             <Link href="/" className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg hover:bg-gray-200 px-2 py-1 rounded-md">
               Início
             </Link>
-            <Button onClick={() => scrollToSection('inscricoes')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
+            {/* <Button onClick={() => scrollToSection('inscricoes')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
               Inscrições
+            </Button> */}
+            <Button onClick={() => scrollToSection('resultados')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
+              Resultados
             </Button>
-            <Button onClick={() => scrollToSection('percurso')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
-              Percurso
-            </Button>
-            <Button onClick={() => scrollToSection('informacoes')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
-              Informações
+            <Button onClick={() => scrollToSection('momentos')} className="text-[#E53935] bg-transparent font-bold text-base xl:text-lg">
+              Fotos
             </Button>
 
-            <RegulamentoModal origin='desktop' />
+            {/* <RegulamentoModal origin='desktop' /> */}
           </div>
 
           <div className="hidden lg:block">
@@ -163,19 +163,19 @@ export function MainHeader({ isAdmin, isAuthenticated }: MainHeaderProps) {
                     Início
                 </Link>
 
-                <Button onClick={() => scrollToSection('inscricoes')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
+                {/* <Button onClick={() => scrollToSection('inscricoes')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
                     Inscrições
+                </Button> */}
+
+                <Button onClick={() => scrollToSection('resultados')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
+                    Resultados
                 </Button>
 
-                <Button onClick={() => scrollToSection('percurso')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
-                    Percurso
-                </Button>
-
-                <Button onClick={() => scrollToSection('informacoes')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
+                {/* <Button onClick={() => scrollToSection('informacoes')} className=" w-full text-[#E53935] font-semibold bg-gray-200">
                     Informações
-                </Button>
+                </Button> */}
 
-                <RegulamentoModal origin='mobile' />
+                {/* <RegulamentoModal origin='mobile' /> */}
             </div>
         )}
       </nav>
